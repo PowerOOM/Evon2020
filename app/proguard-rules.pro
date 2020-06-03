@@ -53,4 +53,18 @@
 -keep public class android.support.design.widget.BottomNavigationView { *; }
 -keep public class android.support.design.internal.BottomNavigationMenuView { *; }
 -keep public class android.support.design.internal.BottomNavigationPresenter { *; }
--keep public class android.support.desi
+-keep public class android.support.design.internal.BottomNavigationItemView { *; }
+
+#-dontwarn android.support.v8.renderscript.*
+#-keepclassmembers class android.support.v8.renderscript.RenderScript {
+#  native *** rsn*(...);
+#  native *** n*(...);
+#}
+
+#-keep class org.jaudiotagger.** { *; }
+
+#For cast
+-keep class com.maxfour.libreplayer.cast.CastOptionsProvider { *; }
+-keep class android.support.** { *; }
+-keep class com.google.** { *; }
+-keep class java.nio.file.** { *; }
