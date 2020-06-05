@@ -47,4 +47,57 @@ class GenreDetailsActivity : AbsSlidingMusicPanelActivity(), CabHolder, GenreDet
 	}
 
 	private fun checkForPadding() {
-		va
+		val height = DensityUtil.dip2px(this, 52f)
+		recyclerView.setPadding(0, 0, 0, (height))
+	}
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		setDrawUnderStatusBar()
+		super.onCreate(savedInstanceState)
+		setStatusbarColorAuto()
+		setNavigationbarColorAuto()
+		setTaskDescriptionColorAuto()
+		setLightNavigationBar(true)
+		toggleBottomNavigationView(true)
+
+		if (intent.extras != null) {
+			genre = intent?.extras?.getParcelable(EXTRA_GENRE_ID)!!
+		} else {
+			finish()
+		}
+
+		setUpToolBar()
+		setupRecyclerView()
+
+		App.musicComponent.inject(this)
+		genreDetailsPresenter.attachView(this)
+	}
+
+	private fun setUpToolBar() {
+		applyToolbar(toolbar)
+		title = genre.name
+	}
+
+	override fun onResume() {
+		super.onResume()
+		genreDetailsPresenter.loadGenreSongs(genre.id)
+	}
+
+	override fun onDestroy() {
+		super.onDestroy()
+		genreDetailsPresenter.detachView()
+	}
+
+	override fun createContentView(): View {
+		return wrapSlidingMusicPanel(R.layout.activity_playlist_detail)
+	}
+
+	override fun showEmptyView() {
+	}
+
+	override fun onCreateOptionsMenu(menu: Menu): Boolean {
+		menuInflater.inflate(R.menu.menu_genre_detail, menu)
+		return super.onCreateOptionsMenu(menu)
+	}
+
+	override fun onOptionsItemSelected(ite
