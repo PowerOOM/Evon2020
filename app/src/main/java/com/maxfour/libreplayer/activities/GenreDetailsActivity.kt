@@ -100,4 +100,40 @@ class GenreDetailsActivity : AbsSlidingMusicPanelActivity(), CabHolder, GenreDet
 		return super.onCreateOptionsMenu(menu)
 	}
 
-	override fun onOptionsItemSelected(ite
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		if (item.itemId == android.R.id.home) {
+			onBackPressed()
+		}
+		return GenreMenuHelper.handleMenuClick(this, genre, item)
+	}
+
+	private fun setupRecyclerView() {
+		ViewUtil.setUpFastScrollRecyclerViewColor(this, recyclerView)
+		songAdapter = ShuffleButtonSongAdapter(this, ArrayList(), R.layout.item_list, false, this)
+		recyclerView.apply {
+			itemAnimator = DefaultItemAnimator()
+			layoutManager = LinearLayoutManager(this@GenreDetailsActivity)
+			adapter = songAdapter
+		}
+		songAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+			override fun onChanged() {
+				super.onChanged()
+				checkIsEmpty()
+			}
+		})
+	}
+
+	override fun songs(songs: ArrayList<Song>) {
+		songAdapter.swapDataSet(songs)
+	}
+
+	override fun openCab(menuRes: Int, callback: MaterialCab.Callback): MaterialCab {
+		if (cab != null && cab!!.isActive) cab?.finish()
+		cab = MaterialCab(this, R.id.cab_stub).setMenu(menuRes).setCloseDrawableRes(R.drawable.ic_close_white_24dp)
+			.setBackgroundColor(
+				PlayerColorUtil.shiftBackgroundColorForLightText(
+					ATHUtil.resolveColor(
+						this,
+						R.attr.colorSurface
+					)
+				
