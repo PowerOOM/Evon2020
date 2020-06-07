@@ -136,4 +136,25 @@ class GenreDetailsActivity : AbsSlidingMusicPanelActivity(), CabHolder, GenreDet
 						this,
 						R.attr.colorSurface
 					)
-				
+				)
+			).start(callback)
+		return cab!!
+	}
+
+	override fun onBackPressed() {
+		if (cab != null && cab!!.isActive) cab!!.finish()
+		else {
+			recyclerView!!.stopScroll()
+			super.onBackPressed()
+		}
+	}
+
+	override fun onMediaStoreChanged() {
+		super.onMediaStoreChanged()
+		genreDetailsPresenter.loadGenreSongs(genre.id)
+	}
+
+	companion object {
+		const val EXTRA_GENRE_ID = "extra_genre_id"
+	}
+}
