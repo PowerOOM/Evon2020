@@ -33,4 +33,42 @@ class MainActivity : AbsSlidingMusicPanelActivity(), SharedPreferences.OnSharedP
 	private val broadcastReceiver = object : BroadcastReceiver() {
 		override fun onReceive(context: Context, intent: Intent) {
 			val action = intent.action
-			if (action != null 
+			if (action != null && action == Intent.ACTION_SCREEN_OFF) {
+				if (PreferenceUtil.getInstance(this@MainActivity).lockScreen && MusicPlayerRemote.isPlaying) {
+					val activity = Intent(context, LockScreenActivity::class.java)
+					activity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+					activity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+					ActivityCompat.startActivity(context, activity, null)
+				}
+			}
+		}
+	}
+
+	override fun createContentView(): View {
+		return wrapSlidingMusicPanel(R.layout.activity_main_content)
+	}
+
+	override fun onCreate(
+		savedInstanceState: Bundle?
+	) {
+		setDrawUnderStatusBar()
+		super.onCreate(savedInstanceState)
+		getBottomNavigationView().selectedItemId = PreferenceUtil.getInstance(this).lastPage
+		getBottomNavigationView().setOnNavigationItemSelectedListener {
+			PreferenceUtil.getInstance(this).lastPage = it.itemId
+			selectedFragment(it.itemId)
+			true
+		}
+
+		if (savedInstanceState == null) {
+			setMusicChooser(PreferenceUtil.getInstance(this).lastMusicChooser)
+		} else {
+			restoreCurrentFragment()
+		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+		val screenOnOff = IntentFilter()
+		screenOnOff.addAction(Intent.ACTION_SCREEN_OFF)
+		registerReceiver(broadcastReceiver, screenOnOff)
