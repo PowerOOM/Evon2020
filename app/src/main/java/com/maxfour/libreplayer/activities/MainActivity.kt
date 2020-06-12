@@ -72,3 +72,43 @@ class MainActivity : AbsSlidingMusicPanelActivity(), SharedPreferences.OnSharedP
 		val screenOnOff = IntentFilter()
 		screenOnOff.addAction(Intent.ACTION_SCREEN_OFF)
 		registerReceiver(broadcastReceiver, screenOnOff)
+
+		PreferenceUtil.getInstance(this).registerOnSharedPreferenceChangedListener(this)
+
+		if (intent.hasExtra("expand")) {
+			if (intent.getBooleanExtra("expand", false)) {
+				expandPanel()
+				intent.putExtra("expand", false)
+			}
+		}
+	}
+
+	override fun onDestroy() {
+		super.onDestroy()
+		disposable.clear()
+		unregisterReceiver(broadcastReceiver)
+		PreferenceUtil.getInstance(this).unregisterOnSharedPreferenceChangedListener(this)
+	}
+
+	private fun setCurrentFragment(fragment: Fragment, tag: String) {
+		if (tag != supportFragmentManager.findFragmentById(R.id.fragment_container)?.tag) {
+			supportFragmentManager.beginTransaction()
+				.replace(R.id.fragment_container, fragment, tag).commit()
+			currentFragment = fragment as MainActivityFragmentCallbacks
+		}
+	}
+
+	private fun restoreCurrentFragment() {
+		currentFragment =
+				supportFragmentManager.findFragmentById(R.id.fragment_container) as MainActivityFragmentCallbacks
+	}
+
+	private fun handlePlaybackIntent(intent: Intent?) {
+		if (intent == null) {
+			return
+		}
+		val uri = intent.data
+		val mimeType = intent.type
+		var handled = false
+		if (intent.action != null && intent.action == MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH) {
+			val songs = SearchQueryHelper.getSongs(this, intent.extra
