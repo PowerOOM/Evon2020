@@ -142,4 +142,55 @@ class MainActivity : AbsSlidingMusicPanelActivity(), SharedPreferences.OnSharedP
 			val id = parseIdFromIntent(intent, "artistId", "artist").toInt()
 			if (id >= 0) {
 				val position = intent.getIntExtra("position", 0)
-				MusicPlaye
+				MusicPlayerRemote.openQueue(ArtistLoader.getArtist(this, id).songs, position, true)
+				handled = true
+			}
+		}
+		if (handled) {
+			setIntent(Intent())
+		}
+	}
+
+	private fun parseIdFromIntent(intent: Intent, longKey: String, stringKey: String): Long {
+		var id = intent.getLongExtra(longKey, -1)
+		if (id < 0) {
+			val idString = intent.getStringExtra(stringKey)
+			if (idString != null) {
+				try {
+					id = java.lang.Long.parseLong(idString)
+				} catch (e: NumberFormatException) {
+					Log.e(TAG, e.message)
+				}
+			}
+		}
+		return id
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		when (requestCode) {
+			APP_INTRO_REQUEST -> {
+				blockRequestPermissions = false
+				if (!hasPermissions()) {
+					requestPermissions()
+				}
+			}
+			REQUEST_CODE_THEME, APP_USER_INFO_REQUEST -> postRecreate()
+			PURCHASE_REQUEST -> {
+				if (resultCode == RESULT_OK) {
+					//checkSetUpPro();
+				}
+			}
+		}
+	}
+
+	override fun handleBackPress(): Boolean {
+		return super.handleBackPress() || currentFragment.handleBackPress()
+	}
+
+	override fun onServiceConnected() {
+		super.onServiceConnected()
+		handlePlaybackIntent(intent)
+	}
+
+	override fun requ
