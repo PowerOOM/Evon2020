@@ -96,4 +96,34 @@ abstract class AbsBaseActivity : AbsThemeActivity() {
 	override fun onRequestPermissionsResult(
 			requestCode: Int,
 			permissions: Array<String>,
-			grantR
+			grantResults: IntArray
+	) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+		if (requestCode == PERMISSION_REQUEST) {
+			for (grantResult in grantResults) {
+				if (grantResult != PackageManager.PERMISSION_GRANTED) {
+					if (ActivityCompat.shouldShowRequestPermissionRationale(
+									this@AbsBaseActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE
+							)
+					) {
+						//User has deny from permission dialog
+						Snackbar.make(
+								snackBarContainer,
+								permissionDeniedMessage!!,
+								Snackbar.LENGTH_INDEFINITE
+						)
+								.setAction(com.maxfour.libreplayer.R.string.action_grant) { requestPermissions() }
+								.setActionTextColor(ThemeStore.accentColor(this)).show()
+					} else {
+						// User has deny permission and checked never show permission dialog so you can redirect to Application settings page
+						Snackbar.make(
+								snackBarContainer,
+								permissionDeniedMessage!!,
+								Snackbar.LENGTH_INDEFINITE
+						).setAction(com.maxfour.libreplayer.R.string.action_settings) {
+							val intent = Intent()
+							intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+							val uri = Uri.fromParts(
+									"package",
+									this@AbsBaseActivity.packageName,
+									nul
