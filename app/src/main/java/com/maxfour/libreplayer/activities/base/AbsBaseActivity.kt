@@ -44,3 +44,56 @@ abstract class AbsBaseActivity : AbsThemeActivity() {
 	}
 
 	override fun onPostCreate(savedInstanceState: Bundle?) {
+		super.onPostCreate(savedInstanceState)
+		if (!hasPermissions()) {
+			requestPermissions()
+		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+		val hasPermissions = hasPermissions()
+		if (hasPermissions != hadPermissions) {
+			hadPermissions = hasPermissions
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+				onHasPermissionsChanged(hasPermissions)
+			}
+		}
+	}
+
+	protected open fun onHasPermissionsChanged(hasPermissions: Boolean) {
+		// implemented by sub classes
+	}
+
+	override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+		if (event.keyCode == KeyEvent.KEYCODE_MENU && event.action == KeyEvent.ACTION_UP) {
+			showOverflowMenu()
+			return true
+		}
+		return super.dispatchKeyEvent(event)
+	}
+
+	protected fun showOverflowMenu() {
+	}
+
+	protected open fun requestPermissions() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			requestPermissions(permissions, PERMISSION_REQUEST)
+		}
+	}
+
+	protected fun hasPermissions(): Boolean {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			for (permission in permissions) {
+				if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+					return false
+				}
+			}
+		}
+		return true
+	}
+
+	override fun onRequestPermissionsResult(
+			requestCode: Int,
+			permissions: Array<String>,
+			grantR
