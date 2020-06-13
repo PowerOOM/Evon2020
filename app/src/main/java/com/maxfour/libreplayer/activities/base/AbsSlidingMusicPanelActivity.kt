@@ -35,4 +35,30 @@ import com.maxfour.libreplayer.fragments.player.simple.SimplePlayerFragment
 import com.maxfour.libreplayer.fragments.player.tiny.TinyPlayerFragment
 import com.maxfour.libreplayer.helper.MusicPlayerRemote
 import com.maxfour.libreplayer.model.CategoryInfo
-import com.maxfou
+import com.maxfour.libreplayer.util.DensityUtil
+import com.maxfour.libreplayer.util.PreferenceUtil
+import com.maxfour.libreplayer.views.BottomNavigationBarTinted
+import kotlinx.android.synthetic.main.sliding_music_panel_layout.*
+
+abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlayerFragment.Callbacks {
+	companion object {
+		val TAG: String = AbsSlidingMusicPanelActivity::class.java.simpleName
+	}
+
+	private lateinit var bottomSheetBehavior: BottomSheetBehavior<MaterialCardView>
+	private var miniPlayerFragment: MiniPlayerFragment? = null
+	private var playerFragment: AbsPlayerFragment? = null
+	private var currentNowPlayingScreen: NowPlayingScreen? = null
+	private var navigationBarColor: Int = 0
+	private var taskColor: Int = 0
+	private var lightStatusBar: Boolean = false
+	private var lightNavigationBar: Boolean = false
+	private var navigationBarColorAnimator: ValueAnimator? = null
+	protected abstract fun createContentView(): View
+	private val panelState: Int
+		get() = bottomSheetBehavior.state
+
+	private val bottomSheetCallbackList = object : BottomSheetBehavior.BottomSheetCallback() {
+
+		override fun onSlide(bottomSheet: View, slideOffset: Float) {
+			setMiniPlayerAlphaProgress(slideOffse
