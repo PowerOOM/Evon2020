@@ -1,0 +1,20 @@
+package com.maxfour.libreplayer.activities.base
+
+import android.animation.ValueAnimator
+import android.graphics.Color
+import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.card.MaterialCardView
+import com.maxfour.appthemehelper.util.ATHUtil
+import com.maxfour.appthemehelper.util.ColorUtil
+import com.maxfour.libreplayer.R
+import com.maxfour.libreplayer.extensions.hide
+import com.maxfour.libreplayer.extensions.show
+import com.maxfour.libreplayer.fragments.MiniPlayerFragment
+import com.maxfour.libreplayer.fragments.NowPlayingScreen
+import com.maxfou

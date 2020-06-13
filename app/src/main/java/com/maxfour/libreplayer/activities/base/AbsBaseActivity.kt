@@ -126,4 +126,21 @@ abstract class AbsBaseActivity : AbsThemeActivity() {
 							val uri = Uri.fromParts(
 									"package",
 									this@AbsBaseActivity.packageName,
-									nul
+									null
+							)
+							intent.data = uri
+							startActivity(intent)
+						}.setActionTextColor(ThemeStore.accentColor(this)).show()
+					}
+					return
+				}
+			}
+			hadPermissions = true
+			onHasPermissionsChanged(true)
+		}
+	}
+
+	companion object {
+		const val PERMISSION_REQUEST = 100
+	}
+}
