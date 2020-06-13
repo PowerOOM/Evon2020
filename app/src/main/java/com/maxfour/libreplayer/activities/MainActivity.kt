@@ -200,4 +200,41 @@ class MainActivity : AbsSlidingMusicPanelActivity(), SharedPreferences.OnSharedP
 	}
 
 	override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
-		if (key == PreferenceUtil.GENERAL_THEME || key == PreferenceUtil.BLACK_THEME || key == PreferenceUtil.ADAPTIVE_COLOR_APP || key == PreferenceUtil.DOMINANT_COLOR || key == PreferenceUtil.USER_NAME || key == PreferenceUtil.TOGGLE_FULL_SCREEN || key == PreferenceUtil.TOGGLE_VOLUME || key == PreferenceUtil.ROUND_CORNERS || key == PreferenceUtil.CAROUSEL_EFFECT || key == PreferenceUtil.NOW_PLAYING_SCREEN_ID || key == PreferenceUtil.TOGGLE_GENRE || key == PreferenceUtil.BANNER_IMAGE_PATH || key == PreferenceUtil.PROFILE_IMAGE_PATH || key == PreferenceUtil.CIRCULAR_ALBUM_ART || key == PreferenceUtil.KEEP_SCREEN_ON || key == PreferenceUtil.TOGGLE_SEPARATE_LINE || key == PreferenceUtil.ALBUM_GRID_STYLE || key == PreferenceUtil.ARTIST_GRID_STYLE || key == PreferenceUtil.TOGGLE_HOME_BANNER || key == PreferenceUtil.TOGGLE_ADD_CONTROLS || key == PreferenceUtil.ALBUM_COVER_STYLE || key == PreferenceUtil.HOME_ARTIST_GRID_STYLE || key == PreferenceUtil.ALBUM_COVER_TRANSFORM || key == PreferenceUtil.DESATURATED_COLOR || key == PreferenceUtil.TAB_TEXT_MODE || key 
+		if (key == PreferenceUtil.GENERAL_THEME || key == PreferenceUtil.BLACK_THEME || key == PreferenceUtil.ADAPTIVE_COLOR_APP || key == PreferenceUtil.DOMINANT_COLOR || key == PreferenceUtil.USER_NAME || key == PreferenceUtil.TOGGLE_FULL_SCREEN || key == PreferenceUtil.TOGGLE_VOLUME || key == PreferenceUtil.ROUND_CORNERS || key == PreferenceUtil.CAROUSEL_EFFECT || key == PreferenceUtil.NOW_PLAYING_SCREEN_ID || key == PreferenceUtil.TOGGLE_GENRE || key == PreferenceUtil.BANNER_IMAGE_PATH || key == PreferenceUtil.PROFILE_IMAGE_PATH || key == PreferenceUtil.CIRCULAR_ALBUM_ART || key == PreferenceUtil.KEEP_SCREEN_ON || key == PreferenceUtil.TOGGLE_SEPARATE_LINE || key == PreferenceUtil.ALBUM_GRID_STYLE || key == PreferenceUtil.ARTIST_GRID_STYLE || key == PreferenceUtil.TOGGLE_HOME_BANNER || key == PreferenceUtil.TOGGLE_ADD_CONTROLS || key == PreferenceUtil.ALBUM_COVER_STYLE || key == PreferenceUtil.HOME_ARTIST_GRID_STYLE || key == PreferenceUtil.ALBUM_COVER_TRANSFORM || key == PreferenceUtil.DESATURATED_COLOR || key == PreferenceUtil.TAB_TEXT_MODE || key == PreferenceUtil.LIBRARY_CATEGORIES
+		) postRecreate()
+	}
+
+	private fun selectedFragment(itemId: Int) {
+		when (itemId) {
+			R.id.action_album,
+			R.id.action_artist,
+			R.id.action_playlist,
+			R.id.action_genre,
+			R.id.action_playing_queue,
+			R.id.action_song -> setCurrentFragment(LibraryFragment.newInstance(itemId), itemId.toString())
+			R.id.action_home -> setCurrentFragment(BannerHomeFragment.newInstance(), BannerHomeFragment.TAG)
+			else -> {
+				setCurrentFragment(BannerHomeFragment.newInstance(), BannerHomeFragment.TAG)
+			}
+		}
+	}
+
+	fun setMusicChooser(key: Int) {
+		PreferenceUtil.getInstance(this).lastMusicChooser = key
+		when (key) {
+			FOLDER -> setCurrentFragment(FoldersFragment.newInstance(this), FoldersFragment.TAG)
+			else -> selectedFragment(PreferenceUtil.getInstance(this).lastPage)
+		}
+	}
+
+	companion object {
+		const val APP_INTRO_REQUEST = 2323
+		const val HOME = 0
+		const val FOLDER = 1
+		const val LIBRARY = 2
+		private const val TAG = "MainActivity"
+		private const val APP_USER_INFO_REQUEST = 9003
+		private const val REQUEST_CODE_THEME = 9002
+		private const val PURCHASE_REQUEST = 101
+	}
+}
