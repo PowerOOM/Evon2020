@@ -61,4 +61,54 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlay
 	private val bottomSheetCallbackList = object : BottomSheetBehavior.BottomSheetCallback() {
 
 		override fun onSlide(bottomSheet: View, slideOffset: Float) {
-			setMiniPlayerAlphaProgress(slideOffse
+			setMiniPlayerAlphaProgress(slideOffset)
+			dimBackground.show()
+			dimBackground.alpha = slideOffset
+		}
+
+		override fun onStateChanged(bottomSheet: View, newState: Int) {
+			when (newState) {
+				BottomSheetBehavior.STATE_EXPANDED -> {
+					onPanelExpanded()
+				}
+				BottomSheetBehavior.STATE_COLLAPSED -> {
+					onPanelCollapsed()
+					dimBackground.hide()
+				}
+				else -> {
+
+				}
+			}
+		}
+	}
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setContentView(createContentView())
+
+		chooseFragmentForTheme()
+		setupSlidingUpPanel()
+
+		updateTabs()
+
+		bottomSheetBehavior = BottomSheetBehavior.from(slidingPanel)
+
+		val themeColor = ATHUtil.resolveColor(this, android.R.attr.windowBackground, Color.GRAY)
+		dimBackground.setBackgroundColor(ColorUtil.withAlpha(themeColor, 0.5f))
+	}
+
+	override fun onResume() {
+		super.onResume()
+		if (currentNowPlayingScreen != PreferenceUtil.getInstance(this).nowPlayingScreen) {
+			postRecreate()
+		}
+		bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallbackList)
+
+		if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+			setMiniPlayerAlphaProgress(1f)
+		}
+	}
+
+	override fun onDestroy() {
+		super.onDestroy()
+	
