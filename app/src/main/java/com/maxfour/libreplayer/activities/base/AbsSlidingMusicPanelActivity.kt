@@ -111,4 +111,38 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlay
 
 	override fun onDestroy() {
 		super.onDestroy()
-	
+		bottomSheetBehavior.removeBottomSheetCallback(bottomSheetCallbackList)
+		if (navigationBarColorAnimator != null) navigationBarColorAnimator?.cancel() // just in case
+	}
+
+	protected fun wrapSlidingMusicPanel(@LayoutRes resId: Int): View {
+		val slidingMusicPanelLayout = layoutInflater.inflate(R.layout.sliding_music_panel_layout, null)
+		val contentContainer = slidingMusicPanelLayout.findViewById<ViewGroup>(R.id.mainContentFrame)
+		layoutInflater.inflate(resId, contentContainer)
+		return slidingMusicPanelLayout
+	}
+
+	private fun collapsePanel() {
+		bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+	}
+
+	fun expandPanel() {
+		bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+		setMiniPlayerAlphaProgress(1f)
+	}
+
+	private fun setMiniPlayerAlphaProgress(progress: Float) {
+		if (miniPlayerFragment?.view == null) return
+		val alpha = 1 - progress
+		miniPlayerFragment?.view?.alpha = alpha
+		// necessary to make the views below clickable
+		miniPlayerFragment?.view?.visibility = if (alpha == 0f) View.GONE else View.VISIBLE
+
+		bottomNavigationView.translationY = progress * 500
+		//bottomNavigationView.alpha = alpha
+	}
+
+	open fun onPanelCollapsed() {
+		// restore values
+		super.setLightStatusbar(lightStatusBar)
+		super.setTaskDes
