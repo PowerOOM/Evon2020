@@ -145,4 +145,42 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlay
 	open fun onPanelCollapsed() {
 		// restore values
 		super.setLightStatusbar(lightStatusBar)
-		super.setTaskDes
+		super.setTaskDescriptionColor(taskColor)
+		super.setNavigationbarColor(navigationBarColor)
+		super.setLightNavigationBar(lightNavigationBar)
+
+
+		playerFragment?.setMenuVisibility(false)
+		playerFragment?.userVisibleHint = false
+		playerFragment?.onHide()
+	}
+
+	open fun onPanelExpanded() {
+		val playerFragmentColor = playerFragment!!.paletteColor
+		super.setTaskDescriptionColor(playerFragmentColor)
+
+		playerFragment?.setMenuVisibility(true)
+		playerFragment?.userVisibleHint = true
+		playerFragment?.onShow()
+		onPaletteColorChanged()
+	}
+
+	private fun setupSlidingUpPanel() {
+		slidingPanel.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+			override fun onGlobalLayout() {
+				slidingPanel.viewTreeObserver.removeOnGlobalLayoutListener(this)
+				if (currentNowPlayingScreen != PEAK) {
+					val params = slidingPanel.layoutParams as ViewGroup.LayoutParams
+					params.height = ViewGroup.LayoutParams.MATCH_PARENT
+					slidingPanel.layoutParams = params
+				}
+				when (panelState) {
+					BottomSheetBehavior.STATE_EXPANDED -> onPanelExpanded()
+					BottomSheetBehavior.STATE_COLLAPSED -> onPanelCollapsed()
+					else -> playerFragment!!.onHide()
+				}
+			}
+		})
+	}
+
+	fun toggleBott
