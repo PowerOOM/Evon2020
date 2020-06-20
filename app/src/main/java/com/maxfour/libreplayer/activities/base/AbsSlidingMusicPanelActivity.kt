@@ -183,4 +183,40 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlay
 		})
 	}
 
-	fun toggleBott
+	fun toggleBottomNavigationView(toggle: Boolean) {
+		bottomNavigationView.visibility = if (toggle) View.GONE else View.VISIBLE
+	}
+
+	fun getBottomNavigationView(): BottomNavigationBarTinted {
+		return bottomNavigationView
+	}
+
+	private fun hideBottomBar(hide: Boolean) {
+		val heightOfBar = resources.getDimensionPixelSize(R.dimen.mini_player_height)
+		val heightOfBarWithTabs = resources.getDimensionPixelSize(R.dimen.mini_player_height_expanded)
+
+		if (hide) {
+			bottomSheetBehavior.isHideable = true
+			bottomSheetBehavior.peekHeight = 0
+			collapsePanel()
+			bottomNavigationView.elevation = DensityUtil.dip2px(this, 10f).toFloat()
+		} else {
+			if (MusicPlayerRemote.playingQueue.isNotEmpty()) {
+				slidingPanel.cardElevation = DensityUtil.dip2px(this, 10f).toFloat()
+				bottomNavigationView.elevation = DensityUtil.dip2px(this, 10f).toFloat()
+				bottomSheetBehavior.isHideable = false
+				bottomSheetBehavior.peekHeight =
+						if (bottomNavigationView.visibility == View.VISIBLE) heightOfBarWithTabs else heightOfBar
+			}
+		}
+	}
+
+	fun setBottomBarVisibility(gone: Int) {
+		bottomNavigationView.visibility = gone
+		hideBottomBar(false)
+	}
+
+	private fun chooseFragmentForTheme() {
+		currentNowPlayingScreen = PreferenceUtil.getInstance(this).nowPlayingScreen
+
+		val fragment: Fragment = w
