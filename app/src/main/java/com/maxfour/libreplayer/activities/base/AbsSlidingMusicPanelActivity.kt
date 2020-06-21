@@ -219,4 +219,35 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlay
 	private fun chooseFragmentForTheme() {
 		currentNowPlayingScreen = PreferenceUtil.getInstance(this).nowPlayingScreen
 
-		val fragment: Fragment = w
+		val fragment: Fragment = when (currentNowPlayingScreen) {
+			BLUR -> BlurPlayerFragment()
+			ADAPTIVE -> AdaptiveFragment()
+			NORMAL -> PlayerFragment()
+			CARD -> CardFragment()
+			BLUR_CARD -> CardBlurFragment()
+			FIT -> FitFragment()
+			FLAT -> FlatPlayerFragment()
+			FULL -> FullPlayerFragment()
+			PLAIN -> PlainPlayerFragment()
+			SIMPLE -> SimplePlayerFragment()
+			MATERIAL -> MaterialFragment()
+			COLOR -> ColorFragment()
+			TINY -> TinyPlayerFragment()
+			PEAK -> PeakPlayerFragment()
+			else -> PlayerFragment()
+		} // must implement AbsPlayerFragment
+		supportFragmentManager.beginTransaction().replace(R.id.playerFragmentContainer, fragment)
+			.commit()
+		supportFragmentManager.executePendingTransactions()
+
+		playerFragment = supportFragmentManager.findFragmentById(R.id.playerFragmentContainer) as AbsPlayerFragment
+		miniPlayerFragment = supportFragmentManager.findFragmentById(R.id.miniPlayerFragment) as MiniPlayerFragment
+		miniPlayerFragment?.view?.setOnClickListener { expandPanel() }
+	}
+
+	override fun onServiceConnected() {
+		super.onServiceConnected()
+		if (MusicPlayerRemote.playingQueue.isNotEmpty()) {
+			slidingPanel.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+				override fun onGlobalLayout() {
+					slidingPanel.viewTreeObse
