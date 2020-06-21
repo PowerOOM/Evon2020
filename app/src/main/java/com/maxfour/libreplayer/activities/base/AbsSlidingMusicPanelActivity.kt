@@ -250,4 +250,39 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlay
 		if (MusicPlayerRemote.playingQueue.isNotEmpty()) {
 			slidingPanel.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
 				override fun onGlobalLayout() {
-					slidingPanel.viewTreeObse
+					slidingPanel.viewTreeObserver.removeOnGlobalLayoutListener(this)
+					hideBottomBar(false)
+				}
+			})
+		} // don't call hideBottomBar(true) here as it causes a bug with the SlidingUpPanelLayout
+	}
+
+	override fun onQueueChanged() {
+		super.onQueueChanged()
+		hideBottomBar(MusicPlayerRemote.playingQueue.isEmpty())
+	}
+
+	override fun onBackPressed() {
+		if (!handleBackPress()) super.onBackPressed()
+	}
+
+	open fun handleBackPress(): Boolean {
+		if (bottomSheetBehavior.peekHeight != 0 && playerFragment!!.onBackPressed()) return true
+		if (panelState == BottomSheetBehavior.STATE_EXPANDED) {
+			collapsePanel()
+			return true
+		}
+		return false
+	}
+
+	override fun onPaletteColorChanged() {
+		if (panelState == BottomSheetBehavior.STATE_EXPANDED) {
+			val paletteColor = playerFragment!!.paletteColor
+			super.setTaskDescriptionColor(paletteColor)
+
+			val isColorLight = ColorUtil.isColorLight(paletteColor)
+
+			if (PreferenceUtil.getInstance(this).adaptiveColor && (currentNowPlayingScreen == NORMAL || currentNowPlayingScreen == FLAT)) {
+				super.setLightNavigationBar(true)
+				super.setLightStatusbar(isColorLight)
+			} else if (currentNowPlayingScreen == FULL || currentNowPlayingScreen == CARD || currentNowPlayingScreen == FIT || current
