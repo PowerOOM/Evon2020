@@ -285,4 +285,43 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlay
 			if (PreferenceUtil.getInstance(this).adaptiveColor && (currentNowPlayingScreen == NORMAL || currentNowPlayingScreen == FLAT)) {
 				super.setLightNavigationBar(true)
 				super.setLightStatusbar(isColorLight)
-			} else if (currentNowPlayingScreen == FULL || currentNowPlayingScreen == CARD || currentNowPlayingScreen == FIT || current
+			} else if (currentNowPlayingScreen == FULL || currentNowPlayingScreen == CARD || currentNowPlayingScreen == FIT || currentNowPlayingScreen == BLUR || currentNowPlayingScreen == BLUR_CARD) {
+				super.setLightStatusbar(false)
+				super.setLightNavigationBar(true)
+			} else if (currentNowPlayingScreen == COLOR || currentNowPlayingScreen == TINY) {
+				super.setNavigationbarColor(paletteColor)
+				super.setLightNavigationBar(isColorLight)
+				super.setLightStatusbar(isColorLight)
+			} else {
+				super.setLightStatusbar(
+					ColorUtil.isColorLight(
+						ATHUtil.resolveColor(
+					this,
+							android.R.attr.windowBackground
+						)
+					)
+				)
+				super.setLightNavigationBar(true)
+			}
+		}
+	}
+
+	override fun setLightStatusbar(enabled: Boolean) {
+		lightStatusBar = enabled
+		if (panelState == BottomSheetBehavior.STATE_COLLAPSED) {
+			super.setLightStatusbar(enabled)
+		}
+	}
+
+	override fun setLightNavigationBar(enabled: Boolean) {
+		lightNavigationBar = enabled
+		if (panelState == BottomSheetBehavior.STATE_COLLAPSED) {
+			super.setLightNavigationBar(enabled)
+		}
+	}
+
+	override fun setNavigationbarColor(color: Int) {
+		navigationBarColor = color
+		if (panelState == BottomSheetBehavior.STATE_COLLAPSED) {
+			if (navigationBarColorAnimator != null) navigationBarColorAnimator!!.cancel()
+			super.setNavigationbarColor(colo
