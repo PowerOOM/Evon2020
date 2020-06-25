@@ -324,4 +324,42 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(), AbsPlay
 		navigationBarColor = color
 		if (panelState == BottomSheetBehavior.STATE_COLLAPSED) {
 			if (navigationBarColorAnimator != null) navigationBarColorAnimator!!.cancel()
-			super.setNavigationbarColor(colo
+			super.setNavigationbarColor(color)
+		}
+	}
+
+	override fun setTaskDescriptionColor(color: Int) {
+		taskColor = color
+		if (panelState == BottomSheetBehavior.STATE_COLLAPSED) {
+			super.setTaskDescriptionColor(color)
+		}
+	}
+
+	private fun updateTabs() {
+		bottomNavigationView.menu.clear()
+		val currentTabs: List<CategoryInfo> = PreferenceUtil.getInstance(this).libraryCategoryInfos
+		for (tab in currentTabs) {
+			if (tab.visible) {
+				val menu = tab.category
+				bottomNavigationView.menu.add(0, menu.id, 0, menu.stringRes).setIcon(menu.icon)
+			}
+		}
+		print("Tabs -> ${currentTabs.size}")
+		if (currentTabs.size <= 1) {
+			toggleBottomNavigationView(true)
+		}
+	}
+
+	/*override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+		if (ev?.action == MotionEvent.ACTION_DOWN) {
+			if (panelState == BottomSheetBehavior.STATE_EXPANDED) {
+				val outRect = Rect()
+				slidingPanel.getGlobalVisibleRect(outRect)
+				if (!outRect.contains(ev.rawX.toInt(), ev.rawY.toInt())) {
+					bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+				}
+			}
+		}
+		return super.dispatchTouchEvent(ev)
+	}*/
+}
