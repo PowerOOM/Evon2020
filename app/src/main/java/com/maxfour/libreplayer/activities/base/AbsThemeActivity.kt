@@ -36,4 +36,46 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
 
 	private fun toggleScreenOn() {
 		if (PreferenceUtil.getInstance(this).isScreenOnEnabled) {
-			window.addFlags(WindowManager.LayoutPara
+			window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+		} else {
+			window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+		}
+	}
+
+	override fun onWindowFocusChanged(hasFocus: Boolean) {
+		super.onWindowFocusChanged(hasFocus)
+		if (hasFocus) {
+			hideStatusBar()
+			handler.removeCallbacks(this)
+			handler.postDelayed(this, 300)
+		} else {
+			handler.removeCallbacks(this)
+		}
+	}
+
+	fun hideStatusBar() {
+		hideStatusBar(PreferenceUtil.getInstance(this).fullScreenMode)
+	}
+
+	private fun hideStatusBar(fullscreen: Boolean) {
+		val statusBar = window.decorView.rootView.findViewById<View>(R.id.status_bar)
+		if (statusBar != null) {
+			statusBar.visibility = if (fullscreen) View.GONE else View.VISIBLE
+		}
+	}
+
+	private fun changeBackgroundShape() {
+		var background: Drawable? = if (PreferenceUtil.getInstance(this).isRoundCorners)
+			ContextCompat.getDrawable(this, R.drawable.round_window)
+		else ContextCompat.getDrawable(this, R.drawable.square_window)
+		background =
+				TintHelper.createTintedDrawable(background, ATHUtil.resolveColor(this, android.R.attr.windowBackground))
+		window.setBackgroundDrawable(background)
+	}
+
+	fun setDrawUnderStatusBar() {
+		PlayerUtil.setAllowDrawUnderStatusBar(window)
+	}
+
+	fun setDrawUnderNavigationBar() {
+		PlayerUtil.
