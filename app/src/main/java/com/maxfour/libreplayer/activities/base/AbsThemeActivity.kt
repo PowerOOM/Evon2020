@@ -78,4 +78,36 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
 	}
 
 	fun setDrawUnderNavigationBar() {
-		PlayerUtil.
+		PlayerUtil.setAllowDrawUnderNavigationBar(window)
+	}
+
+	/**
+	 * This will set the color of the view with the id "status_bar" on KitKat and Lollipop. On
+	 * Lollipop if no such view is found it will set the statusbar color using the native method.
+	 *
+	 * @param color the new statusbar color (will be shifted down on Lollipop and above)
+	 */
+	fun setStatusbarColor(color: Int) {
+		val statusBar = window.decorView.rootView.findViewById<View>(R.id.status_bar)
+		if (statusBar != null) {
+			when {
+				VersionUtils.hasMarshmallow() -> statusBar.setBackgroundColor(color)
+				VersionUtils.hasLollipop() -> statusBar.setBackgroundColor(ColorUtil.darkenColor(color))
+				else -> statusBar.setBackgroundColor(color)
+			}
+		} else {
+			when {
+				VersionUtils.hasMarshmallow() -> window.statusBarColor = color
+				else -> window.statusBarColor = ColorUtil.darkenColor(color)
+			}
+		}
+		setLightStatusbarAuto(ATHUtil.resolveColor(this, R.attr.colorSurface))
+	}
+
+	fun setStatusbarColorAuto() {
+		// we don't want to use statusbar color because we are doing the color darkening on our own to support KitKat
+		setStatusbarColor(ATHUtil.resolveColor(this, R.attr.colorSurface))
+		setLightStatusbarAuto(ATHUtil.resolveColor(this, R.attr.colorSurface))
+	}
+
+	open fun setT
