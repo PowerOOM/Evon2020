@@ -110,4 +110,49 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
 		setLightStatusbarAuto(ATHUtil.resolveColor(this, R.attr.colorSurface))
 	}
 
-	open fun setT
+	open fun setTaskDescriptionColor(@ColorInt color: Int) {
+		ATH.setTaskDescriptionColor(this, color)
+	}
+
+	fun setTaskDescriptionColorAuto() {
+		setTaskDescriptionColor(ATHUtil.resolveColor(this, R.attr.colorSurface))
+	}
+
+	open fun setNavigationbarColor(color: Int) {
+		if (ThemeStore.coloredNavigationBar(this)) {
+			ATH.setNavigationbarColor(this, color)
+		} else {
+			ATH.setNavigationbarColor(this, Color.BLACK)
+		}
+	}
+
+	fun setNavigationbarColorAuto() {
+		setNavigationbarColor(ATHUtil.resolveColor(this, R.attr.colorSurface))
+	}
+
+	open fun setLightStatusbar(enabled: Boolean) {
+		ATH.setLightStatusbar(this, enabled)
+	}
+
+	fun setLightStatusbarAuto(bgColor: Int) {
+		setLightStatusbar(ColorUtil.isColorLight(bgColor))
+	}
+
+	open fun setLightNavigationBar(enabled: Boolean) {
+		if (!ATHUtil.isWindowBackgroundDark(this) and ThemeStore.coloredNavigationBar(this)) {
+			ATH.setLightNavigationbar(this, enabled)
+		}
+	}
+
+	private fun registerSystemUiVisibility() {
+		val decorView = window.decorView
+		decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+			if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+				setImmersiveFullscreen()
+			}
+		}
+	}
+
+	private fun unregisterSystemUiVisibility() {
+		val decorView = window.decorView
+		d
