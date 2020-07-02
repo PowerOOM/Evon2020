@@ -155,4 +155,42 @@ abstract class AbsThemeActivity : ATHToolbarActivity(), Runnable {
 
 	private fun unregisterSystemUiVisibility() {
 		val decorView = window.decorView
-		d
+		decorView.setOnSystemUiVisibilityChangeListener(null)
+	}
+
+	private fun setImmersiveFullscreen() {
+		val flags =
+				(View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+
+		if (PreferenceUtil.getInstance(this).fullScreenMode) {
+			window.decorView.systemUiVisibility = flags
+		}
+	}
+
+	private fun exitFullscreen() {
+		window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+	}
+
+	override fun run() {
+		setImmersiveFullscreen()
+	}
+
+	override fun onStop() {
+		handler.removeCallbacks(this)
+		super.onStop()
+	}
+
+	public override fun onDestroy() {
+		super.onDestroy()
+		unregisterSystemUiVisibility()
+		exitFullscreen()
+	}
+
+	override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+		if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+			handler.removeCallbacks(this)
+			handler.postDelayed(this, 500)
+		}
+		return super.onKeyDown(keyCode, event)
+	}
+}
