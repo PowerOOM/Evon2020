@@ -32,4 +32,21 @@ public class SAFGuideActivity extends IntroActivity {
                 .backgroundDark(R.color.md_deep_purple_400)
                 .layout(R.layout.fragment_simple_slide_large_image)
                 .build());
-        addSlide(new Simpl
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.saf_guide_slide2_title)
+                .description(R.string.saf_guide_slide2_description)
+                .image(R.drawable.saf_guide_2)
+                .background(R.color.md_deep_purple_500)
+                .backgroundDark(R.color.md_deep_purple_600)
+                .layout(R.layout.fragment_simple_slide_large_image)
+                .build());
+        addSlide(new SimpleSlide.Builder()
+                .title(R.string.saf_guide_slide3_title)
+                .description(R.string.saf_guide_slide3_description)
+                .image(R.drawable.saf_guide_3)
+                .background(R.color.md_deep_purple_700)
+                .backgroundDark(R.color.md_deep_purple_800)
+                .layout(R.layout.fragment_simple_slide_large_image)
+                .build());
+    }
+}
