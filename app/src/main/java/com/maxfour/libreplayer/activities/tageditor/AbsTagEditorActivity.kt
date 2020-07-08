@@ -361,3 +361,57 @@ abstract class AbsTagEditorActivity : AbsBaseActivity() {
 
 	private fun writeTags(paths: List<String>?) {
 		WriteTagsAsyncTask(this).execute(
+				WriteTagsAsyncTask.LoadingInfo(
+						paths,
+						savedTags,
+						savedArtworkInfo
+				)
+		)
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+		super.onActivityResult(requestCode, resultCode, intent)
+		when (requestCode) {
+			REQUEST_CODE_SELECT_IMAGE -> if (resultCode == Activity.RESULT_OK) {
+				intent?.data?.let {
+					loadImageFromFile(it)
+				}
+			}
+			SAFGuideActivity.REQUEST_CODE_SAF_GUIDE -> {
+				SAFUtil.openTreePicker(this)
+			}
+			SAFUtil.REQUEST_SAF_PICK_TREE -> {
+				if (resultCode == Activity.RESULT_OK) {
+					SAFUtil.saveTreeUri(this, intent)
+					writeTags(savedSongPaths)
+				}
+			}
+			SAFUtil.REQUEST_SAF_PICK_FILE -> {
+				if (resultCode == Activity.RESULT_OK) {
+					writeTags(Collections.singletonList(currentSongPath + SAFUtil.SEPARATOR + intent!!.dataString))
+				}
+			}
+		}
+	}
+
+	protected abstract fun loadImageFromFile(selectedFile: Uri?)
+
+	private fun getAudioFile(path: String): AudioFile {
+		return try {
+			AudioFileIO.read(File(path))
+		} catch (e: Exception) {
+			Log.e(TAG, "Could not read audio file $path", e)
+			AudioFile()
+		}
+	}
+
+	class ArtworkInfo constructor(val albumId: Int, val artwork: Bitmap?)
+
+	companion object {
+
+		const val EXTRA_ID = "extra_id"
+		const val EXTRA_PALETTE = "extra_palette"
+		private val TAG = AbsTagEditorActivity::class.java.simpleName
+		private const val REQUEST_CODE_SELECT_IMAGE = 1000
+	}
+}
