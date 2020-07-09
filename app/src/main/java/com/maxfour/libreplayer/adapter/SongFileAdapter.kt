@@ -111,3 +111,71 @@ class SongFileAdapter(
 	override fun getName(`object`: File): String {
 		return getFileTitle(`object`)
 	}
+
+	override fun onMultipleItemAction(menuItem: MenuItem, selection: ArrayList<File>) {
+		if (callbacks == null) return
+		callbacks.onMultipleItemAction(menuItem, selection)
+	}
+
+	override fun getSectionName(position: Int): String {
+		return dataSet!![position].name[0].toString().toUpperCase()
+	}
+
+	interface Callbacks {
+		fun onFileSelected(file: File)
+
+		fun onFileMenuClicked(file: File, view: View)
+
+		fun onMultipleItemAction(item: MenuItem, files: ArrayList<File>)
+	}
+
+	inner class ViewHolder(itemView: View) : MediaEntryViewHolder(itemView) {
+
+		init {
+			if (menu != null && callbacks != null) {
+				menu?.setOnClickListener { v ->
+					val position = adapterPosition
+					if (isPositionInRange(position)) {
+						callbacks.onFileMenuClicked(dataSet!![position], v)
+					}
+				}
+			}
+			if (imageTextContainer != null) {
+				imageTextContainer?.cardElevation = 0f
+			}
+		}
+
+		override fun onClick(v: View?) {
+			val position = adapterPosition
+			if (isPositionInRange(position)) {
+				if (isInQuickSelectMode) {
+					toggleChecked(position)
+				} else {
+					callbacks?.onFileSelected(dataSet!![position])
+				}
+			}
+		}
+
+		override fun onLongClick(v: View?): Boolean {
+			val position = adapterPosition
+			return isPositionInRange(position) && toggleChecked(position)
+		}
+
+		private fun isPositionInRange(position: Int): Boolean {
+			return position >= 0 && position < dataSet!!.size
+		}
+	}
+
+	companion object {
+
+		private const val FILE = 0
+		private const val FOLDER = 1
+
+		fun readableFileSize(size: Long): String {
+			if (size <= 0) return "$size B"
+			val units = arrayOf("B", "KB", "MB", "GB", "TB")
+			val digitGroups = (log10(size.toDouble()) / log10(1024.0)).toInt()
+			return DecimalFormat("#,##0.##").format(size / 1024.0.pow(digitGroups.toDouble())) + " " + units[digitGroups]
+		}
+	}
+}
