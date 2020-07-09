@@ -120,4 +120,52 @@ open class AlbumAdapter(
 	}
 
 	protected open fun loadAlbumCover(album: Album, holder: ViewHolder) {
-		if (holder.i
+		if (holder.image == null) {
+			return
+		}
+
+		SongGlideRequest.Builder.from(Glide.with(activity), album.safeGetFirstSong())
+			.checkIgnoreMediaStore(activity).generatePalette(activity).build()
+			.into(object : PlayerColoredTarget(holder.image!!) {
+				override fun onLoadCleared(placeholder: Drawable?) {
+					super.onLoadCleared(placeholder)
+					setColors(defaultFooterColor, holder)
+				}
+
+				override fun onColorReady(color: Int) {
+					setColors(color, holder)
+				}
+			})
+	}
+
+	override fun getItemCount(): Int {
+		return dataSet.size
+	}
+
+	override fun getItemId(position: Int): Long {
+		return dataSet[position].id.toLong()
+	}
+
+	override fun getIdentifier(position: Int): Album? {
+		return dataSet[position]
+	}
+
+	override fun getName(album: Album): String {
+		return album.title!!
+	}
+
+	override fun onMultipleItemAction(
+		menuItem: MenuItem, selection: ArrayList<Album>
+	) {
+		SongsMenuHelper.handleMenuClick(activity, getSongList(selection), menuItem.itemId)
+	}
+
+	private fun getSongList(albums: List<Album>): ArrayList<Song> {
+		val songs = ArrayList<Song>()
+		for (album in albums) {
+			songs.addAll(album.songs!!)
+		}
+		return songs
+	}
+
+	overrid
