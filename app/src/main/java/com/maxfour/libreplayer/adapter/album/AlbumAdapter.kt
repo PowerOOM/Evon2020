@@ -72,4 +72,52 @@ open class AlbumAdapter(
 
 	protected open fun createViewHolder(view: View, viewType: Int): ViewHolder {
 		return ViewHolder(view)
-	
+	}
+
+	private fun getAlbumTitle(album: Album): String? {
+		return album.title
+	}
+
+	protected open fun getAlbumText(album: Album): String? {
+		return album.artistName
+	}
+
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+		val album = dataSet[position]
+		val isChecked = isChecked(album)
+		holder.itemView.isActivated = isChecked
+		holder.title?.text = getAlbumTitle(album)
+		holder.text?.text = getAlbumText(album)
+		holder.playSongs?.setOnClickListener {
+			album.songs?.let { songs ->
+				MusicPlayerRemote.openQueue(
+						songs,
+						0,
+						true
+				)
+			}
+		}
+		loadAlbumCover(album, holder)
+	}
+
+	protected open fun setColors(color: Int, holder: ViewHolder) {
+		if (holder.paletteColorContainer != null) {
+			holder.title?.setTextColor(
+					MaterialValueHelper.getPrimaryTextColor(
+							activity,
+							ColorUtil.isColorLight(color)
+					)
+			)
+			holder.text?.setTextColor(
+					MaterialValueHelper.getSecondaryTextColor(
+							activity,
+							ColorUtil.isColorLight(color)
+					)
+			)
+			holder.paletteColorContainer?.setBackgroundColor(color)
+		}
+		holder.mask?.backgroundTintList = ColorStateList.valueOf(color)
+	}
+
+	protected open fun loadAlbumCover(album: Album, holder: ViewHolder) {
+		if (holder.i
