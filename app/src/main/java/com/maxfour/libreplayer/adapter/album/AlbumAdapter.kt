@@ -24,4 +24,52 @@ import com.maxfour.libreplayer.model.Album
 import com.maxfour.libreplayer.model.Song
 import com.maxfour.libreplayer.util.MusicUtil
 import com.maxfour.libreplayer.util.NavigationUtil
-import com.maxfour.libreplayer.ut
+import com.maxfour.libreplayer.util.PreferenceUtil
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+
+open class AlbumAdapter(
+	protected val activity: AppCompatActivity,
+	dataSet: ArrayList<Album>,
+	protected var itemLayoutRes: Int,
+	usePalette: Boolean,
+	cabHolder: CabHolder?
+) : AbsMultiSelectAdapter<AlbumAdapter.ViewHolder, Album>(
+	activity,
+	cabHolder,
+	R.menu.menu_media_selection
+), FastScrollRecyclerView.SectionedAdapter {
+
+	var dataSet: ArrayList<Album>
+		protected set
+
+	protected var usePalette = false
+
+	init {
+		this.dataSet = dataSet
+		this.usePalette = usePalette
+		this.setHasStableIds(true)
+	}
+
+	fun useItemLayout(itemLayoutRes: Int) {
+		this.itemLayoutRes = itemLayoutRes
+		notifyDataSetChanged()
+	}
+
+	fun usePalette(usePalette: Boolean) {
+		this.usePalette = usePalette
+		notifyDataSetChanged()
+	}
+
+	fun swapDataSet(dataSet: ArrayList<Album>) {
+		this.dataSet = dataSet
+		notifyDataSetChanged()
+	}
+
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+		val view = LayoutInflater.from(activity).inflate(itemLayoutRes, parent, false)
+		return createViewHolder(view, viewType)
+	}
+
+	protected open fun createViewHolder(view: View, viewType: Int): ViewHolder {
+		return ViewHolder(view)
+	
