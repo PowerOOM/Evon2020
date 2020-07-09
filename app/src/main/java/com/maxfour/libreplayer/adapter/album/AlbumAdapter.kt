@@ -168,4 +168,39 @@ open class AlbumAdapter(
 		return songs
 	}
 
-	overrid
+	override fun getSectionName(position: Int): String {
+		var sectionName: String? = null
+		when (PreferenceUtil.getInstance(activity).albumSortOrder) {
+			SortOrder.AlbumSortOrder.ALBUM_A_Z, SortOrder.AlbumSortOrder.ALBUM_Z_A -> sectionName =
+				dataSet[position].title
+			SortOrder.AlbumSortOrder.ALBUM_ARTIST -> sectionName = dataSet[position].artistName
+			SortOrder.AlbumSortOrder.ALBUM_YEAR -> return MusicUtil.getYearString(
+				dataSet[position].year
+			)
+		}
+
+		return MusicUtil.getSectionName(sectionName)
+	}
+
+	inner class ViewHolder(itemView: View) : MediaEntryViewHolder(itemView) {
+
+		init {
+			setImageTransitionName(activity.getString(R.string.transition_album_art))
+			menu?.visibility = View.GONE
+		}
+
+		override fun onClick(v: View?) {
+			super.onClick(v)
+			if (isInQuickSelectMode) {
+				toggleChecked(adapterPosition)
+			} else {
+				val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+						activity,
+						imageContainerCard ?: image,
+						"${activity.getString(R.string.transition_album_art)}_${dataSet[adapterPosition].id}"
+				)
+				NavigationUtil.goToAlbumOptions(activity, dataSet[adapterPosition].id, activityOptions)
+			}
+		}
+
+		override fun onL
