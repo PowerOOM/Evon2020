@@ -22,4 +22,29 @@ class GenreAdapter(
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-		return ViewHolder(LayoutInflater
+		return ViewHolder(LayoutInflater.from(activity).inflate(mItemLayoutRes, parent, false))
+	}
+
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+		val genre = dataSet[position]
+		holder.title?.text = genre.name
+		holder.text?.text = String.format(Locale.getDefault(), "%d %s", genre.songCount, if (genre.songCount > 1) activity.getString(R.string.songs) else activity.getString(R.string.song))
+	}
+
+	override fun getItemCount(): Int {
+		return dataSet.size
+	}
+
+	fun swapDataSet(list: ArrayList<Genre>) {
+		dataSet = list
+		notifyDataSetChanged()
+	}
+
+	inner class ViewHolder(itemView: View) : MediaEntryViewHolder(itemView) {
+		override fun onClick(v: View?) {
+			super.onClick(v)
+			val genre = dataSet[adapterPosition]
+			NavigationUtil.goToGenre(activity, genre)
+		}
+	}
+}
