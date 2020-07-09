@@ -29,4 +29,32 @@ class SongTagEditorActivity : AbsTagEditorActivity(), TextWatcher {
 	private fun setUpViews() {
 		fillViewsWithFileTags()
 		MaterialUtil.setTint(songTextContainer, false)
-		MaterialUtil.s
+		MaterialUtil.setTint(composerContainer, false)
+		MaterialUtil.setTint(albumTextContainer, false)
+		MaterialUtil.setTint(artistContainer, false)
+		MaterialUtil.setTint(albumArtistContainer, false)
+		MaterialUtil.setTint(yearContainer, false)
+		MaterialUtil.setTint(genreContainer, false)
+		MaterialUtil.setTint(songNumberContainer, false)
+		MaterialUtil.setTint(lyricsContainer, false)
+
+		songText.appHandleColor().addTextChangedListener(this)
+		albumText.appHandleColor().addTextChangedListener(this)
+		albumArtistText.appHandleColor().addTextChangedListener(this)
+		artistText.appHandleColor().addTextChangedListener(this)
+		genreText.appHandleColor().addTextChangedListener(this)
+		yearText.appHandleColor().addTextChangedListener(this)
+		songNumberText.appHandleColor().addTextChangedListener(this)
+		lyricsText.appHandleColor().addTextChangedListener(this)
+		songComposerText.appHandleColor().addTextChangedListener(this)
+	}
+
+	private fun fillViewsWithFileTags() {
+		songText.setText(songTitle)
+		albumArtistText.setText(albumArtist)
+		albumText.setText(albumTitle)
+		artistText.setText(artistName)
+		genreText.setText(genreName)
+		yearText.setText(songYear)
+		songNumberText.setText(songNumber)
+		lyricsText.setText(lyr
