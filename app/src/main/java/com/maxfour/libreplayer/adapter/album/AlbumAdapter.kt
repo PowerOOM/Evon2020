@@ -203,4 +203,13 @@ open class AlbumAdapter(
 			}
 		}
 
-		override fun onL
+		override fun onLongClick(v: View?): Boolean {
+			toggleChecked(adapterPosition)
+			return super.onLongClick(v)
+		}
+	}
+
+	companion object {
+		val TAG: String = AlbumAdapter::class.java.simpleName
+	}
+}
