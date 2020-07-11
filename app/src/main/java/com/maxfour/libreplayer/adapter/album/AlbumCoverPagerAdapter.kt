@@ -27,4 +27,45 @@ class AlbumCoverPagerAdapter(
 	private var currentColorReceiverPosition = -1
 
 	override fun getItem(position: Int): Fragment {
-		return Al
+		return AlbumCoverFragment.newInstance(dataSet[position])
+	}
+
+	override fun getCount(): Int {
+		return dataSet.size
+	}
+
+	override fun instantiateItem(container: ViewGroup, position: Int): Any {
+		val o = super.instantiateItem(container, position)
+		if (currentColorReceiver != null && currentColorReceiverPosition == position) {
+			receiveColor(currentColorReceiver!!, currentColorReceiverPosition)
+		}
+		return o
+	}
+
+	/**
+	 * Only the latest passed [AlbumCoverFragment.ColorReceiver] is guaranteed to receive a
+	 * response
+	 */
+	fun receiveColor(colorReceiver: AlbumCoverFragment.ColorReceiver, position: Int) {
+
+		if (getFragment(position) is AlbumCoverFragment) {
+			val fragment = getFragment(position) as AlbumCoverFragment
+			currentColorReceiver = null
+			currentColorReceiverPosition = -1
+			fragment.receiveColor(colorReceiver, position)
+		} else {
+			currentColorReceiver = colorReceiver
+			currentColorReceiverPosition = position
+		}
+	}
+
+	class AlbumCoverFragment : Fragment() {
+
+		lateinit var albumCover: ImageView
+		private var isColorReady: Boolean = false
+		private var color: Int = 0
+		private lateinit var song: Song
+		private var colorReceiver: ColorReceiver? = null
+		private var request: Int = 0
+
+		private 
