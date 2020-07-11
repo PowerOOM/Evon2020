@@ -99,4 +99,57 @@ class AlbumCoverPagerAdapter(
 				else -> layout
 			}
 			val view = inflater.inflate(finalLayout, container, false)
-			albumCover = view.findViewByI
+			albumCover = view.findViewById(R.id.player_image)
+			albumCover.setOnClickListener {
+
+				NavigationUtil.goToLyrics(requireActivity())
+			}
+			return view
+		}
+
+		override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+			super.onViewCreated(view, savedInstanceState)
+			loadAlbumCover()
+		}
+
+		override fun onDestroyView() {
+			super.onDestroyView()
+			colorReceiver = null
+		}
+
+		private fun loadAlbumCover() {
+			SongGlideRequest.Builder.from(Glide.with(requireContext()), song)
+				.checkIgnoreMediaStore(requireContext())
+				.generatePalette(requireContext()).build()
+				.into(object : PlayerColoredTarget(albumCover) {
+					override fun onColorReady(color: Int) {
+						setColor(color)
+					}
+				})
+		}
+
+		private fun setColor(color: Int) {
+			this.color = color
+			isColorReady = true
+			if (colorReceiver != null) {
+				colorReceiver!!.onColorReady(color, request)
+				colorReceiver = null
+			}
+		}
+
+		internal fun receiveColor(colorReceiver: ColorReceiver, request: Int) {
+			if (isColorReady) {
+				colorReceiver.onColorReady(color, request)
+			} else {
+				this.colorReceiver = colorReceiver
+				this.request = request
+			}
+		}
+
+		interface ColorReceiver {
+			fun onColorReady(color: Int, request: Int)
+		}
+
+		companion object {
+
+			private const
