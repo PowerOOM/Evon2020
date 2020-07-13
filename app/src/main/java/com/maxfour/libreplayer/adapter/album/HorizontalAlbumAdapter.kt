@@ -15,4 +15,35 @@ import com.maxfour.libreplayer.model.Album
 import com.maxfour.libreplayer.util.MusicUtil
 import java.util.*
 
-class HorizontalAlbumAdapter
+class HorizontalAlbumAdapter(
+		activity: AppCompatActivity,
+		dataSet: ArrayList<Album>,
+		usePalette: Boolean,
+		cabHolder: CabHolder?
+) : AlbumAdapter(
+		activity, dataSet, HorizontalAdapterHelper.LAYOUT_RES, usePalette, cabHolder
+) {
+
+	override fun createViewHolder(view: View, viewType: Int): ViewHolder {
+		val params = view.layoutParams as ViewGroup.MarginLayoutParams
+		HorizontalAdapterHelper.applyMarginToLayoutParams(activity, params, viewType)
+		return ViewHolder(view)
+	}
+
+	override fun setColors(color: Int, holder: ViewHolder) {
+		holder.title?.setTextColor(MaterialValueHelper.getPrimaryTextColor(activity, ColorUtil.isColorLight(color)))
+		holder.text?.setTextColor(MaterialValueHelper.getSecondaryTextColor(activity, ColorUtil.isColorLight(color)))
+	}
+
+	override fun loadAlbumCover(album: Album, holder: ViewHolder) {
+		if (holder.image == null) return
+
+		SongGlideRequest.Builder.from(Glide.with(activity), album.safeGetFirstSong())
+			.checkIgnoreMediaStore(activity).generatePalette(activity).build()
+			.into(object : PlayerColoredTarget(holder.image!!) {
+				override fun onLoadCleared(placeholder: Drawable?) {
+					super.onLoadCleared(placeholder)
+					setColors(albumArtistFooterColor, holder)
+				}
+
+				override fun onColorReady(co
