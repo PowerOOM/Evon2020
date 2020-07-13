@@ -61,4 +61,23 @@ class AlbumFullWidthAdapter(
 			.build()
 			.into(object : PlayerColoredTarget(holder.image!!) {
 				override fun onColorReady(color: Int) {
-	
+				}
+			})
+	}
+
+	override fun getItemCount(): Int {
+		return dataSet.size
+	}
+
+	inner class FullMetalViewHolder(itemView: View) : MetalRecyclerViewPager.MetalViewHolder(itemView) {
+
+		override fun onClick(v: View?) {
+			val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+					activity,
+					imageContainerCard ?: image,
+					"${activity.getString(R.string.transition_album_art)}_${dataSet[adapterPosition].id}"
+			)
+			NavigationUtil.goToAlbumOptions(activity, dataSet[adapterPosition].id, activityOptions)
+		}
+	}
+}
