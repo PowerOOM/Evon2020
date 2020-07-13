@@ -152,4 +152,19 @@ class AlbumCoverPagerAdapter(
 
 		companion object {
 
-			private const
+			private const val SONG_ARG = "song"
+
+			fun newInstance(song: Song): AlbumCoverFragment {
+				val frag = AlbumCoverFragment()
+				val args = Bundle()
+				args.putParcelable(SONG_ARG, song)
+				frag.arguments = args
+				return frag
+			}
+		}
+	}
+
+	companion object {
+		val TAG: String = AlbumCoverPagerAdapter::class.java.simpleName
+	}
+}
