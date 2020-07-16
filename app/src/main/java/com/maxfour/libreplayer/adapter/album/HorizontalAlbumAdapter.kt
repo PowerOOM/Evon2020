@@ -46,4 +46,26 @@ class HorizontalAlbumAdapter(
 					setColors(albumArtistFooterColor, holder)
 				}
 
-				override fun onColorReady(co
+				override fun onColorReady(color: Int) {
+					if (usePalette) setColors(color, holder)
+					else setColors(albumArtistFooterColor, holder)
+				}
+			})
+	}
+
+	override fun getAlbumText(album: Album): String? {
+		return MusicUtil.getYearString(album.year)
+	}
+
+	override fun getItemViewType(position: Int): Int {
+		return HorizontalAdapterHelper.getItemViewtype(position, itemCount)
+	}
+
+	override fun getItemCount(): Int {
+		return dataSet.size
+	}
+
+	companion object {
+		val TAG: String = AlbumAdapter::class.java.simpleName
+	}
+}
