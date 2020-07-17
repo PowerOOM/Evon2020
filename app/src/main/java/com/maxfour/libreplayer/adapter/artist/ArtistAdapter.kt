@@ -50,4 +50,44 @@ class ArtistAdapter(
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-		val view = LayoutInflater.from(activity).inflate(itemLayoutRes, pare
+		val view = LayoutInflater.from(activity).inflate(itemLayoutRes, parent, false)
+		return createViewHolder(view)
+	}
+
+	private fun createViewHolder(view: View): ViewHolder {
+		return ViewHolder(view)
+	}
+
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+		val artist = dataSet[position]
+		val isChecked = isChecked(artist)
+		holder.itemView.isActivated = isChecked
+		holder.title?.text = artist.name
+		holder.text?.visibility = View.GONE
+		loadArtistImage(artist, holder)
+	}
+
+	fun setColors(color: Int, holder: ViewHolder) {
+		if (holder.paletteColorContainer != null) {
+			holder.paletteColorContainer?.setBackgroundColor(color)
+			holder.title?.setTextColor(
+					MaterialValueHelper.getPrimaryTextColor(
+							activity, ColorUtil.isColorLight(
+							color
+							)
+					)
+			)
+		}
+
+		holder.mask?.backgroundTintList = ColorStateList.valueOf(color)
+	}
+
+	private fun loadArtistImage(artist: Artist, holder: ViewHolder) {
+		if (holder.image == null) {
+			return
+		}
+		ArtistGlideRequest.Builder.from(Glide.with(activity), artist).generatePalette(activity)
+			.build().into(object : PlayerColoredTarget(holder.image!!) {
+				override fun onLoadCleared(placeholder: Drawable?) {
+					super.onLoadCleared(placeholder)
+					setCol
