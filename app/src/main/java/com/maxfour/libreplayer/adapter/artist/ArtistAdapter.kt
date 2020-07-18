@@ -90,4 +90,55 @@ class ArtistAdapter(
 			.build().into(object : PlayerColoredTarget(holder.image!!) {
 				override fun onLoadCleared(placeholder: Drawable?) {
 					super.onLoadCleared(placeholder)
-					setCol
+					setColors(defaultFooterColor, holder)
+				}
+
+				override fun onColorReady(color: Int) {
+					setColors(color, holder)
+				}
+			})
+	}
+
+	override fun getItemCount(): Int {
+		return dataSet.size
+	}
+
+	override fun getIdentifier(position: Int): Artist? {
+		return dataSet[position]
+	}
+
+	override fun getName(artist: Artist): String {
+		return artist.name
+	}
+
+	override fun onMultipleItemAction(
+			menuItem: MenuItem, selection: ArrayList<Artist>
+	) {
+		SongsMenuHelper.handleMenuClick(activity, getSongList(selection), menuItem.itemId)
+	}
+
+	private fun getSongList(artists: List<Artist>): ArrayList<Song> {
+		val songs = ArrayList<Song>()
+		for (artist in artists) {
+			songs.addAll(artist.songs) // maybe async in future?
+		}
+		return songs
+	}
+
+	override fun getSectionName(position: Int): String {
+		return MusicUtil.getSectionName(dataSet[position].name)
+	}
+
+	inner class ViewHolder(itemView: View) : MediaEntryViewHolder(itemView) {
+
+		init {
+			setImageTransitionName(activity.getString(R.string.transition_artist_image))
+			menu?.visibility = View.GONE
+		}
+
+		override fun onClick(v: View?) {
+			super.onClick(v)
+			if (isInQuickSelectMode) {
+				toggleChecked(adapterPosition)
+			} else {
+				val activityOption
