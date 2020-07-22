@@ -141,4 +141,20 @@ class ArtistAdapter(
 			if (isInQuickSelectMode) {
 				toggleChecked(adapterPosition)
 			} else {
-				val activityOption
+				val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+						activity,
+						imageContainerCard ?: image,
+						"${activity.getString(R.string.transition_artist_image)}_${dataSet[adapterPosition].id}"
+				)
+				NavigationUtil.goToArtistOptions(
+						activity, dataSet[adapterPosition].id, activityOptions
+				)
+			}
+		}
+
+        override fun onLongClick(v: View?): Boolean {
+			toggleChecked(adapterPosition)
+			return super.onLongClick(v)
+		}
+	}
+}
