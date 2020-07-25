@@ -109,4 +109,14 @@ public abstract class AbsMultiSelectAdapter<VH extends RecyclerView.ViewHolder, 
     public boolean onCabFinished(MaterialCab materialCab) {
         clearChecked();
         return true;
-   
+    }
+
+    protected String getName(I object) {
+        return object.toString();
+    }
+
+    @Nullable
+    protected abstract I getIdentifier(int position);
+
+    protected abstract void onMultipleItemAction(MenuItem menuItem, ArrayList<I> selection);
+}
