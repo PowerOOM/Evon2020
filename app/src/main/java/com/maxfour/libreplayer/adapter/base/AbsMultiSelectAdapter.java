@@ -65,4 +65,48 @@ public abstract class AbsMultiSelectAdapter<VH extends RecyclerView.ViewHolder, 
 
     private void updateCab() {
         if (cabHolder != null) {
-            if (cab == null || !c
+            if (cab == null || !cab.isActive()) {
+                cab = cabHolder.openCab(menuRes, this);
+            }
+            final int size = checked.size();
+            if (size <= 0) cab.finish();
+            else if (size == 1) cab.setTitle(getName(checked.get(0)));
+            else cab.setTitle(context.getString(R.string.x_selected, size));
+        }
+    }
+
+    private void clearChecked() {
+        checked.clear();
+        notifyDataSetChanged();
+    }
+
+    protected boolean isChecked(I identifier) {
+        return checked.contains(identifier);
+    }
+
+    protected boolean isInQuickSelectMode() {
+        return cab != null && cab.isActive();
+    }
+
+    @Override
+    public boolean onCabCreated(MaterialCab materialCab, Menu menu) {
+        return true;
+    }
+
+    @Override
+    public boolean onCabItemClicked(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.action_multi_select_adapter_check_all) {
+            checkAll();
+        } else {
+            onMultipleItemAction(menuItem, new ArrayList<>(checked));
+            cab.finish();
+            clearChecked();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCabFinished(MaterialCab materialCab) {
+        clearChecked();
+        return true;
+   
