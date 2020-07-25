@@ -59,4 +59,39 @@ abstract class AbsOffsetSongAdapter : SongAdapter {
 		return if (superItemCount == 0) 0 else superItemCount + 1
 	}
 
-	
+	override fun getItemViewType(position: Int): Int {
+		return if (position == 0) OFFSET_ITEM else SONG
+	}
+
+	override fun getSectionName(position: Int): String {
+		var positionF = position
+		positionF--
+		return if (positionF < 0) "" else super.getSectionName(positionF)
+	}
+
+	open inner class ViewHolder(itemView: View) : SongAdapter.ViewHolder(itemView) {
+
+		override // could also return null, just to be safe return empty song
+		val song: Song
+			get() = if (itemViewType == OFFSET_ITEM) Song.emptySong else dataSet[adapterPosition - 1]
+
+		override fun onClick(v: View?) {
+			if (isInQuickSelectMode && itemViewType != OFFSET_ITEM) {
+				toggleChecked(adapterPosition)
+			} else {
+				MusicPlayerRemote.openQueue(dataSet, adapterPosition - 1, true)
+			}
+		}
+
+		override fun onLongClick(v: View?): Boolean {
+			if (itemViewType == OFFSET_ITEM) return false
+			toggleChecked(adapterPosition)
+			return true
+		}
+	}
+
+	companion object {
+		const val OFFSET_ITEM = 0
+		const val SONG = 1
+	}
+}
