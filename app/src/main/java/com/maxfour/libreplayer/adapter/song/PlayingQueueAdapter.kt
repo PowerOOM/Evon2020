@@ -97,3 +97,143 @@ class PlayingQueueAdapter(
 	}
 
 	fun setCurrent(current: Int) {
+		this.current = current
+		notifyDataSetChanged()
+	}
+
+	private fun setAlpha(holder: SongAdapter.ViewHolder, alpha: Float) {
+		holder.image?.alpha = alpha
+		holder.title?.alpha = alpha
+		holder.text?.alpha = alpha
+		holder.imageText?.alpha = alpha
+		holder.paletteColorContainer?.alpha = alpha
+		holder.dragView?.alpha = alpha
+		holder.menu?.alpha = alpha
+	}
+
+	override fun onCheckCanStartDrag(holder: ViewHolder, position: Int, x: Int, y: Int): Boolean {
+		return ViewUtil.hitTest(holder.imageText!!, x, y) || ViewUtil.hitTest(holder.dragView!!, x, y)
+	}
+
+	override fun onGetItemDraggableRange(holder: ViewHolder, position: Int): ItemDraggableRange? {
+		return null
+	}
+
+	override fun onMoveItem(fromPosition: Int, toPosition: Int) {
+		MusicPlayerRemote.moveSong(fromPosition, toPosition)
+	}
+
+	override fun onCheckCanDrop(draggingPosition: Int, dropPosition: Int): Boolean {
+		return true
+	}
+
+	override fun onItemDragStarted(position: Int) {
+		notifyDataSetChanged()
+	}
+
+	override fun onItemDragFinished(fromPosition: Int, toPosition: Int, result: Boolean) {
+		notifyDataSetChanged()
+	}
+
+	fun setSongToRemove(song: Song) {
+		songToRemove = song
+	}
+
+	inner class ViewHolder(itemView: View) : SongAdapter.ViewHolder(itemView) {
+
+		@DraggableItemStateFlags
+		private var mDragStateFlags: Int = 0
+
+		override var songMenuRes: Int
+			get() = R.menu.menu_item_playing_queue_song
+			set(value) {
+				super.songMenuRes = value
+			}
+
+		init {
+			imageText?.visibility = View.VISIBLE
+			dragView?.visibility = View.VISIBLE
+		}
+
+		override fun onSongMenuItemClick(item: MenuItem): Boolean {
+			when (item.itemId) {
+				R.id.action_remove_from_playing_queue -> {
+					removeFromQueue(adapterPosition)
+					return true
+				}
+			}
+			return super.onSongMenuItemClick(item)
+		}
+
+		@DraggableItemStateFlags
+		override fun getDragStateFlags(): Int {
+			return mDragStateFlags
+		}
+
+		override fun setDragStateFlags(@DraggableItemStateFlags flags: Int) {
+			mDragStateFlags = flags
+		}
+
+		override fun getSwipeableContainerView(): View? {
+			return dummyContainer
+		}
+	}
+
+	companion object {
+
+		private const val HISTORY = 0
+		private const val CURRENT = 1
+		private const val UP_NEXT = 2
+	}
+
+	override fun onSwipeItem(
+			holder: ViewHolder?,
+			position: Int, @SwipeableItemResults result: Int
+	): SwipeResultAction {
+		return if (result === SwipeableItemConstants.RESULT_CANCELED) {
+			SwipeResultActionDefault()
+		} else {
+			SwipedResultActionRemoveItem(this, position, activity)
+		}
+	}
+
+	override fun onGetSwipeReactionType(holder: ViewHolder?, position: Int, x: Int, y: Int): Int {
+		return if (onCheckCanStartDrag(holder!!, position, x, y)) {
+			SwipeableItemConstants.REACTION_CAN_NOT_SWIPE_BOTH_H;
+		} else {
+			SwipeableItemConstants.REACTION_CAN_SWIPE_BOTH_H;
+		}
+	}
+
+	override fun onSwipeItemStarted(p0: ViewHolder?, p1: Int) {
+	}
+
+	override fun onSetSwipeBackground(holder: ViewHolder?, position: Int, result: Int) {
+	}
+
+	internal class SwipedResultActionRemoveItem(
+			private val adapter: PlayingQueueAdapter,
+			private val position: Int,
+			private val activity: AppCompatActivity
+	) : SwipeResultActionRemoveItem() {
+
+		private var songToRemove: Song? = null
+		private val isPlaying: Boolean = MusicPlayerRemote.isPlaying
+		private val songProgressMillis = 0
+		override fun onPerformAction() {
+			//currentlyShownSnackbar = null
+		}
+
+		override fun onSlideAnimationEnd() {
+			//initializeSnackBar(adapter, position, activity, isPlaying)
+			songToRemove = adapter.dataSet[position]
+			//If song removed was the playing song, then play the next song
+			if (isPlaying(songToRemove!!)) {
+				playNextSong()
+			}
+			//Swipe animation is much smoother when we do the heavy lifting after it's completed
+			adapter.setSongToRemove(songToRemove!!)
+			removeFromQueue(songToRemove!!)
+		}
+	}
+}
