@@ -31,4 +31,24 @@ class ShuffleButtonSongAdapter(
 			}
 			viewHolder.shuffleAction?.let {
 				it.setOnClickListener {
-					MusicPlayerRe
+					MusicPlayerRemote.openAndShuffleQueue(dataSet, true)
+				}
+			}
+		} else {
+			super.onBindViewHolder(holder, position - 1)
+		}
+	}
+
+	inner class ViewHolder(itemView: View) : AbsOffsetSongAdapter.ViewHolder(itemView) {
+		val playAction: MaterialButton? = itemView.findViewById(R.id.playAction)
+		val shuffleAction: MaterialButton? = itemView.findViewById(R.id.shuffleAction)
+
+		override fun onClick(v: View?) {
+			if (itemViewType == OFFSET_ITEM) {
+				MusicPlayerRemote.openAndShuffleQueue(dataSet, true)
+				return
+			}
+			super.onClick(v)
+		}
+	}
+}
