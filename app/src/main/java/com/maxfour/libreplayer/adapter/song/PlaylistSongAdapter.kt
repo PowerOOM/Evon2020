@@ -29,4 +29,42 @@ open class PlaylistSongAdapter(
 	}
 
 	override fun onBindViewHolder(holder: SongAdapter.ViewHolder, position: Int) {
-		if (holder.itemViewType == OFFSET_IT
+		if (holder.itemViewType == OFFSET_ITEM) {
+			val viewHolder = holder as ViewHolder
+			viewHolder.playAction?.let {
+				it.setOnClickListener {
+					MusicPlayerRemote.openQueue(dataSet, 0, true)
+				}
+			}
+			viewHolder.shuffleAction?.let {
+				it.setOnClickListener {
+					MusicPlayerRemote.openAndShuffleQueue(dataSet, true)
+				}
+			}
+		} else {
+			super.onBindViewHolder(holder, position - 1)
+		}
+	}
+
+	open inner class ViewHolder(itemView: View) : AbsOffsetSongAdapter.ViewHolder(itemView) {
+
+		val playAction: MaterialButton? = itemView.findViewById(R.id.playAction)
+		val shuffleAction: MaterialButton? = itemView.findViewById(R.id.shuffleAction)
+
+		override var songMenuRes: Int
+			get() = R.menu.menu_item_cannot_delete_single_songs_playlist_song
+			set(value) {
+				super.songMenuRes = value
+			}
+
+		override fun onSongMenuItemClick(item: MenuItem): Boolean {
+			if (item.itemId == R.id.action_go_to_album) {
+				val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+						activity,
+						imageContainerCard ?: image,
+						"${activity.getString(R.string.transition_album_art)}_${song.albumId}"
+				)
+				NavigationUtil.goToAlbumOptions(activity, song.albumId, activityOptions)
+				return true
+			}
+			return super.onSongMen
