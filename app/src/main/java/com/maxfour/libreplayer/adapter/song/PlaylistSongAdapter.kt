@@ -67,4 +67,11 @@ open class PlaylistSongAdapter(
 				NavigationUtil.goToAlbumOptions(activity, song.albumId, activityOptions)
 				return true
 			}
-			return super.onSongMen
+			return super.onSongMenuItemClick(item)
+		}
+	}
+
+	companion object {
+		val TAG: String = PlaylistSongAdapter::class.java.simpleName
+	}
+}
