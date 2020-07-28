@@ -39,4 +39,35 @@ object AppShortcutIconGenerator {
 		val typedColorBackground = TypedValue()
 		context.theme.resolveAttribute(android.R.attr.colorBackground, typedColorBackground, true)
 
-		// Return an Icon of ico
+		// Return an Icon of iconId with those colors
+		return generateThemedIcon(
+				context, iconId, ThemeStore.accentColor(context), typedColorBackground.data
+		)
+	}
+
+	private fun generateThemedIcon(
+			context: Context, iconId: Int, foregroundColor: Int, backgroundColor: Int
+	): Icon {
+		// Get and tint foreground and background drawables
+		val vectorDrawable = PlayerUtil.getTintedVectorDrawable(context, iconId, foregroundColor)
+		val backgroundDrawable = PlayerUtil.getTintedVectorDrawable(
+				context, R.drawable.ic_app_shortcut_background, backgroundColor
+		)
+
+		// Squash the two drawables together
+		val layerDrawable = LayerDrawable(arrayOf(backgroundDrawable, vectorDrawable))
+
+		// Return as an Icon
+		return Icon.createWithBitmap(drawableToBitmap(layerDrawable))
+	}
+
+	private fun drawableToBitmap(drawable: Drawable): Bitmap {
+		val bitmap = Bitmap.createBitmap(
+				drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+		)
+		val canvas = Canvas(bitmap)
+		drawable.setBounds(0, 0, canvas.width, canvas.height)
+		drawable.draw(canvas)
+		return bitmap
+	}
+}
