@@ -136,4 +136,38 @@ open class SongAdapter(
 	}
 
 	override fun onMultipleItemAction(menuItem: MenuItem, selection: ArrayList<Song>) {
-		SongsMenuHelper.handleMenuClick(activity, sel
+		SongsMenuHelper.handleMenuClick(activity, selection, menuItem.itemId)
+	}
+
+	override fun getSectionName(position: Int): String {
+		if (!showSectionName) {
+			return ""
+		}
+		val sectionName: String? = when (PreferenceUtil.getInstance(activity).songSortOrder) {
+			SortOrder.SongSortOrder.SONG_A_Z, SortOrder.SongSortOrder.SONG_Z_A -> dataSet[position].title
+			SortOrder.SongSortOrder.SONG_ALBUM -> dataSet[position].albumName
+			SortOrder.SongSortOrder.SONG_ARTIST -> dataSet[position].artistName
+			SortOrder.SongSortOrder.SONG_YEAR -> return MusicUtil.getYearString(dataSet[position].year)
+			SortOrder.SongSortOrder.COMPOSER -> dataSet[position].composer
+			else -> {
+				return ""
+			}
+		}
+		return MusicUtil.getSectionName(sectionName)
+	}
+
+	open inner class ViewHolder(itemView: View) : MediaEntryViewHolder(itemView) {
+		protected open var songMenuRes = SongMenuHelper.MENU_RES
+		protected open val song: Song
+			get() = dataSet[adapterPosition]
+
+		init {
+			setImageTransitionName(activity.getString(R.string.transition_album_art))
+			menu?.setOnClickListener(object : SongMenuHelper.OnClickSongMenu(activity) {
+				override val song: Song
+					get() = this@ViewHolder.song
+
+				override val menuRes: Int
+					get() = songMenuRes
+
+				override fun onMenuItemClick(item: Me
