@@ -170,4 +170,44 @@ open class SongAdapter(
 				override val menuRes: Int
 					get() = songMenuRes
 
-				override fun onMenuItemClick(item: Me
+				override fun onMenuItemClick(item: MenuItem): Boolean {
+					return onSongMenuItemClick(item) || super.onMenuItemClick(item)
+				}
+			})
+		}
+
+		protected open fun onSongMenuItemClick(item: MenuItem): Boolean {
+			if (image != null && image!!.visibility == View.VISIBLE) {
+				when (item.itemId) {
+					R.id.action_go_to_album -> {
+						val activityOptions = ActivityOptions.makeSceneTransitionAnimation(
+								activity,
+								imageContainerCard ?: image,
+								"${activity.getString(R.string.transition_album_art)}_${song.albumId}"
+						)
+						NavigationUtil.goToAlbumOptions(activity, song.albumId, activityOptions)
+						return true
+					}
+				}
+			}
+			return false
+		}
+
+		override fun onClick(v: View?) {
+			if (isInQuickSelectMode) {
+				toggleChecked(adapterPosition)
+			} else {
+				MusicPlayerRemote.openQueue(dataSet, adapterPosition, true)
+			}
+		}
+
+		override fun onLongClick(v: View?): Boolean {
+			return toggleChecked(adapterPosition)
+		}
+	}
+
+	companion object {
+
+		val TAG: String = SongAdapter::class.java.simpleName
+	}
+}
