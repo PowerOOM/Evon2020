@@ -91,4 +91,49 @@ open class SongAdapter(
 	private fun setColors(color: Int, holder: ViewHolder) {
 		if (holder.paletteColorContainer != null) {
 			holder.paletteColorContainer?.setBackgroundColor(color)
-			//holder.title?.setTextColor(MaterialValueHelper.getPrimaryTextColor(activity, C
+			//holder.title?.setTextColor(MaterialValueHelper.getPrimaryTextColor(activity, ColorUtil.isColorLight(color)))
+			//holder.text?.setTextColor(MaterialValueHelper.getSecondaryTextColor(activity, ColorUtil.isColorLight(color)))
+		}
+	}
+
+	protected open fun loadAlbumCover(song: Song, holder: ViewHolder) {
+		if (holder.image == null) {
+			return
+		}
+		SongGlideRequest.Builder.from(Glide.with(activity), song).checkIgnoreMediaStore(activity)
+			.generatePalette(activity).build()
+			.into(object : PlayerColoredTarget(holder.image!!) {
+				override fun onLoadCleared(placeholder: Drawable?) {
+					super.onLoadCleared(placeholder)
+					setColors(defaultFooterColor, holder)
+				}
+
+				override fun onColorReady(color: Int) {
+					if (usePalette) setColors(color, holder)
+					else setColors(defaultFooterColor, holder)
+				}
+			})
+	}
+
+	private fun getSongTitle(song: Song): String? {
+		return song.title
+	}
+
+	private fun getSongText(song: Song): String? {
+		return song.artistName
+	}
+
+	override fun getItemCount(): Int {
+		return dataSet.size
+	}
+
+	override fun getIdentifier(position: Int): Song? {
+		return dataSet[position]
+	}
+
+	override fun getName(song: Song): String {
+		return song.title
+	}
+
+	override fun onMultipleItemAction(menuItem: MenuItem, selection: ArrayList<Song>) {
+		SongsMenuHelper.handleMenuClick(activity, sel
