@@ -31,4 +31,42 @@ class AppShortcutLauncherActivity : Activity() {
 		when (shortcutType) {
 			SHORTCUT_TYPE_SHUFFLE_ALL -> {
 				startServiceWithPlaylist(
-						Musi
+						MusicService.SHUFFLE_MODE_SHUFFLE, ShuffleAllPlaylist(applicationContext)
+				)
+				DynamicShortcutManager.reportShortcutUsed(this, ShuffleAllShortcutType.id)
+			}
+			SHORTCUT_TYPE_TOP_SONGS  -> {
+				startServiceWithPlaylist(
+						MusicService.SHUFFLE_MODE_NONE, MyTopSongsPlaylist(applicationContext)
+				)
+				DynamicShortcutManager.reportShortcutUsed(this, TopSongsShortcutType.id)
+			}
+			SHORTCUT_TYPE_LAST_ADDED  -> {
+				startServiceWithPlaylist(
+						MusicService.SHUFFLE_MODE_NONE, LastAddedPlaylist(applicationContext)
+				)
+				DynamicShortcutManager.reportShortcutUsed(this, LastAddedShortcutType.id)
+			}
+			SHORTCUT_TYPE_SEARCH      -> {
+				startActivity(Intent(this, SearchActivity::class.java))
+				DynamicShortcutManager.reportShortcutUsed(this, SearchShortCutType.id)
+			}
+		}
+		finish()
+	}
+
+	private fun startServiceWithPlaylist(shuffleMode: Int, playlist: Playlist) {
+		val intent = Intent(this, MusicService::class.java)
+		intent.action = ACTION_PLAY_PLAYLIST
+
+		val bundle = Bundle()
+		bundle.putParcelable(INTENT_EXTRA_PLAYLIST, playlist)
+		bundle.putInt(INTENT_EXTRA_SHUFFLE_MODE, shuffleMode)
+
+		intent.putExtras(bundle)
+
+		startService(intent)
+	}
+
+	companion object {
+		const val KEY_SHORTCUT_TYPE = "com.maxfour.libreplayer.appshortcuts.ShortcutType"
