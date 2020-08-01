@@ -70,3 +70,10 @@ class AppShortcutLauncherActivity : Activity() {
 
 	companion object {
 		const val KEY_SHORTCUT_TYPE = "com.maxfour.libreplayer.appshortcuts.ShortcutType"
+		const val SHORTCUT_TYPE_SHUFFLE_ALL = 0
+		const val SHORTCUT_TYPE_TOP_SONGS = 1
+		const val SHORTCUT_TYPE_LAST_ADDED = 2
+		const val SHORTCUT_TYPE_SEARCH = 3
+		const val SHORTCUT_TYPE_NONE = 4
+	}
+}
