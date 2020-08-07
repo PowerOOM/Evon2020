@@ -23,4 +23,14 @@ abstract class BaseShortcutType(internal var context: Context) {
 		val intent = Intent(context, AppShortcutLauncherActivity::class.java)
 		intent.action = Intent.ACTION_VIEW
 		val b = Bundle()
-		b.putInt(AppShortcutLauncherActivity.KEY
+		b.putInt(AppShortcutLauncherActivity.KEY_SHORTCUT_TYPE, shortcutType)
+		intent.putExtras(b)
+		return intent
+	}
+
+	companion object {
+		internal const val ID_PREFIX = "com.maxfour.libreplayer.appshortcuts.id."
+		val id: String
+			get() = ID_PREFIX + "invalid"
+	}
+}
