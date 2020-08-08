@@ -9,24 +9,21 @@ import com.maxfour.libreplayer.appshortcuts.AppShortcutIconGenerator
 import com.maxfour.libreplayer.appshortcuts.AppShortcutLauncherActivity
 
 @TargetApi(Build.VERSION_CODES.N_MR1)
-class LastAddedShortcutType(context: Context) : BaseShortcutType(context) {
+class SearchShortCutType(context: Context) : BaseShortcutType(context) {
+	companion object {
+
+		val id: String
+			get() = BaseShortcutType.ID_PREFIX + "search"
+	}
 
 	override val shortcutInfo: ShortcutInfo
 		get() = ShortcutInfo.Builder(
 				context,
 				id
-		).setShortLabel(context.getString(R.string.app_shortcut_last_added_short)).setLongLabel(
-					context.getString(R.string.app_shortcut_last_added_long)
-			).setIcon(
+		).setShortLabel(context.getString(R.string.action_search)).setLongLabel(context.getString(R.string.search_hint)).setIcon(
 					AppShortcutIconGenerator.generateThemedIcon(
 							context,
-							R.drawable.ic_app_shortcut_last_added
+							R.drawable.ic_app_shortcut_search
 					)
-			).setIntent(getPlaySongsIntent(AppShortcutLauncherActivity.SHORTCUT_TYPE_LAST_ADDED)).build()
-
-	companion object {
-
-		val id: String
-			get() = BaseShortcutType.ID_PREFIX + "last_added"
-	}
+			).setIntent(getPlaySongsIntent(AppShortcutLauncherActivity.SHORTCUT_TYPE_SEARCH)).build()
 }
