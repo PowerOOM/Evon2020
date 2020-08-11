@@ -44,4 +44,43 @@ class AppWidgetBig : BaseAppWidget() {
 				PlayerUtil.getTintedVectorDrawable(
 						context,
 						com.maxfour.libreplayer.R.drawable.ic_skip_next_white_24dp,
-						MaterialValueHelper.
+						MaterialValueHelper.getPrimaryTextColor(context, false)
+				)!!, 1f
+		)
+		)
+		appWidgetView.setImageViewBitmap(
+				R.id.button_prev, BaseAppWidget.Companion.createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						context,
+						com.maxfour.libreplayer.R.drawable.ic_skip_previous_white_24dp,
+						MaterialValueHelper.getPrimaryTextColor(context, false)
+				)!!, 1f
+		)
+		)
+		appWidgetView.setImageViewBitmap(
+				R.id.button_toggle_play_pause, BaseAppWidget.Companion.createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						context,
+						com.maxfour.libreplayer.R.drawable.ic_play_arrow_white_32dp,
+						MaterialValueHelper.getPrimaryTextColor(context, false)
+				)!!, 1f
+		)
+		)
+
+		linkButtons(context, appWidgetView)
+		pushUpdate(context, appWidgetIds, appWidgetView)
+	}
+
+	/**
+	 * Update all active widget instances by pushing changes
+	 */
+	override fun performUpdate(service: MusicService, appWidgetIds: IntArray?) {
+		val appWidgetView = RemoteViews(
+				service.packageName, com.maxfour.libreplayer.R.layout.app_widget_big
+		)
+
+		val isPlaying = service.isPlaying
+		val song = service.currentSong
+
+		// Set the titles and artwork
+		if (TextUtils.isEmpty(song.ti
