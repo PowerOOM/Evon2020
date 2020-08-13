@@ -83,4 +83,39 @@ class AppWidgetBig : BaseAppWidget() {
 		val song = service.currentSong
 
 		// Set the titles and artwork
-		if (TextUtils.isEmpty(song.ti
+		if (TextUtils.isEmpty(song.title) && TextUtils.isEmpty(song.artistName)) {
+			appWidgetView.setViewVisibility(
+					com.maxfour.libreplayer.R.id.media_titles,
+					View.INVISIBLE
+			)
+		} else {
+			appWidgetView.setViewVisibility(
+					com.maxfour.libreplayer.R.id.media_titles,
+					View.VISIBLE
+			)
+			appWidgetView.setTextViewText(com.maxfour.libreplayer.R.id.title, song.title)
+			appWidgetView.setTextViewText(
+					com.maxfour.libreplayer.R.id.text,
+					getSongArtistAndAlbum(song)
+			)
+		}
+
+		// Set correct drawable for pause state
+		val playPauseRes = if (isPlaying) com.maxfour.libreplayer.R.drawable.ic_pause_white_24dp else com.maxfour.libreplayer.R.drawable.ic_play_arrow_white_32dp
+		appWidgetView.setImageViewBitmap(
+				R.id.button_toggle_play_pause, BaseAppWidget.createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						service,
+						playPauseRes,
+						MaterialValueHelper.getPrimaryTextColor(service, false)
+				)!!, 1f
+		)
+		)
+
+		// Set prev/next button drawables
+		appWidgetView.setImageViewBitmap(
+				R.id.button_next, BaseAppWidget.Companion.createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						service,
+						com.maxfour.libreplayer.R.drawable.ic_skip_next_white_24dp,
+						MaterialValueHelper.getPrimaryTextColor(service, 
