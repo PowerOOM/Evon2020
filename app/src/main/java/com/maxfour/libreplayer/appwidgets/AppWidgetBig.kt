@@ -196,4 +196,24 @@ class AppWidgetBig : BaseAppWidget() {
 		views.setOnClickPendingIntent(R.id.button_toggle_play_pause, pendingIntent)
 
 		// Next track
-		pendingIntent 
+		pendingIntent = buildPendingIntent(context, ACTION_SKIP, serviceName)
+		views.setOnClickPendingIntent(R.id.button_next, pendingIntent)
+
+
+	}
+
+	companion object {
+
+		const val NAME: String = "app_widget_big"
+		private var mInstance: AppWidgetBig? = null
+
+		val instance: AppWidgetBig
+			@Synchronized get() {
+				if (mInstance == null) {
+					mInstance = AppWidgetBig()
+				}
+				return mInstance!!
+			}
+
+	}
+}
