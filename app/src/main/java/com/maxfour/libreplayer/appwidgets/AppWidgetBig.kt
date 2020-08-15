@@ -118,4 +118,45 @@ class AppWidgetBig : BaseAppWidget() {
 				PlayerUtil.getTintedVectorDrawable(
 						service,
 						com.maxfour.libreplayer.R.drawable.ic_skip_next_white_24dp,
-						MaterialValueHelper.getPrimaryTextColor(service, 
+						MaterialValueHelper.getPrimaryTextColor(service, false)
+				)!!, 1f
+		)
+		)
+		appWidgetView.setImageViewBitmap(
+				R.id.button_prev, BaseAppWidget.Companion.createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						service,
+						com.maxfour.libreplayer.R.drawable.ic_skip_previous_white_24dp,
+						MaterialValueHelper.getPrimaryTextColor(service, false)
+				)!!, 1f
+		)
+		)
+
+		// Link actions buttons to intents
+		linkButtons(service, appWidgetView)
+
+		// Load the album cover async and push the update on completion
+		val p = PlayerUtil.getScreenSize(service)
+		val widgetImageSize = Math.min(p.x, p.y)
+		val appContext = service.applicationContext
+		service.runOnUiThread {
+			if (target != null) {
+				Glide.clear(target)
+			}
+			target = SongGlideRequest.Builder.from(Glide.with(appContext), song)
+					.checkIgnoreMediaStore(appContext).asBitmap().build()
+					.into(object : SimpleTarget<Bitmap>(widgetImageSize, widgetImageSize) {
+						override fun onResourceReady(
+								resource: Bitmap,
+								glideAnimation: GlideAnimation<in Bitmap>
+						) {
+							update(resource)
+						}
+
+						override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
+							super.onLoadFailed(e, errorDrawable)
+							update(null)
+						}
+
+						private fun update(bitmap: Bitmap?) {
+							if (bitmap == 
