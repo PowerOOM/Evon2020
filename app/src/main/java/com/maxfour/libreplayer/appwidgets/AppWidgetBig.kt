@@ -159,4 +159,41 @@ class AppWidgetBig : BaseAppWidget() {
 						}
 
 						private fun update(bitmap: Bitmap?) {
-							if (bitmap == 
+							if (bitmap == null) {
+								appWidgetView.setImageViewResource(
+										R.id.image,
+										R.drawable.default_album_art
+								)
+							} else {
+								appWidgetView.setImageViewBitmap(R.id.image, bitmap)
+							}
+							pushUpdate(appContext, appWidgetIds, appWidgetView)
+						}
+					});
+		}
+	}
+
+	/**
+	 * Link up various button actions using [PendingIntent].
+	 */
+	private fun linkButtons(context: Context, views: RemoteViews) {
+		val action = Intent(context, MainActivity::class.java).putExtra("expand", true)
+		var pendingIntent: PendingIntent
+
+		val serviceName = ComponentName(context, MusicService::class.java)
+
+		// Home
+		action.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+		pendingIntent = PendingIntent.getActivity(context, 0, action, 0)
+		views.setOnClickPendingIntent(R.id.clickable_area, pendingIntent)
+
+		// Previous track
+		pendingIntent = buildPendingIntent(context, ACTION_REWIND, serviceName)
+		views.setOnClickPendingIntent(R.id.button_prev, pendingIntent)
+
+		// Play and pause
+		pendingIntent = buildPendingIntent(context, ACTION_TOGGLE_PAUSE, serviceName)
+		views.setOnClickPendingIntent(R.id.button_toggle_play_pause, pendingIntent)
+
+		// Next track
+		pendingIntent 
