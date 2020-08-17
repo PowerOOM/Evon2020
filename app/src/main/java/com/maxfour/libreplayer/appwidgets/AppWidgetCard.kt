@@ -49,4 +49,44 @@ class AppWidgetCard : BaseAppWidget() {
 		)
 		appWidgetView.setImageViewBitmap(
 				R.id.button_prev, createBitmap(
-				PlayerUtil.getTintedVector
+				PlayerUtil.getTintedVectorDrawable(
+						context,
+						R.drawable.ic_skip_previous_white_24dp,
+						MaterialValueHelper.getSecondaryTextColor(
+								context, true
+						)
+				)!!, 1f
+		)
+		)
+		appWidgetView.setImageViewBitmap(
+				R.id.button_toggle_play_pause, createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						context,
+						R.drawable.ic_play_arrow_white_32dp,
+						MaterialValueHelper.getSecondaryTextColor(
+								context, true
+						)
+				)!!, 1f
+		)
+		)
+
+		linkButtons(context, appWidgetView)
+		pushUpdate(context, appWidgetIds, appWidgetView)
+	}
+
+	/**
+	 * Update all active widget instances by pushing changes
+	 */
+	override fun performUpdate(service: MusicService, appWidgetIds: IntArray?) {
+		val appWidgetView = RemoteViews(service.packageName, R.layout.app_widget_card)
+
+		val isPlaying = service.isPlaying
+		val song = service.currentSong
+
+		// Set the titles and artwork
+		if (TextUtils.isEmpty(song.title) && TextUtils.isEmpty(song.artistName)) {
+			appWidgetView.setViewVisibility(R.id.media_titles, View.INVISIBLE)
+		} else {
+			appWidgetView.setViewVisibility(R.id.media_titles, View.VISIBLE)
+			appWidgetView.setTextViewText(R.id.title, song.title)
+			appWidgetView.setTextViewText(R.id.text, getSongArtistAndAlbum(song)
