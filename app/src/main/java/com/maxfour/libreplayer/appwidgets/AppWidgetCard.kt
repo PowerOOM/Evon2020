@@ -89,4 +89,46 @@ class AppWidgetCard : BaseAppWidget() {
 		} else {
 			appWidgetView.setViewVisibility(R.id.media_titles, View.VISIBLE)
 			appWidgetView.setTextViewText(R.id.title, song.title)
-			appWidgetView.setTextViewText(R.id.text, getSongArtistAndAlbum(song)
+			appWidgetView.setTextViewText(R.id.text, getSongArtistAndAlbum(song))
+		}
+
+		// Set correct drawable for pause state
+		val playPauseRes = if (isPlaying) R.drawable.ic_pause_white_24dp else R.drawable.ic_play_arrow_white_32dp
+		appWidgetView.setImageViewBitmap(
+				R.id.button_toggle_play_pause, createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						service,
+						playPauseRes,
+						MaterialValueHelper.getSecondaryTextColor(service, true)
+				)!!, 1f
+		)
+		)
+
+		// Set prev/next button drawables
+		appWidgetView.setImageViewBitmap(
+				R.id.button_next, createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						service,
+						R.drawable.ic_skip_next_white_24dp,
+						MaterialValueHelper.getSecondaryTextColor(service, true)
+				)!!, 1f
+		)
+		)
+		appWidgetView.setImageViewBitmap(
+				R.id.button_prev, createBitmap(
+				PlayerUtil.getTintedVectorDrawable(
+						service,
+						R.drawable.ic_skip_previous_white_24dp,
+						MaterialValueHelper.getSecondaryTextColor(service, true)
+				)!!, 1f
+		)
+		)
+
+		// Link actions buttons to intents
+		linkButtons(service, appWidgetView)
+
+		if (imageSize == 0) {
+			imageSize = service.resources.getDimensionPixelSize(com.maxfour.libreplayer.R.dimen.app_widget_card_image_size)
+		}
+		if (cardRadius == 0f) {
+			cardRadius = service.resources.getDimension(com.maxfour.libreplayer.R.dimen.app_widget_card_radi
