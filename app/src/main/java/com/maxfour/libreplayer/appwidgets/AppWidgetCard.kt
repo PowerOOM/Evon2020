@@ -131,4 +131,39 @@ class AppWidgetCard : BaseAppWidget() {
 			imageSize = service.resources.getDimensionPixelSize(com.maxfour.libreplayer.R.dimen.app_widget_card_image_size)
 		}
 		if (cardRadius == 0f) {
-			cardRadius = service.resources.getDimension(com.maxfour.libreplayer.R.dimen.app_widget_card_radi
+			cardRadius = service.resources.getDimension(com.maxfour.libreplayer.R.dimen.app_widget_card_radius)
+		}
+		val appContext = service.applicationContext
+		// Load the album cover async and push the update on completion
+		service.runOnUiThread {
+			if (target != null) {
+				Glide.clear(target)
+			}
+			target = SongGlideRequest.Builder.from(Glide.with(service), song)
+				.checkIgnoreMediaStore(service).generatePalette(service).build().centerCrop()
+				.into(object : SimpleTarget<BitmapPaletteWrapper>(imageSize, imageSize) {
+					override fun onResourceReady(
+							resource: BitmapPaletteWrapper,
+							glideAnimation: GlideAnimation<in BitmapPaletteWrapper>
+					) {
+						val palette = resource.palette
+						update(
+								resource.bitmap, palette.getVibrantColor(
+								palette.getMutedColor(
+										MaterialValueHelper.getSecondaryTextColor(
+												service, true
+										)
+								)
+						)
+						)
+					}
+
+					override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
+						super.onLoadFailed(e, errorDrawable)
+						update(null, MaterialValueHelper.getSecondaryTextColor(service, true))
+					}
+
+					private fun update(bitmap: Bitmap?, color: Int) {
+						// Set correct drawable for pause state
+						appWidgetView.setImageViewBitmap(
+								R.id.button
