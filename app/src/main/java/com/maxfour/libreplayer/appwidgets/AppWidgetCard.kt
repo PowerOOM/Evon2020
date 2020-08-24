@@ -166,4 +166,46 @@ class AppWidgetCard : BaseAppWidget() {
 					private fun update(bitmap: Bitmap?, color: Int) {
 						// Set correct drawable for pause state
 						appWidgetView.setImageViewBitmap(
-								R.id.button
+								R.id.button_toggle_play_pause, ImageUtil.createBitmap(
+								ImageUtil.getTintedVectorDrawable(
+										service, playPauseRes, color
+								)
+						)
+						)
+
+						// Set prev/next button drawables
+						appWidgetView.setImageViewBitmap(
+								R.id.button_next, ImageUtil.createBitmap(
+								ImageUtil.getTintedVectorDrawable(
+										service, R.drawable.ic_skip_next_white_24dp, color
+								)
+						)
+						)
+						appWidgetView.setImageViewBitmap(
+								R.id.button_prev, ImageUtil.createBitmap(
+								ImageUtil.getTintedVectorDrawable(
+										service, R.drawable.ic_skip_previous_white_24dp, color
+								)
+						)
+						)
+
+						val image = getAlbumArtDrawable(service.resources, bitmap)
+						val roundedBitmap = createRoundedBitmap(
+								image, imageSize, imageSize, cardRadius, 0F, cardRadius, 0F
+						)
+						appWidgetView.setImageViewBitmap(R.id.image, roundedBitmap)
+
+						pushUpdate(service, appWidgetIds, appWidgetView)
+					}
+				})
+		}
+	}
+
+	/**
+	 * Link up various button actions using [PendingIntent].
+	 */
+	private fun linkButtons(context: Context, views: RemoteViews) {
+		val action: Intent = Intent(context, MainActivity::class.java).putExtra("expand", true)
+		var pendingIntent: PendingIntent
+
+		val ser
