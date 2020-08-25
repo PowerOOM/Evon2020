@@ -16,4 +16,25 @@ import javax.inject.Singleton
 )
 interface MusicComponent {
 
-    fun
+    fun inject(songsFragment: SongsFragment)
+
+    fun inject(albumsFragment: AlbumsFragment)
+
+    fun inject(artistsFragment: ArtistsFragment)
+
+    fun inject(genresFragment: GenresFragment)
+
+    fun inject(playlistsFragment: PlaylistsFragment)
+
+    fun inject(artistDetailActivity: ArtistDetailActivity)
+
+    fun inject(albumDetailsActivity: AlbumDetailsActivity)
+
+    fun inject(playlistDetailActivity: PlaylistDetailActivity)
+
+    fun inject(genreDetailsActivity: GenreDetailsActivity)
+
+    fun inject(searchActivity: SearchActivity)
+
+    fun inject(bannerHomeFragment: BannerHomeFragment)
+}
