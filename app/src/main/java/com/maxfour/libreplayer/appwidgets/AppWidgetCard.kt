@@ -208,4 +208,41 @@ class AppWidgetCard : BaseAppWidget() {
 		val action: Intent = Intent(context, MainActivity::class.java).putExtra("expand", true)
 		var pendingIntent: PendingIntent
 
-		val ser
+		val serviceName = ComponentName(context, MusicService::class.java)
+
+		// Home
+		action.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+		pendingIntent = PendingIntent.getActivity(context, 0, action, 0)
+		views.setOnClickPendingIntent(R.id.image, pendingIntent)
+		views.setOnClickPendingIntent(R.id.media_titles, pendingIntent)
+
+		// Previous song
+		pendingIntent = buildPendingIntent(context, ACTION_REWIND, serviceName)
+		views.setOnClickPendingIntent(R.id.button_prev, pendingIntent)
+
+		// Play and pause
+		pendingIntent = buildPendingIntent(context, ACTION_TOGGLE_PAUSE, serviceName)
+		views.setOnClickPendingIntent(R.id.button_toggle_play_pause, pendingIntent)
+
+		// Next song
+		pendingIntent = buildPendingIntent(context, ACTION_SKIP, serviceName)
+		views.setOnClickPendingIntent(R.id.button_next, pendingIntent)
+	}
+
+	companion object {
+
+		const val NAME = "app_widget_card"
+
+		private var mInstance: AppWidgetCard? = null
+		private var imageSize = 0
+		private var cardRadius = 0f
+
+		val instance: AppWidgetCard
+			@Synchronized get() {
+				if (mInstance == null) {
+					mInstance = AppWidgetCard()
+				}
+				return mInstance!!
+			}
+	}
+}
