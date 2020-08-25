@@ -17,4 +17,23 @@ class BootReceiver : BroadcastReceiver() {
 						ComponentName(
 								context, AppWidgetBig::class.java
 						)
-				).isNotEmpt
+				).isNotEmpty() || widgetManager.getAppWidgetIds(
+						ComponentName(
+								context, AppWidgetClassic::class.java
+						)
+				).isNotEmpty() || widgetManager.getAppWidgetIds(
+						ComponentName(
+								context, AppWidgetSmall::class.java
+						)
+				).isNotEmpty() || widgetManager.getAppWidgetIds(
+						ComponentName(
+								context, AppWidgetCard::class.java
+						)
+				).isNotEmpty()) {
+			val serviceIntent = Intent(context, MusicService::class.java)
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) { // not allowed on Oreo
+				context.startService(serviceIntent)
+			}
+		}
+	}
+}
