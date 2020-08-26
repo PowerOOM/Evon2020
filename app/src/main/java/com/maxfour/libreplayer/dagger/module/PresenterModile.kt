@@ -21,3 +21,45 @@ import com.maxfour.libreplayer.mvp.presenter.PlaylistsPresenter
 import com.maxfour.libreplayer.mvp.presenter.PlaylistsPresenter.PlaylistsPresenterImpl
 import com.maxfour.libreplayer.mvp.presenter.SearchPresenter
 import com.maxfour.libreplayer.mvp.presenter.SearchPresenter.SearchPresenterImpl
+import com.maxfour.libreplayer.mvp.presenter.SongPresenter
+import com.maxfour.libreplayer.mvp.presenter.SongPresenter.SongPresenterImpl
+import com.maxfour.libreplayer.providers.RepositoryImpl
+import com.maxfour.libreplayer.providers.interfaces.Repository
+import dagger.Module
+import dagger.Provides
+
+@Module
+class PresenterModule {
+
+    @Provides
+    fun providesRepository(context: Context): Repository {
+        return RepositoryImpl(context)
+    }
+
+    @Provides
+    fun providesAlbumsPresenter(presenter: AlbumsPresenterImpl): AlbumsPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesAlbumDetailsPresenter(presenter: AlbumDetailsPresenterImpl): AlbumDetailsPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesArtistDetailsPresenter(presenter: ArtistDetailsPresenterImpl): ArtistDetailsPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesArtistsPresenter(presenter: ArtistsPresenterImpl): ArtistsPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesGenresPresenter(presenter: GenresPresenterImpl): GenresPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesGenreDetailsPresenter(presenter: GenreDetailsPresenterImpl): Gen
