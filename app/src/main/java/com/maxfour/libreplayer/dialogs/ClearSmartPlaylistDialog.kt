@@ -24,4 +24,24 @@ class ClearSmartPlaylistDialog : DialogFragment() {
             title(title)
             cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
             message(text = content)
- 
+            positiveButton(R.string.clear_action) {
+                if (activity == null) {
+                    return@positiveButton
+                }
+                playlist.clear(activity!!)
+            }
+            negativeButton { (android.R.string.cancel) }
+        }
+    }
+
+    companion object {
+
+        fun create(playlist: AbsSmartPlaylist): ClearSmartPlaylistDialog {
+            val dialog = ClearSmartPlaylistDialog()
+            val args = Bundle()
+            args.putParcelable("playlist", playlist)
+            dialog.arguments = args
+            return dialog
+        }
+    }
+}
