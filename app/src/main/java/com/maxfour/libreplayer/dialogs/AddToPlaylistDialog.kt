@@ -26,4 +26,35 @@ class AddToPlaylistDialog : DialogFragment() {
         }
 
         return MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
-            title
+            title(R.string.add_playlist_title)
+            cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
+            listItems(items = playlistNames) { dialog, index, _ ->
+                val songs = arguments!!.getParcelableArrayList<Song>("songs") ?: return@listItems
+                if (index == 0) {
+                    dialog.dismiss()
+                    activity?.supportFragmentManager?.let { CreatePlaylistDialog.create(songs).show(it, "ADD_TO_PLAYLIST") }
+                } else {
+                    dialog.dismiss()
+                    PlaylistsUtil.addToPlaylist(requireContext(), songs, playlists[index - 1].id, true)
+                }
+            }
+        }
+    }
+
+    companion object {
+
+        fun create(song: Song): AddToPlaylistDialog {
+            val list = ArrayList<Song>()
+            list.add(song)
+            return create(list)
+        }
+
+        fun create(songs: ArrayList<Song>): AddToPlaylistDialog {
+            val dialog = AddToPlaylistDialog()
+            val args = Bundle()
+            args.putParcelableArrayList("songs", songs)
+            dialog.arguments = args
+            return dialog
+        }
+    }
+}
