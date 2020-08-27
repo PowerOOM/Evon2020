@@ -31,4 +31,33 @@ class OptionsSheetDialogFragment : DialogFragment(), View.OnClickListener {
     private lateinit var actionSettings: OptionMenuItemView
     private lateinit var actionLibrary: OptionMenuItemView
     private lateinit var actionFolders: OptionMenuItemView
-    private lateinit var materialDialog
+    private lateinit var materialDialog: MaterialDialog
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        val layout = LayoutInflater.from(context).inflate(R.layout.fragment_main_options, null)
+        actionSettings = layout.findViewById(R.id.actionSettings)
+        actionLibrary = layout.findViewById(R.id.actionLibrary)
+        actionFolders = layout.findViewById(R.id.actionFolders)
+
+
+        when (arguments?.getInt(WHICH_ONE)) {
+            LIBRARY -> actionLibrary.isSelected = true
+            FOLDER -> actionFolders.isSelected = true
+        }
+
+        actionSettings.setOnClickListener(this)
+        actionLibrary.setOnClickListener(this)
+        actionFolders.setOnClickListener(this)
+
+        materialDialog = MaterialDialog(requireActivity(), BottomSheet(LayoutMode.WRAP_CONTENT))
+                .show {
+                    icon(R.mipmap.ic_music)
+                    title(R.string.app_name)
+                    customView(view = layout, scrollable = true)
+                    cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
+                }
+        return materialDialog
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
