@@ -62,4 +62,32 @@ class PresenterModule {
     }
 
     @Provides
-    fun providesGenreDetailsPresenter(presenter: GenreDetailsPresenterImpl): Gen
+    fun providesGenreDetailsPresenter(presenter: GenreDetailsPresenterImpl): GenreDetailsPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesHomePresenter(presenter: HomePresenterImpl): HomePresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesPlaylistSongPresenter(presenter: PlaylistSongsPresenterImpl): PlaylistSongsPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesPlaylistsPresenter(presenter: PlaylistsPresenterImpl): PlaylistsPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesSearchPresenter(presenter: SearchPresenterImpl): SearchPresenter {
+        return presenter
+    }
+
+    @Provides
+    fun providesSongPresenter(presenter: SongPresenterImpl): SongPresenter {
+        return presenter
+    }
+}
