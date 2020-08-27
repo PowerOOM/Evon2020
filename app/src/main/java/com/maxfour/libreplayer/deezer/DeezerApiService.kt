@@ -52,4 +52,17 @@ interface DeezerApiService {
             return null
         }
 
-        private fun createCacheControlInt
+        private fun createCacheControlInterceptor(): Interceptor {
+            return Interceptor { chain ->
+                val modifiedRequest = chain.request().newBuilder()
+                        .addHeader("Cache-Control",
+                                String.format(
+                                        Locale.getDefault(),
+                                        "max-age=31536000, max-stale=31536000"
+                                )
+                        ).build()
+                chain.proceed(modifiedRequest)
+            }
+        }
+    }
+}
