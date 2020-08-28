@@ -60,4 +60,33 @@ class OptionsSheetDialogFragment : DialogFragment(), View.OnClickListener {
         return materialDialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        dialog?.window?.let {
+            (requireActivity() as MainActivity).setNavigationbarColorAuto()
+            (requireActivity() as MainActivity).setLightNavigationBar(true)
+        }
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    companion object {
+
+        private const val WHICH_ONE = "which_one"
+        @JvmField
+        var LIBRARY: Int = 0
+        @JvmField
+        var FOLDER: Int = 1
+
+        fun newInstance(selectedId: Int): OptionsSheetDialogFragment {
+            val bundle = Bundle()
+            bundle.putInt(WHICH_ONE, selectedId)
+            val fragment = OptionsSheetDialogFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+
+        fun newInstance(): OptionsSheetDialogFragment {
+            return OptionsSheetDialogFragment()
+        }
+    }
+}
