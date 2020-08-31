@@ -59,4 +59,27 @@ class SleepTimerDialog : DialogFragment() {
                     val am = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextSleepTimerElapsedTime, pi)
 
-                    Toast.makeText(activity, activity!!.resources.getQuantityString(R.plurals.sleep_timer_set, min
+                    Toast.makeText(activity, activity!!.resources.getQuantityString(R.plurals.sleep_timer_set, minutes, minutes), Toast.LENGTH_SHORT).show()
+                }
+                .negativeButton(android.R.string.cancel) {
+                    if (activity == null) {
+                        return@negativeButton
+                    }
+                    val previous = makeTimerPendingIntent(PendingIntent.FLAG_NO_CREATE)
+                    if (previous != null) {
+                        val am = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        am.cancel(previous)
+                        previous.cancel()
+                        Toast.makeText(activity, activity!!.resources.getString(R.string.sleep_timer_canceled), Toast.LENGTH_SHORT).show()
+                    }
+
+                    val musicService = MusicPlayerRemote.musicService
+                    if (musicService != null && musicService.pendingQuit) {
+                        musicService.pendingQuit = false
+                        Toast.makeText(activity, activity!!.resources.getString(R.string.sleep_timer_canceled), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .customView(R.layout.dialog_sleep_timer, scrollable = false)
+                .show {
+                    onShow {
+                     
