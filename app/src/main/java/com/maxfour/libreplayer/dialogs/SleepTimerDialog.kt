@@ -110,4 +110,43 @@ class SleepTimerDialog : DialogFragment() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 if (i < 1) {
-            
+                    seekBar.progress = 1
+                    return
+                }
+                seekArcProgress = i
+                updateTimeDisplayTime()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                PreferenceUtil.getInstance(requireContext()).lastSleepTimerValue = seekArcProgress
+            }
+        })
+
+        return materialDialog
+    }
+
+    private fun updateTimeDisplayTime() {
+        timerDisplay.text = "$seekArcProgress min"
+    }
+
+
+    private fun makeTimerPendingIntent(flag: Int): PendingIntent? {
+        return PendingIntent.getService(activity, 0, makeTimerIntent(), flag)
+    }
+
+    private fun makeTimerIntent(): Intent {
+        val intent = Intent(activity, MusicService::class.java)
+        return if (shouldFinishLastSong.isChecked) {
+            intent.setAction(ACTION_PENDING_QUIT)
+        } else intent.setAction(ACTION_QUIT)
+    }
+
+
+    private fun updateCancelButton() {
+        val musicService = MusicPlayerRemote.musicService
+        if (musicService != null && musicService.pendingQuit) {
+            materialDialog.getActionButton(WhichButton.NEGATIVE).text = materialDialog.con
