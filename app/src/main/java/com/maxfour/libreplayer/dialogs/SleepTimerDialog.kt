@@ -149,4 +149,26 @@ class SleepTimerDialog : DialogFragment() {
     private fun updateCancelButton() {
         val musicService = MusicPlayerRemote.musicService
         if (musicService != null && musicService.pendingQuit) {
-            materialDialog.getActionButton(WhichButton.NEGATIVE).text = materialDialog.con
+            materialDialog.getActionButton(WhichButton.NEGATIVE).text = materialDialog.context.getString(R.string.cancel_current_timer)
+        } else {
+            materialDialog.getActionButton(WhichButton.NEGATIVE).text = null
+        }
+    }
+
+    private inner class TimerUpdater internal constructor() : CountDownTimer(PreferenceUtil.getInstance(requireContext()).nextSleepTimerElapsedRealTime - SystemClock.elapsedRealtime(), 1000) {
+
+        override fun onTick(millisUntilFinished: Long) {
+            materialDialog.getActionButton(WhichButton.NEGATIVE).text =
+                    String.format("%s %s", materialDialog.context.getString(R.string.cancel_current_timer),
+                            " (" + MusicUtil.getReadableDurationString(millisUntilFinished) + ")")
+        }
+
+        override fun onFinish() {
+            updateCancelButton()
+        }
+    }
+
+    private fun setProgressBarColor(dark: Int) {
+        ViewUtil.setProgressDrawable(progressSlider = seekBar, newColor = dark)
+    }
+}
