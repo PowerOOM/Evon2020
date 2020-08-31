@@ -12,4 +12,30 @@ import android.widget.CheckBox
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Dialo
+import androidx.fragment.app.DialogFragment
+import com.afollestad.materialdialogs.LayoutMode
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.WhichButton
+import com.afollestad.materialdialogs.actions.getActionButton
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.callbacks.onShow
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
+import com.maxfour.appthemehelper.ThemeStore
+import com.maxfour.appthemehelper.util.TintHelper
+import com.maxfour.libreplayer.R
+import com.maxfour.libreplayer.helper.MusicPlayerRemote
+import com.maxfour.libreplayer.service.MusicService
+import com.maxfour.libreplayer.service.MusicService.ACTION_PENDING_QUIT
+import com.maxfour.libreplayer.service.MusicService.ACTION_QUIT
+import com.maxfour.libreplayer.util.MusicUtil
+import com.maxfour.libreplayer.util.PreferenceUtil
+import com.maxfour.libreplayer.util.ViewUtil
+
+class SleepTimerDialog : DialogFragment() {
+
+    private var seekArcProgress: Int = 0
+    private lateinit var timerUpdater: TimerUpdater
+    private lateinit var materialDialog: MaterialDialog
+    private lateinit var shouldFinishLastSong: CheckBox
+    private 
