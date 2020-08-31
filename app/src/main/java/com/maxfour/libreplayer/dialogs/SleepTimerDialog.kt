@@ -82,4 +82,32 @@ class SleepTimerDialog : DialogFragment() {
                 .customView(R.layout.dialog_sleep_timer, scrollable = false)
                 .show {
                     onShow {
-                     
+                        if (makeTimerPendingIntent(PendingIntent.FLAG_NO_CREATE) != null) {
+                            timerUpdater.start()
+                        }
+                    }
+                }
+
+        if (activity == null || materialDialog.getCustomView() == null) {
+            return materialDialog
+        }
+
+        shouldFinishLastSong = materialDialog.getCustomView().findViewById(R.id.shouldFinishLastSong)
+        seekBar = materialDialog.getCustomView().findViewById(R.id.seekBar)
+        timerDisplay = materialDialog.getCustomView().findViewById(R.id.timerDisplay)
+        TintHelper.setTintAuto(shouldFinishLastSong, ThemeStore.accentColor(requireContext()), false)
+
+        val finishMusic = PreferenceUtil.getInstance(requireContext()).sleepTimerFinishMusic
+        shouldFinishLastSong.isChecked = finishMusic
+
+
+        seekArcProgress = PreferenceUtil.getInstance(requireContext()).lastSleepTimerValue
+        updateTimeDisplayTime()
+        seekBar.progress = seekArcProgress
+
+        setProgressBarColor(ThemeStore.accentColor(requireContext()))
+
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                if (i < 1) {
+            
