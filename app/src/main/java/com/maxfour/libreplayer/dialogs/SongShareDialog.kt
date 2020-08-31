@@ -25,4 +25,32 @@ class SongShareDialog : DialogFragment() {
                     listItems(items = listOf(getString(com.maxfour.libreplayer.R.string.the_audio_file), "\u201C" + currentlyListening + "\u201D")) { dialog, index, text ->
                         when (index) {
                             0 -> {
-                                start
+                                startActivity(Intent.createChooser(song?.let { MusicUtil.createShareSongFileIntent(it, context) }, null))
+                            }
+                            1 -> {
+                                activity!!.startActivity(
+                                        Intent.createChooser(
+                                                Intent()
+                                                        .setAction(Intent.ACTION_SEND)
+                                                        .putExtra(Intent.EXTRA_TEXT, currentlyListening)
+                                                        .setType("text/plain"),
+                                                null
+                                        )
+                                )
+                            }
+                        }
+                    }
+                }
+    }
+
+    companion object {
+
+        fun create(song: Song): SongShareDialog {
+            val dialog = SongShareDialog()
+            val args = Bundle()
+            args.putParcelable("song", song)
+            dialog.arguments = args
+            return dialog
+        }
+    }
+}
