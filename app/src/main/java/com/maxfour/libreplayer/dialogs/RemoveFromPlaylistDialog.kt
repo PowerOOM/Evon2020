@@ -36,4 +36,29 @@ class RemoveFromPlaylistDialog : DialogFragment() {
                     message(text = content)
                     negativeButton(android.R.string.cancel)
                     positiveButton(R.string.remove_action) {
-                        if (activit
+                        if (activity == null)
+                            return@positiveButton
+                        PlaylistsUtil.removeFromPlaylist(activity!!, songs as MutableList<PlaylistSong>)
+                    }
+                    cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
+                }
+
+    }
+
+    companion object {
+
+        fun create(song: PlaylistSong): RemoveFromPlaylistDialog {
+            val list = ArrayList<PlaylistSong>()
+            list.add(song)
+            return create(list)
+        }
+
+        fun create(songs: ArrayList<PlaylistSong>): RemoveFromPlaylistDialog {
+            val dialog = RemoveFromPlaylistDialog()
+            val args = Bundle()
+            args.putParcelableArrayList("songs", songs)
+            dialog.arguments = args
+            return dialog
+        }
+    }
+}
