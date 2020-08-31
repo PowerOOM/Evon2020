@@ -38,4 +38,25 @@ class SleepTimerDialog : DialogFragment() {
     private lateinit var timerUpdater: TimerUpdater
     private lateinit var materialDialog: MaterialDialog
     private lateinit var shouldFinishLastSong: CheckBox
-    private 
+    private lateinit var seekBar: SeekBar
+    private lateinit var timerDisplay: TextView
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        timerUpdater = TimerUpdater()
+
+        materialDialog = MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT))
+                .title(R.string.action_sleep_timer)
+                .cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
+                .positiveButton(R.string.action_set) {
+                    PreferenceUtil.getInstance(requireContext()).sleepTimerFinishMusic = shouldFinishLastSong.isChecked
+
+                    val minutes = seekArcProgress
+
+                    val pi = makeTimerPendingIntent(PendingIntent.FLAG_CANCEL_CURRENT)
+
+                    val nextSleepTimerElapsedTime = SystemClock.elapsedRealtime() + minutes * 60 * 1000
+                    PreferenceUtil.getInstance(requireContext()).setNextSleepTimerElapsedRealtime(nextSleepTimerElapsedTime)
+                    val am = activity!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextSleepTimerElapsedTime, pi)
+
+                    Toast.makeText(activity, activity!!.resources.getQuantityString(R.plurals.sleep_timer_set, min
