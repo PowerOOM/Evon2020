@@ -17,4 +17,7 @@ fun Any.surfaceColor(context: Context): Int {
 }
 
 fun Toolbar.backgroundTintList() {
-    val surfaceColor = ATHUtil.resolveColor(context,
+    val surfaceColor = ATHUtil.resolveColor(context, R.attr.colorSurface, Color.BLACK)
+    val colorStateList = ColorStateList.valueOf(surfaceColor)
+    backgroundTintList = colorStateList
+}
