@@ -31,4 +31,30 @@ open class MiniPlayerFragment : AbsMusicServiceFragment(), MusicProgressViewUpda
         progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: View
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_mini_player, container, false)
+    }
+
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.actionPlayingQueue -> NavigationUtil.goToPlayingQueue(requireActivity())
+            R.id.actionNext -> MusicPlayerRemote.playNextSong()
+            R.id.actionPrevious -> MusicPlayerRemote.back()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.setOnTouchListener(FlingPlayBackController(requireContext()))
+        setUpMiniPlayer()
+
+        if (PlayerUtil.isTablet()) {
+            actionNext.visibility = View.VISIBLE
+            actionPrevious.visibility = View.VISIBLE
+            actionNext?.visibility = View.VISIBLE
+            actionPrevious?.visibility = View.VISIBLE
+            actionPlayingQueue.visibility = View.VISIBLE
+        } else {
+            actionNext.visibility = if (PreferenceUtil.getInstance(requireContext()).isExtraControls) View.VISIBLE else View.GONE
+            actionPlayingQueue.visibility = if (PreferenceUtil.getInstance(requireContext()).isExtraControls) View.GONE else View.VISIBLE
+            act
