@@ -93,4 +93,46 @@ open class MiniPlayerFragment : AbsMusicServiceFragment(), MusicProgressViewUpda
         miniPlayerTitle.text = builder
     }
 
-    ov
+    override fun onServiceConnected() {
+        updateSongTitle()
+        updatePlayPauseDrawableState()
+    }
+
+    override fun onPlayingMetaChanged() {
+        updateSongTitle()
+    }
+
+    override fun onPlayStateChanged() {
+        updatePlayPauseDrawableState()
+    }
+
+
+    override fun onUpdateProgressViews(progress: Int, total: Int) {
+        progressBar.max = total
+        val animator = ObjectAnimator.ofInt(progressBar, "progress", progress)
+        animator.duration = 1000
+        animator.interpolator = DecelerateInterpolator()
+        animator.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressViewUpdateHelper.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressViewUpdateHelper.stop()
+    }
+
+    protected fun updatePlayPauseDrawableState() {
+        if (MusicPlayerRemote.isPlaying) {
+            miniPlayerPlayPauseButton!!.setImageResource(R.drawable.ic_pause_white_24dp)
+        } else {
+            miniPlayerPlayPauseButton!!.setImageResource(R.drawable.ic_play_arrow_white_24dp)
+        }
+    }
+
+    class FlingPlayBackController(context: Context) : View.OnTouchListener {
+
+        private var flingPlayBackController: GestureD
