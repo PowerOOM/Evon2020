@@ -57,4 +57,40 @@ open class MiniPlayerFragment : AbsMusicServiceFragment(), MusicProgressViewUpda
         } else {
             actionNext.visibility = if (PreferenceUtil.getInstance(requireContext()).isExtraControls) View.VISIBLE else View.GONE
             actionPlayingQueue.visibility = if (PreferenceUtil.getInstance(requireContext()).isExtraControls) View.GONE else View.VISIBLE
-            act
+            actionPrevious.visibility = if (PreferenceUtil.getInstance(requireContext()).isExtraControls) View.VISIBLE else View.GONE
+        }
+
+        actionPlayingQueue.setOnClickListener(this)
+        actionNext.setOnClickListener(this)
+        actionPrevious.setOnClickListener(this)
+        actionNext?.setOnClickListener(this)
+        actionPrevious?.setOnClickListener(this)
+
+    }
+
+    private fun setUpMiniPlayer() {
+        setUpPlayPauseButton()
+        ViewUtil.setProgressDrawable(progressBar, ThemeStore.accentColor(requireContext()))
+    }
+
+    private fun setUpPlayPauseButton() {
+        miniPlayerPlayPauseButton.setOnClickListener(PlayPauseButtonOnClickHandler())
+    }
+
+    private fun updateSongTitle() {
+        val builder = SpannableStringBuilder()
+
+        val song = MusicPlayerRemote.currentSong
+        val title = SpannableString(song.title)
+        title.setSpan(ForegroundColorSpan(ThemeStore.textColorPrimary(requireContext())), 0, title.length, 0)
+
+        val text = SpannableString(song.artistName)
+        text.setSpan(ForegroundColorSpan(ThemeStore.textColorSecondary(requireContext())), 0, text.length, 0)
+
+        builder.append(title).append(" • ").append(text)
+
+        miniPlayerTitle.isSelected = true
+        miniPlayerTitle.text = builder
+    }
+
+    ov
