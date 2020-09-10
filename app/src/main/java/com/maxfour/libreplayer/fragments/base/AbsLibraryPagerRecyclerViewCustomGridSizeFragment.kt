@@ -118,4 +118,35 @@ abstract class AbsLibraryPagerRecyclerViewCustomGridSizeFragment<A : RecyclerVie
         applyRecyclerViewPaddingForLayoutRes(recyclerView, currentLayoutRes)
     }
 
-    override fu
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        applyRecyclerViewPaddingForLayoutRes(recyclerView(), currentLayoutRes)
+    }
+
+    private fun applyRecyclerViewPaddingForLayoutRes(recyclerView: RecyclerView, res: Int) {
+        val padding: Int = if (res == R.layout.item_grid) {
+            (resources.displayMetrics.density * 2).toInt()
+        } else {
+            0
+        }
+        recyclerView.setPadding(padding, padding, padding, padding)
+    }
+
+    protected abstract fun loadSortOrder(): String
+
+    protected abstract fun saveSortOrder(sortOrder: String)
+
+    protected abstract fun loadGridSize(): Int
+
+    protected abstract fun saveGridSize(gridColumns: Int)
+
+    protected abstract fun loadGridSizeLand(): Int
+
+    protected abstract fun saveGridSizeLand(gridColumns: Int)
+
+    protected abstract fun saveUsePalette(usePalette: Boolean)
+
+    protected abstract fun loadUsePalette(): Boolean
+
+    protected abstract fun setUsePalette(usePalette: Boolean)
+}
