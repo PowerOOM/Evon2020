@@ -42,3 +42,13 @@ abstract class AbsMainActivityFragment : AbsMusicServiceFragment() {
         val colorPrimary = ATHUtil.resolveColor(requireContext(), R.attr.colorSurface)
         // we don't want to use statusbar color because we are doing the color darkening on our own to support KitKat
         if (VersionUtils.hasMarshmallow()) {
+            setStatusBarColor(view, colorPrimary)
+        } else {
+            setStatusBarColor(view, ColorUtil.darkenColor(colorPrimary))
+        }
+    }
+
+    protected fun showMainMenu(option: Int) {
+        OptionsSheetDialogFragment.newInstance(option).show(childFragmentManager, "Main_Menu")
+    }
+}
