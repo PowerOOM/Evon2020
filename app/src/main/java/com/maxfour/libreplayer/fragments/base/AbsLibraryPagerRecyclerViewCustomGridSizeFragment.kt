@@ -31,4 +31,47 @@ abstract class AbsLibraryPagerRecyclerViewCustomGridSizeFragment<A : RecyclerVie
      * @see .getGridSize
      */
     protected val itemLayoutRes: Int
-        get() = if (getGridSize() > max
+        get() = if (getGridSize() > maxGridSizeForList) {
+            R.layout.item_grid
+        } else R.layout.item_list
+
+    protected val maxGridSizeForList: Int
+        get() = if (isLandscape) {
+            activity!!.resources.getInteger(R.integer.default_list_columns_land)
+        } else activity!!.resources.getInteger(R.integer.default_list_columns)
+
+    private val isLandscape: Boolean
+        get() = PlayerUtil.isLandscape()
+
+    fun getGridSize(): Int {
+        if (gridSize == 0) {
+            gridSize = if (isLandscape) {
+                loadGridSizeLand()
+            } else {
+                loadGridSize()
+            }
+        }
+        return gridSize
+    }
+
+    protected abstract fun setGridSize(gridSize: Int)
+
+    fun getSortOrder(): String? {
+        if (sortOrder == null) {
+            sortOrder = loadSortOrder()
+        }
+        return sortOrder
+    }
+
+    protected abstract fun setSortOrder(sortOrder: String)
+
+    fun setAndSaveSortOrder(sortOrder: String) {
+        this.sortOrder = sortOrder
+        saveSortOrder(sortOrder)
+        setSortOrder(sortOrder)
+    }
+
+    /**
+     * @return whether the palette should be used at all or not
+     */
+    fun usePalette(): Bool
