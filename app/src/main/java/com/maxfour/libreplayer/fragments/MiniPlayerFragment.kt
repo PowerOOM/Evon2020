@@ -135,4 +135,30 @@ open class MiniPlayerFragment : AbsMusicServiceFragment(), MusicProgressViewUpda
 
     class FlingPlayBackController(context: Context) : View.OnTouchListener {
 
-        private var flingPlayBackController: GestureD
+        private var flingPlayBackController: GestureDetector
+
+        init {
+            flingPlayBackController = GestureDetector(context,
+                    object : GestureDetector.SimpleOnGestureListener() {
+                        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float,
+                                             velocityY: Float): Boolean {
+                            if (abs(velocityX) > abs(velocityY)) {
+                                if (velocityX < 0) {
+                                    MusicPlayerRemote.playNextSong()
+                                    return true
+                                } else if (velocityX > 0) {
+                                    MusicPlayerRemote.playPreviousSong()
+                                    return true
+                                }
+                            }
+                            return false
+                        }
+                    })
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(v: View, event: MotionEvent): Boolean {
+            return flingPlayBackController.onTouchEvent(event)
+        }
+    }
+}
