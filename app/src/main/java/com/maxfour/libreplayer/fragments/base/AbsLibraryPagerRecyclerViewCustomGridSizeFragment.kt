@@ -74,4 +74,48 @@ abstract class AbsLibraryPagerRecyclerViewCustomGridSizeFragment<A : RecyclerVie
     /**
      * @return whether the palette should be used at all or not
      */
-    fun usePalette(): Bool
+    fun usePalette(): Boolean {
+        if (!usePaletteInitialized) {
+            usePalette = loadUsePalette()
+            usePaletteInitialized = true
+        }
+        return usePalette
+    }
+
+    fun setAndSaveGridSize(gridSize: Int) {
+        val oldLayoutRes = itemLayoutRes
+        this.gridSize = gridSize
+        if (isLandscape) {
+            saveGridSizeLand(gridSize)
+        } else {
+            saveGridSize(gridSize)
+        }
+        // only recreate the adapter and layout manager if the layout currentLayoutRes has changed
+        if (oldLayoutRes != itemLayoutRes) {
+            invalidateLayoutManager()
+            invalidateAdapter()
+        } else {
+            setGridSize(gridSize)
+        }
+    }
+
+    fun setAndSaveUsePalette(usePalette: Boolean) {
+        this.usePalette = usePalette
+        saveUsePalette(usePalette)
+        setUsePalette(usePalette)
+    }
+
+    /**
+     * @return whether the palette option should be available for the current item layout or not
+     */
+    fun canUsePalette(): Boolean {
+        return itemLayoutRes == R.layout.item_card_color
+    }
+
+    protected fun notifyLayoutResChanged(@LayoutRes res: Int) {
+        this.currentLayoutRes = res
+        val recyclerView = recyclerView()
+        applyRecyclerViewPaddingForLayoutRes(recyclerView, currentLayoutRes)
+    }
+
+    override fu
