@@ -42,4 +42,39 @@ open class AlbumsFragment : AbsLibraryPagerRecyclerViewCustomGridSizeFragment<Al
     }
 
     override fun albums(albums: java.util.ArrayList<Album>) {
-       
+        adapter?.swapDataSet(albums)
+    }
+
+    override val emptyMessage: Int
+        get() = R.string.no_albums
+
+    override fun createLayoutManager(): GridLayoutManager {
+        return GridLayoutManager(activity, getGridSize())
+    }
+
+    override fun createAdapter(): AlbumAdapter {
+        var itemLayoutRes = itemLayoutRes
+        notifyLayoutResChanged(itemLayoutRes)
+        if (itemLayoutRes != R.layout.item_list) {
+            itemLayoutRes = PreferenceUtil.getInstance(requireContext()).getAlbumGridStyle(requireContext())
+        }
+        val dataSet = if (adapter == null) ArrayList() else adapter!!.dataSet
+        return AlbumAdapter(libraryFragment.mainActivity, dataSet, itemLayoutRes, loadUsePalette(), libraryFragment)
+    }
+
+    public override fun loadUsePalette(): Boolean {
+        return PreferenceUtil.getInstance(requireContext()).albumColoredFooters()
+    }
+
+    override fun setUsePalette(usePalette: Boolean) {
+        adapter?.usePalette(usePalette)
+    }
+
+    override fun setGridSize(gridSize: Int) {
+        layoutManager?.spanCount = gridSize
+        adapter?.notifyDataSetChanged()
+    }
+
+    override fun loadSortOrder(): String {
+
+        return PreferenceUtil.getInstance(requireContext()).albumSortOr
