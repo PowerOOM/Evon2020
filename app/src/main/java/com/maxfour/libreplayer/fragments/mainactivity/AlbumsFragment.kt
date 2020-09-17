@@ -77,4 +77,51 @@ open class AlbumsFragment : AbsLibraryPagerRecyclerViewCustomGridSizeFragment<Al
 
     override fun loadSortOrder(): String {
 
-        return PreferenceUtil.getInstance(requireContext()).albumSortOr
+        return PreferenceUtil.getInstance(requireContext()).albumSortOrder
+    }
+
+    override fun saveSortOrder(sortOrder: String) {
+
+        PreferenceUtil.getInstance(requireContext()).albumSortOrder = sortOrder
+    }
+
+    override fun loadGridSize(): Int {
+
+        return PreferenceUtil.getInstance(requireContext()).getAlbumGridSize(activity!!)
+    }
+
+    override fun saveGridSize(gridColumns: Int) {
+
+        PreferenceUtil.getInstance(requireContext()).setAlbumGridSize(gridColumns)
+    }
+
+    override fun loadGridSizeLand(): Int {
+
+        return PreferenceUtil.getInstance(requireContext()).getAlbumGridSizeLand(activity!!)
+    }
+
+    override fun saveGridSizeLand(gridColumns: Int) {
+
+        PreferenceUtil.getInstance(requireContext()).setAlbumGridSizeLand(gridColumns)
+    }
+
+    override fun saveUsePalette(usePalette: Boolean) {
+
+        PreferenceUtil.getInstance(requireContext()).setAlbumColoredFooters(usePalette)
+    }
+
+    override fun onMediaStoreChanged() {
+        albumsPresenter.loadAlbums()
+    }
+
+    override fun setSortOrder(sortOrder: String) {
+        albumsPresenter.loadAlbums()
+    }
+
+    override fun showEmptyView() {
+        adapter?.swapDataSet(ArrayList())
+    }
+
+    companion object {
+        @JvmField
+        var TAG: String
