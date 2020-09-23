@@ -66,4 +66,37 @@ class ArtistsFragment : AbsLibraryPagerRecyclerViewCustomGridSizeFragment<Artist
         if (itemLayoutRes != R.layout.item_list) {
             itemLayoutRes = PreferenceUtil.getInstance(requireContext()).getArtistGridStyle(requireContext())
         }
-        val dataSet 
+        val dataSet = if (adapter == null) ArrayList() else adapter!!.dataSet
+        return ArtistAdapter(libraryFragment.mainActivity, dataSet, itemLayoutRes, loadUsePalette(), libraryFragment)
+    }
+
+    override fun loadGridSize(): Int {
+        return PreferenceUtil.getInstance(requireContext()).getArtistGridSize(activity!!)
+    }
+
+    override fun saveGridSize(gridColumns: Int) {
+        PreferenceUtil.getInstance(requireContext()).setArtistGridSize(gridColumns)
+    }
+
+    override fun loadGridSizeLand(): Int {
+        return PreferenceUtil.getInstance(requireContext()).getArtistGridSizeLand(activity!!)
+    }
+
+    override fun saveGridSizeLand(gridColumns: Int) {
+        PreferenceUtil.getInstance(requireContext()).setArtistGridSizeLand(gridColumns)
+    }
+
+    override fun saveUsePalette(usePalette: Boolean) {
+        PreferenceUtil.getInstance(requireContext()).setArtistColoredFooters(usePalette)
+    }
+
+    public override fun loadUsePalette(): Boolean {
+        return PreferenceUtil.getInstance(requireContext()).artistColoredFooters()
+    }
+
+    override fun setUsePalette(usePalette: Boolean) {
+        adapter?.usePalette(usePalette)
+    }
+
+    override fun setGridSize(gridSize: Int) {
+        layoutManager?.spanCount = gridS
