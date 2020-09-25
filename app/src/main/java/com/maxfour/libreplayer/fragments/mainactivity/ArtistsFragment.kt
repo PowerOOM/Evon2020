@@ -99,4 +99,34 @@ class ArtistsFragment : AbsLibraryPagerRecyclerViewCustomGridSizeFragment<Artist
     }
 
     override fun setGridSize(gridSize: Int) {
-        layoutManager?.spanCount = gridS
+        layoutManager?.spanCount = gridSize
+        adapter?.notifyDataSetChanged()
+    }
+
+
+    override fun loadSortOrder(): String {
+        return PreferenceUtil.getInstance(requireContext()).artistSortOrder
+    }
+
+    override fun saveSortOrder(sortOrder: String) {
+        PreferenceUtil.getInstance(requireContext()).artistSortOrder = sortOrder
+    }
+
+    override fun showEmptyView() {
+        adapter?.swapDataSet(ArrayList())
+    }
+
+    companion object {
+        @JvmField
+        val TAG: String = ArtistsFragment::class.java.simpleName
+
+        fun newInstance(): ArtistsFragment {
+
+            val args = Bundle()
+
+            val fragment = ArtistsFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+}
