@@ -28,4 +28,47 @@ class PlaylistsFragment : AbsLibraryPagerRecyclerViewFragment<PlaylistAdapter, L
         App.musicComponent.inject(this)
     }
 
-    override fun onViewCreated(view: View, s
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        playlistsPresenter.attachView(this)
+    }
+
+    override fun createLayoutManager(): LinearLayoutManager {
+        return LinearLayoutManager(activity)
+    }
+
+    override fun createAdapter(): PlaylistAdapter {
+        return PlaylistAdapter(libraryFragment.mainActivity, ArrayList(),
+                R.layout.item_list, libraryFragment)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (adapter!!.dataSet.isEmpty()) {
+            playlistsPresenter.playlists()
+        }
+    }
+
+    override fun onDestroyView() {
+        playlistsPresenter.detachView()
+        super.onDestroyView()
+    }
+
+    override fun onMediaStoreChanged() {
+        super.onMediaStoreChanged()
+        playlistsPresenter.playlists()
+    }
+
+    override fun showEmptyView() {
+        adapter?.swapDataSet(ArrayList())
+    }
+
+    override fun playlists(playlists: ArrayList<Playlist>) {
+        adapter?.swapDataSet(playlists)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.apply {
+            removeItem(R.id.action_sort_order)
+            removeItem(R.id.action_grid_siz
