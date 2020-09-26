@@ -434,3 +434,29 @@ public class LibraryFragment extends AbsMainActivityFragment implements CabHolde
                 break;
             case R.id.action_grid_size_3:
                 gridSize = 3;
+                break;
+            case R.id.action_grid_size_4:
+                gridSize = 4;
+                break;
+            case R.id.action_grid_size_5:
+                gridSize = 5;
+                break;
+            case R.id.action_grid_size_6:
+                gridSize = 6;
+                break;
+            case R.id.action_grid_size_7:
+                gridSize = 7;
+                break;
+            case R.id.action_grid_size_8:
+                gridSize = 8;
+                break;
+        }
+
+        if (gridSize > 0) {
+            item.setChecked(true);
+            fragment.setAndSaveGridSize(gridSize);
+            return true;
+        }
+        return false;
+    }
+}
