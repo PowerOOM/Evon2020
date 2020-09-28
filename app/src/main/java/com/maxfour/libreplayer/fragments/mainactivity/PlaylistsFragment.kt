@@ -71,4 +71,19 @@ class PlaylistsFragment : AbsLibraryPagerRecyclerViewFragment<PlaylistAdapter, L
         super.onCreateOptionsMenu(menu, inflater)
         menu.apply {
             removeItem(R.id.action_sort_order)
-            removeItem(R.id.action_grid_siz
+            removeItem(R.id.action_grid_size)
+        }
+    }
+
+    companion object {
+        @JvmField
+        val TAG: String = PlaylistsFragment::class.java.simpleName
+
+        fun newInstance(): PlaylistsFragment {
+            val args = Bundle()
+            val fragment = PlaylistsFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+}
