@@ -21,4 +21,41 @@ class SongsFragment : AbsLibraryPagerRecyclerViewCustomGridSizeFragment<SongAdap
     lateinit var songPresenter: SongPresenter
 
 
-    override val empty
+    override val emptyMessage: Int
+        get() = R.string.no_songs
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        App.musicComponent.inject(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        songPresenter.attachView(this)
+    }
+
+    override fun createLayoutManager(): GridLayoutManager {
+        return GridLayoutManager(activity, getGridSize())
+    }
+
+    override fun createAdapter(): SongAdapter {
+        val itemLayoutRes = itemLayoutRes
+        notifyLayoutResChanged(itemLayoutRes)
+        val usePalette = loadUsePalette()
+
+        val dataSet = if (adapter == null) ArrayList() else adapter!!.dataSet
+
+        return if (getGridSize() <= maxGridSizeForList) {
+            ShuffleButtonSongAdapter(libraryFragment.mainActivity, dataSet, itemLayoutRes, usePalette, libraryFragment)
+        } else SongAdapter(libraryFragment.mainActivity, dataSet, itemLayoutRes, usePalette, libraryFragment)
+    }
+
+    override fun songs(songs: ArrayList<Song>) {
+        adapter?.swapDataSet(songs)
+    }
+
+    override fun onMediaStoreChanged() {
+        songPresenter.loadSongs()
+    }
+
+    override
