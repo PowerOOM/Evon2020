@@ -94,4 +94,41 @@ class SongsFragment : AbsLibraryPagerRecyclerViewCustomGridSizeFragment<SongAdap
     override fun onResume() {
         super.onResume()
         if (adapter!!.dataSet.isEmpty()) {
-            songPresen
+            songPresenter.loadSongs()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        songPresenter.detachView()
+    }
+
+    override fun showEmptyView() {
+        adapter?.swapDataSet(ArrayList())
+    }
+
+    override fun loadSortOrder(): String {
+        return PreferenceUtil.getInstance(requireContext()).songSortOrder
+    }
+
+    override fun saveSortOrder(sortOrder: String) {
+        PreferenceUtil.getInstance(requireContext()).songSortOrder = sortOrder
+    }
+
+    override fun setSortOrder(sortOrder: String) {
+        songPresenter.loadSongs()
+    }
+
+    companion object {
+
+        @JvmField
+        var TAG: String = SongsFragment::class.java.simpleName
+
+        fun newInstance(): SongsFragment {
+            val args = Bundle()
+            val fragment = SongsFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+}
