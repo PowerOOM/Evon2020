@@ -86,4 +86,42 @@ public class FoldersFragment extends AbsMainActivityFragment implements
     private static final int LOADER_ID = LoaderIds.Companion.getFOLDERS_FRAGMENT();
 
     private View coordinatorLayout, empty;
-    private 
+    private TextView emojiText;
+    private MaterialCardView toolbarContainer;
+    private Toolbar toolbar;
+    private BreadCrumbLayout breadCrumbs;
+    private AppBarLayout appBarLayout;
+    private FastScrollRecyclerView recyclerView;
+
+    private Comparator<File> fileComparator = (lhs, rhs) -> {
+        if (lhs.isDirectory() && !rhs.isDirectory()) {
+            return -1;
+        } else if (!lhs.isDirectory() && rhs.isDirectory()) {
+            return 1;
+        } else {
+            return lhs.getName().compareToIgnoreCase
+                    (rhs.getName());
+        }
+    };
+    private SongFileAdapter adapter;
+    private MaterialCab cab;
+
+    public FoldersFragment() {
+    }
+
+    public static FoldersFragment newInstance(Context context) {
+        return newInstance(PreferenceUtil.getInstance(context).getStartDirectory());
+    }
+
+    public static FoldersFragment newInstance(File directory) {
+        FoldersFragment frag = new FoldersFragment();
+        Bundle b = new Bundle();
+        b.putSerializable(PATH, directory);
+        frag.setArguments(b);
+        return frag;
+    }
+
+    public static File getDefaultStartDirectory() {
+        File musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        File startFolder;
+     
