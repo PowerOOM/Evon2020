@@ -57,4 +57,33 @@ import com.maxfour.libreplayer.util.PlayerColorUtil;
 import com.maxfour.libreplayer.util.PreferenceUtil;
 import com.maxfour.libreplayer.util.ViewUtil;
 import com.maxfour.libreplayer.views.BreadCrumbLayout;
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecy
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
+public class FoldersFragment extends AbsMainActivityFragment implements
+        MainActivityFragmentCallbacks,
+        CabHolder, BreadCrumbLayout.SelectionCallback, SongFileAdapter.Callbacks,
+        AppBarLayout.OnOffsetChangedListener, LoaderManager.LoaderCallbacks<List<File>> {
+
+    public static final String TAG = FoldersFragment.class.getSimpleName();
+    public static final FileFilter AUDIO_FILE_FILTER = file -> !file.isHidden() && (file.isDirectory() ||
+            FileUtil.fileIsMimeType(file, "audio/*", MimeTypeMap.getSingleton()) ||
+            FileUtil.fileIsMimeType(file, "application/opus", MimeTypeMap.getSingleton()) ||
+            FileUtil.fileIsMimeType(file, "application/ogg", MimeTypeMap.getSingleton()));
+
+    private static final String PATH = "path";
+    private static final String CRUMBS = "crumbs";
+    private static final int LOADER_ID = LoaderIds.Companion.getFOLDERS_FRAGMENT();
+
+    private View coordinatorLayout, empty;
+    private 
