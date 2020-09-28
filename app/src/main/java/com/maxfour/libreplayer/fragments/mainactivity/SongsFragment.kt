@@ -58,4 +58,40 @@ class SongsFragment : AbsLibraryPagerRecyclerViewCustomGridSizeFragment<SongAdap
         songPresenter.loadSongs()
     }
 
-    override
+    override fun loadGridSize(): Int {
+        return PreferenceUtil.getInstance(requireContext()).getSongGridSize(activity!!)
+    }
+
+    override fun saveGridSize(gridColumns: Int) {
+        PreferenceUtil.getInstance(requireContext()).setSongGridSize(gridColumns)
+    }
+
+    override fun loadGridSizeLand(): Int {
+        return PreferenceUtil.getInstance(requireContext()).getSongGridSizeLand(activity!!)
+    }
+
+    override fun saveGridSizeLand(gridColumns: Int) {
+        PreferenceUtil.getInstance(requireContext()).setSongGridSizeLand(gridColumns)
+    }
+
+    public override fun saveUsePalette(usePalette: Boolean) {
+        PreferenceUtil.getInstance(requireContext()).setSongColoredFooters(usePalette)
+    }
+
+    public override fun loadUsePalette(): Boolean {
+        return PreferenceUtil.getInstance(requireContext()).songColoredFooters()
+    }
+
+    public override fun setUsePalette(usePalette: Boolean) {
+        adapter?.usePalette(usePalette)
+    }
+
+    override fun setGridSize(gridSize: Int) {
+        layoutManager?.spanCount = gridSize
+        adapter?.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (adapter!!.dataSet.isEmpty()) {
+            songPresen
