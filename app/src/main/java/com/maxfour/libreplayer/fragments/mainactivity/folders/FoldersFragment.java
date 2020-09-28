@@ -124,4 +124,38 @@ public class FoldersFragment extends AbsMainActivityFragment implements
     public static File getDefaultStartDirectory() {
         File musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         File startFolder;
-     
+        if (musicDir.exists() && musicDir.isDirectory()) {
+            startFolder = musicDir;
+        } else {
+            File externalStorage = Environment.getExternalStorageDirectory();
+            if (externalStorage.exists() && externalStorage.isDirectory()) {
+                startFolder = externalStorage;
+            } else {
+                startFolder = new File("/"); // root
+            }
+        }
+        return startFolder;
+    }
+
+    private static File tryGetCanonicalFile(File file) {
+        try {
+            return file.getCanonicalFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return file;
+        }
+    }
+
+    private String getEmojiByUnicode(int unicode) {
+        return new String(Character.toChars(unicode));
+    }
+
+    private void initViews(View view) {
+        coordinatorLayout = view.findViewById(R.id.coordinatorLayout);
+        toolbarContainer = view.findViewById(R.id.toolbarContainer);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        appBarLayout = view.findViewById(R.id.appBarLayout);
+        breadCrumbs = view.findViewById(R.id.breadCrumbs);
+        toolbar = view.findViewById(R.id.toolbar);
+        empty = view.findViewById(android.R.id.empty);
+        emojiText = view.findVi
