@@ -158,4 +158,43 @@ public class FoldersFragment extends AbsMainActivityFragment implements
         breadCrumbs = view.findViewById(R.id.breadCrumbs);
         toolbar = view.findViewById(R.id.toolbar);
         empty = view.findViewById(android.R.id.empty);
-        emojiText = view.findVi
+        emojiText = view.findViewById(R.id.emptyEmoji);
+    }
+
+    private void setCrumb(BreadCrumbLayout.Crumb crumb, boolean addToHistory) {
+        if (crumb == null) {
+            return;
+        }
+        saveScrollPosition();
+        breadCrumbs.setActiveOrAdd(crumb, false);
+        if (addToHistory) {
+            breadCrumbs.addHistory(crumb);
+        }
+        getLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
+
+    private void saveScrollPosition() {
+        BreadCrumbLayout.Crumb crumb = getActiveCrumb();
+        if (crumb != null) {
+            crumb.setScrollPosition(((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition());
+        }
+    }
+
+    @Nullable
+    private BreadCrumbLayout.Crumb getActiveCrumb() {
+        return breadCrumbs != null && breadCrumbs.size() > 0 ? breadCrumbs
+                .getCrumb(breadCrumbs.getActiveIndex()) : null;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (breadCrumbs != null) {
+            outState.putParcelable(CRUMBS, breadCrumbs.getStateWrapper());
+        }
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.o
