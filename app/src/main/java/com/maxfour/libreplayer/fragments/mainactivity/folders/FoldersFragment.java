@@ -197,4 +197,38 @@ public class FoldersFragment extends AbsMainActivityFragment implements
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        super.o
+        super.onActivityCreated(savedInstanceState);
+        getMainActivity().setBottomBarVisibility(View.GONE);
+
+        if (savedInstanceState == null) {
+            //noinspection ConstantConditions
+            setCrumb(new BreadCrumbLayout.Crumb(
+                    FileUtil.safeGetCanonicalFile((File) getArguments().getSerializable(PATH))), true);
+        } else {
+            breadCrumbs.restoreFromStateWrapper(savedInstanceState.getParcelable(CRUMBS));
+            getLoaderManager().initLoader(LOADER_ID, null, this);
+        }
+    }
+
+    @NonNull
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_folder, container, false);
+        initViews(view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        setStatusBarColorAuto(view);
+        setUpAppbarColor();
+        setUpBreadCrumbs();
+        setUpRecyclerView();
+        setUpAdapter();
+    }
+
+    private void setUpAppbarColor() {
+        int primaryColor = ATHUtil.INSTANCE.resolveColor(requireContext(), R.attr.colorSurface);
+        getMainActivity().set
