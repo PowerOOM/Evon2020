@@ -252,3 +252,43 @@ public class FoldersFragment extends AbsMainActivityFragment implements
     }
 
     private void setUpRecyclerView() {
+        //noinspection ConstantConditions
+        ViewUtil.INSTANCE.setUpFastScrollRecyclerViewColor(getActivity(), recyclerView,
+                ThemeStore.Companion.accentColor(getActivity()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        appBarLayout.addOnOffsetChangedListener(this);
+    }
+
+    private void setUpAdapter() {
+        adapter = new SongFileAdapter(getMainActivity(), new LinkedList<File>(), R.layout.item_list,
+                this, this);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                checkIsEmpty();
+            }
+        });
+        recyclerView.setAdapter(adapter);
+        checkIsEmpty();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveScrollPosition();
+    }
+
+    @Override
+    public void onDestroyView() {
+        appBarLayout.removeOnOffsetChangedListener(this);
+        super.onDestroyView();
+    }
+
+    @Override
+    public boolean handleBackPress() {
+        if (cab != null && cab.isActive()) {
+            cab.finish();
+            return true;
+        }
+        if (breadCrumbs != null && breadCrumbs.popHistory()) {
