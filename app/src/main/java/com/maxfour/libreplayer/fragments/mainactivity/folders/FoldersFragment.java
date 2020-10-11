@@ -231,4 +231,24 @@ public class FoldersFragment extends AbsMainActivityFragment implements
 
     private void setUpAppbarColor() {
         int primaryColor = ATHUtil.INSTANCE.resolveColor(requireContext(), R.attr.colorSurface);
-        getMainActivity().set
+        getMainActivity().setSupportActionBar(toolbar);
+        toolbar.setBackgroundTintList(ColorStateList.valueOf(primaryColor));
+        toolbarContainer.setCardBackgroundColor(ColorStateList.valueOf(primaryColor));
+        toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        toolbar.setNavigationOnClickListener(v -> {
+            showMainMenu(OptionsSheetDialogFragment.FOLDER);
+        });
+        breadCrumbs.setActivatedContentColor(ATHUtil.INSTANCE.resolveColor(requireContext(), android.R.attr.textColorPrimary));
+        breadCrumbs.setDeactivatedContentColor(ATHUtil.INSTANCE.resolveColor(requireContext(), android.R.attr.textColorSecondary));
+        appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> getMainActivity().setLightStatusbar(!ATHUtil.INSTANCE.isWindowBackgroundDark(requireContext())));
+        toolbar.setOnClickListener(v -> {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getMainActivity(), toolbarContainer, getString(R.string.transition_toolbar));
+            NavigationUtil.goToSearch(getMainActivity(), options);
+        });
+    }
+
+    private void setUpBreadCrumbs() {
+        breadCrumbs.setCallback(this);
+    }
+
+    private void setUpRecyclerView() {
