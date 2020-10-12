@@ -292,3 +292,39 @@ public class FoldersFragment extends AbsMainActivityFragment implements
             return true;
         }
         if (breadCrumbs != null && breadCrumbs.popHistory()) {
+            setCrumb(breadCrumbs.lastHistory(), false);
+            return true;
+        }
+        return false;
+    }
+
+    @NonNull
+    @Override
+    public MaterialCab openCab(int menuRes, MaterialCab.Callback callback) {
+        if (cab != null && cab.isActive()) {
+            cab.finish();
+        }
+        cab = new MaterialCab(getMainActivity(), R.id.cab_stub)
+                .setMenu(menuRes)
+                .setCloseDrawableRes(R.drawable.ic_close_white_24dp)
+                .setBackgroundColor(PlayerColorUtil.shiftBackgroundColorForLightText(ATHUtil.INSTANCE.resolveColor(requireContext(), R.attr.colorSurface)))
+                .start(callback);
+        return cab;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_folders, menu);
+        ToolbarContentTintHelper.handleOnCreateOptionsMenu(getActivity(), toolbar, menu,
+                ATHToolbarActivity.getToolbarBackgroundColor(toolbar));
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        ToolbarContentTintHelper.handleOnPrepareOptionsMenu(getActivity(), toolbar);
+    }
+
+    @Override
+    public void on
