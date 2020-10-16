@@ -450,4 +450,35 @@ public class FoldersFragment extends AbsMainActivityFragment implements
                     case R.id.action_set_as_ringtone:
                     case R.id.action_delete_from_device:
                         new ListSongsAsyncTask(getActivity(), null, (songs, extra) -> SongMenuHelper.INSTANCE.handleMenuClick(getActivity(),
-                                songs.get(0)
+                                songs.get(0), itemId)).execute(new ListSongsAsyncTask.LoadingInfo(toList(file), AUDIO_FILE_FILTER,
+                                getFileComparator()));
+                        return true;
+                    case R.id.action_scan:
+                        new ListPathsAsyncTask(getActivity(), this::scanPaths).execute(new ListPathsAsyncTask.LoadingInfo(file, AUDIO_FILE_FILTER));
+                        return true;
+                }
+                return false;
+            });
+        }
+        popupMenu.show();
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        recyclerView.setPadding(recyclerView.getPaddingLeft(), recyclerView.getPaddingTop(),
+                recyclerView.getPaddingRight(), DensityUtil.dip2px(requireContext(), 52f) +
+                        this.appBarLayout.getTotalScrollRange() + verticalOffset);
+    }
+
+    private void checkIsEmpty() {
+        emojiText.setText(getEmojiByUnicode(0x1F631));
+        if (empty != null) {
+            empty.setVisibility(adapter == null || adapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private void scanPaths(@Nullable String[] toBeScanned) {
+        if (getActivity() == null) {
+            return;
+        }
+     
