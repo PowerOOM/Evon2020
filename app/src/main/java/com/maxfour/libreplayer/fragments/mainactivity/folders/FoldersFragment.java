@@ -425,4 +425,29 @@ public class FoldersFragment extends AbsMainActivityFragment implements
                         PreferenceUtil.getInstance(requireContext()).setStartDirectory(file);
                         Toast.makeText(getActivity(),
                                 String.format(getString(R.string.new_start_directory), file.getPath()),
-                                Toast.LENGTH_SHORT
+                                Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.action_scan:
+                        new ListPathsAsyncTask(getActivity(), this::scanPaths)
+                                .execute(new ListPathsAsyncTask.LoadingInfo(file, AUDIO_FILE_FILTER));
+                        return true;
+                }
+                return false;
+            });
+        } else {
+            popupMenu.inflate(R.menu.menu_item_file);
+            popupMenu.setOnMenuItemClickListener(item -> {
+                final int itemId = item.getItemId();
+                switch (itemId) {
+                    case R.id.action_play_next:
+                    case R.id.action_add_to_current_playing:
+                    case R.id.action_add_to_playlist:
+                    case R.id.action_go_to_album:
+                    case R.id.action_go_to_artist:
+                    case R.id.action_share:
+                    case R.id.action_tag_editor:
+                    case R.id.action_details:
+                    case R.id.action_set_as_ringtone:
+                    case R.id.action_delete_from_device:
+                        new ListSongsAsyncTask(getActivity(), null, (songs, extra) -> SongMenuHelper.INSTANCE.handleMenuClick(getActivity(),
+                                songs.get(0)
