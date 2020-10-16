@@ -327,4 +327,30 @@ public class FoldersFragment extends AbsMainActivityFragment implements
     }
 
     @Override
-    public void on
+    public void onCrumbSelection(BreadCrumbLayout.Crumb crumb, int index) {
+        setCrumb(crumb, true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_go_to_start_directory:
+                setCrumb(new BreadCrumbLayout.Crumb(tryGetCanonicalFile(PreferenceUtil.getInstance(requireContext()).getStartDirectory())), true);
+                return true;
+            case R.id.action_scan:
+                BreadCrumbLayout.Crumb crumb = getActiveCrumb();
+                if (crumb != null) {
+                    //noinspection Convert2MethodRef
+                    new ListPathsAsyncTask(getActivity(), paths -> scanPaths(paths)).execute(new ListPathsAsyncTask.LoadingInfo(crumb.getFile(),
+                            AUDIO_FILE_FILTER));
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFileSelected(File file) {
+        file = tryGetCanonicalFile(file); // important as we compare the path value later
+        if (file.isDirectory()) {
+  
