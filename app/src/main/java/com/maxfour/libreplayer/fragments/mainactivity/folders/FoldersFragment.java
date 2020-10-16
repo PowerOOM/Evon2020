@@ -481,4 +481,36 @@ public class FoldersFragment extends AbsMainActivityFragment implements
         if (getActivity() == null) {
             return;
         }
-     
+        if (toBeScanned == null || toBeScanned.length < 1) {
+            Toast.makeText(getActivity(), R.string.nothing_to_scan, Toast.LENGTH_SHORT).show();
+        } else {
+            MediaScannerConnection.scanFile(getActivity().getApplicationContext(), toBeScanned, null,
+                    new UpdateToastMediaScannerCompletionListener(getActivity(), toBeScanned));
+        }
+    }
+
+    private void updateAdapter(@NonNull List<File> files) {
+        adapter.swapDataSet(files);
+        BreadCrumbLayout.Crumb crumb = getActiveCrumb();
+        if (crumb != null && recyclerView != null) {
+            ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPositionWithOffset(crumb.getScrollPosition(), 0);
+        }
+    }
+
+    @NonNull
+    @Override
+    public Loader<List<File>> onCreateLoader(int id, Bundle args) {
+        return new AsyncFileLoader(this);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<File>> loader, List<File> data) {
+        updateAdapter(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<File>> loader) {
+        updateAdapter(new LinkedList<File>());
+    }
+
+    private static class AsyncFileLoader extend
