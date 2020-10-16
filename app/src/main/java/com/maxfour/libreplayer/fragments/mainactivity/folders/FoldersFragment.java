@@ -375,4 +375,35 @@ public class FoldersFragment extends AbsMainActivityFragment implements
                             Snackbar.LENGTH_LONG)
                             .setAction(R.string.action_scan,
                                     v -> new ListPathsAsyncTask(getActivity(), this::scanPaths)
-                    
+                                            .execute(new ListPathsAsyncTask.LoadingInfo(finalFile, AUDIO_FILE_FILTER)))
+                            .setActionTextColor(ThemeStore.Companion.accentColor(getActivity()))
+                            .show();
+                }
+            }).execute(new ListSongsAsyncTask.LoadingInfo(toList(file.getParentFile()), fileFilter,
+                    getFileComparator()));
+        }
+    }
+
+    @Override
+    public void onMultipleItemAction(MenuItem item, ArrayList<File> files) {
+        final int itemId = item.getItemId();
+        new ListSongsAsyncTask(getActivity(), null,
+                (songs, extra) -> SongsMenuHelper.INSTANCE.handleMenuClick(getActivity(), songs, itemId))
+                .execute(new ListSongsAsyncTask.LoadingInfo(files, AUDIO_FILE_FILTER, getFileComparator()));
+    }
+
+    private ArrayList<File> toList(File file) {
+        ArrayList<File> files = new ArrayList<>(1);
+        files.add(file);
+        return files;
+    }
+
+    private Comparator<File> getFileComparator() {
+        return fileComparator;
+    }
+
+    @Override
+    public void onFileMenuClicked(final File file, View view) {
+        PopupMenu popupMenu = new PopupMenu(getActivity(), view);
+        if (file.isDirectory()) {
+        
