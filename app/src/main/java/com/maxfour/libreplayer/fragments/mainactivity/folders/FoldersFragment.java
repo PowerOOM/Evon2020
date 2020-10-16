@@ -406,4 +406,23 @@ public class FoldersFragment extends AbsMainActivityFragment implements
     public void onFileMenuClicked(final File file, View view) {
         PopupMenu popupMenu = new PopupMenu(getActivity(), view);
         if (file.isDirectory()) {
-        
+            popupMenu.inflate(R.menu.menu_item_directory);
+            popupMenu.setOnMenuItemClickListener(item -> {
+                final int itemId = item.getItemId();
+                switch (itemId) {
+                    case R.id.action_play_next:
+                    case R.id.action_add_to_current_playing:
+                    case R.id.action_add_to_playlist:
+                    case R.id.action_delete_from_device:
+                        new ListSongsAsyncTask(getActivity(), null, (songs, extra) -> {
+                            if (!songs.isEmpty()) {
+                                SongsMenuHelper.INSTANCE.handleMenuClick(getActivity(), songs, itemId);
+                            }
+                        }).execute(new ListSongsAsyncTask.LoadingInfo(toList(file), AUDIO_FILE_FILTER,
+                                getFileComparator()));
+                        return true;
+                    case R.id.action_set_as_start_directory:
+                        PreferenceUtil.getInstance(requireContext()).setStartDirectory(file);
+                        Toast.makeText(getActivity(),
+                                String.format(getString(R.string.new_start_directory), file.getPath()),
+                                Toast.LENGTH_SHORT
