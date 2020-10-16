@@ -353,4 +353,26 @@ public class FoldersFragment extends AbsMainActivityFragment implements
     public void onFileSelected(File file) {
         file = tryGetCanonicalFile(file); // important as we compare the path value later
         if (file.isDirectory()) {
-  
+            setCrumb(new BreadCrumbLayout.Crumb(file), true);
+        } else {
+            FileFilter fileFilter = pathname -> !pathname.isDirectory() && AUDIO_FILE_FILTER
+                    .accept(pathname);
+            new ListSongsAsyncTask(getActivity(), file, (songs, extra) -> {
+                File file1 = (File) extra;
+                int startIndex = -1;
+                for (int i = 0; i < songs.size(); i++) {
+                    if (file1.getPath().equals(songs.get(i).getData())) { // path is already canonical here
+                        startIndex = i;
+                        break;
+                    }
+                }
+                if (startIndex > -1) {
+                    MusicPlayerRemote.INSTANCE.openQueue(songs, startIndex, true);
+                } else {
+                    final File finalFile = file1;
+                    Snackbar.make(coordinatorLayout, Html.fromHtml(
+                            String.format(getString(R.string.not_listed_in_media_store), file1.getName())),
+                            Snackbar.LENGTH_LONG)
+                            .setAction(R.string.action_scan,
+                                    v -> new ListPathsAsyncTask(getActivity(), this::scanPaths)
+                    
