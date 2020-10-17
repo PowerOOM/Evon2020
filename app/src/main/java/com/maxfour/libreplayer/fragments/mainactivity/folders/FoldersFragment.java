@@ -542,4 +542,37 @@ public class FoldersFragment extends AbsMainActivityFragment implements
         }
     }
 
-    private static class ListSongsAsyncTask extends ListingFilesDialogAsyncTask<ListSongsAsyncTask.LoadingInfo, Void, ArrayList<So
+    private static class ListSongsAsyncTask extends ListingFilesDialogAsyncTask<ListSongsAsyncTask.LoadingInfo, Void, ArrayList<Song>> {
+
+        private final Object extra;
+        private WeakReference<Context> contextWeakReference;
+        private WeakReference<OnSongsListedCallback> callbackWeakReference;
+
+        ListSongsAsyncTask(Context context, Object extra, OnSongsListedCallback callback) {
+            super(context);
+            this.extra = extra;
+            contextWeakReference = new WeakReference<>(context);
+            callbackWeakReference = new WeakReference<>(callback);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            checkCallbackReference();
+            checkContextReference();
+        }
+
+        @Override
+        protected ArrayList<Song> doInBackground(LoadingInfo... params) {
+            try {
+                LoadingInfo info = params[0];
+                List<File> files = FileUtil.listFilesDeep(info.files, info.fileFilter);
+
+                if (isCancelled() || checkContextReference() == null
+                        || checkCallbackReference() == null) {
+                    return null;
+                }
+
+                Collections.sort(files, info.fileComparator);
+
+                Context context = checkCon
