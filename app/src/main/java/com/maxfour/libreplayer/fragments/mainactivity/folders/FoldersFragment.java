@@ -614,3 +614,39 @@ public class FoldersFragment extends AbsMainActivityFragment implements
         }
 
         public interface OnSongsListedCallback {
+
+            void onSongsListed(@NonNull ArrayList<Song> songs, Object extra);
+        }
+
+        static class LoadingInfo {
+
+            final Comparator<File> fileComparator;
+            final FileFilter fileFilter;
+            final List<File> files;
+
+            LoadingInfo(@NonNull List<File> files, @NonNull FileFilter fileFilter,
+                        @NonNull Comparator<File> fileComparator) {
+                this.fileComparator = fileComparator;
+                this.fileFilter = fileFilter;
+                this.files = files;
+            }
+        }
+    }
+
+    public static class ListPathsAsyncTask extends
+            ListingFilesDialogAsyncTask<ListPathsAsyncTask.LoadingInfo, String, String[]> {
+
+        private WeakReference<OnPathsListedCallback> onPathsListedCallbackWeakReference;
+
+        public ListPathsAsyncTask(Context context, OnPathsListedCallback callback) {
+            super(context);
+            onPathsListedCallbackWeakReference = new WeakReference<>(callback);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            checkCallbackReference();
+        }
+
+       
