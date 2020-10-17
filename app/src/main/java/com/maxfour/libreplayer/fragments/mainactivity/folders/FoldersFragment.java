@@ -513,4 +513,33 @@ public class FoldersFragment extends AbsMainActivityFragment implements
         updateAdapter(new LinkedList<File>());
     }
 
-    private static class AsyncFileLoader extend
+    private static class AsyncFileLoader extends WrappedAsyncTaskLoader<List<File>> {
+
+        private WeakReference<FoldersFragment> fragmentWeakReference;
+
+        AsyncFileLoader(FoldersFragment foldersFragment) {
+            super(Objects.requireNonNull(foldersFragment.getActivity()));
+            fragmentWeakReference = new WeakReference<>(foldersFragment);
+        }
+
+        @Override
+        public List<File> loadInBackground() {
+            FoldersFragment foldersFragment = fragmentWeakReference.get();
+            File directory = null;
+            if (foldersFragment != null) {
+                BreadCrumbLayout.Crumb crumb = foldersFragment.getActiveCrumb();
+                if (crumb != null) {
+                    directory = crumb.getFile();
+                }
+            }
+            if (directory != null) {
+                List<File> files = FileUtil.listFiles(directory, AUDIO_FILE_FILTER);
+                Collections.sort(files, foldersFragment.getFileComparator());
+                return files;
+            } else {
+                return new LinkedList<>();
+            }
+        }
+    }
+
+    private static class ListSongsAsyncTask extends ListingFilesDialogAsyncTask<ListSongsAsyncTask.LoadingInfo, Void, ArrayList<So
