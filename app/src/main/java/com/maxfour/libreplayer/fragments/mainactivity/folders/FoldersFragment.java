@@ -685,4 +685,45 @@ public class FoldersFragment extends AbsMainActivityFragment implements
             } catch (Exception e) {
                 e.printStackTrace();
                 cancel(false);
-                re
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String[] paths) {
+            super.onPostExecute(paths);
+            OnPathsListedCallback callback = checkCallbackReference();
+            if (callback != null && paths != null) {
+                callback.onPathsListed(paths);
+            }
+        }
+
+        private OnPathsListedCallback checkCallbackReference() {
+            OnPathsListedCallback callback = onPathsListedCallbackWeakReference.get();
+            if (callback == null) {
+                cancel(false);
+            }
+            return callback;
+        }
+
+        public interface OnPathsListedCallback {
+
+            void onPathsListed(@NonNull String[] paths);
+        }
+
+        public static class LoadingInfo {
+
+            public final File file;
+            final FileFilter fileFilter;
+
+            public LoadingInfo(File file, FileFilter fileFilter) {
+                this.file = file;
+                this.fileFilter = fileFilter;
+            }
+        }
+    }
+
+    private static abstract class ListingFilesDialogAsyncTask<Params, Progress, Result> extends
+            DialogAsyncTask<Params, Progress, Result> {
+
+        Listin
