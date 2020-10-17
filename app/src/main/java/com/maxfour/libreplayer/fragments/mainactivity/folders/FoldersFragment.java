@@ -575,4 +575,42 @@ public class FoldersFragment extends AbsMainActivityFragment implements
 
                 Collections.sort(files, info.fileComparator);
 
-                Context context = checkCon
+                Context context = checkContextReference();
+                if (isCancelled() || context == null || checkCallbackReference() == null) {
+                    return null;
+                }
+
+                return FileUtil.matchFilesWithMediaStore(context, files);
+            } catch (Exception e) {
+                e.printStackTrace();
+                cancel(false);
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Song> songs) {
+            super.onPostExecute(songs);
+            OnSongsListedCallback callback = checkCallbackReference();
+            if (songs != null && callback != null) {
+                callback.onSongsListed(songs, extra);
+            }
+        }
+
+        private Context checkContextReference() {
+            Context context = contextWeakReference.get();
+            if (context == null) {
+                cancel(false);
+            }
+            return context;
+        }
+
+        private OnSongsListedCallback checkCallbackReference() {
+            OnSongsListedCallback callback = callbackWeakReference.get();
+            if (callback == null) {
+                cancel(false);
+            }
+            return callback;
+        }
+
+        public interface OnSongsListedCallback {
