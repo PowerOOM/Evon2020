@@ -649,4 +649,40 @@ public class FoldersFragment extends AbsMainActivityFragment implements
             checkCallbackReference();
         }
 
-       
+        @Override
+        protected String[] doInBackground(LoadingInfo... params) {
+            try {
+                if (isCancelled() || checkCallbackReference() == null) {
+                    return null;
+                }
+
+                LoadingInfo info = params[0];
+
+                final String[] paths;
+
+                if (info.file.isDirectory()) {
+                    List<File> files = FileUtil.listFilesDeep(info.file, info.fileFilter);
+
+                    if (isCancelled() || checkCallbackReference() == null) {
+                        return null;
+                    }
+
+                    paths = new String[files.size()];
+                    for (int i = 0; i < files.size(); i++) {
+                        File f = files.get(i);
+                        paths[i] = FileUtil.safeGetCanonicalPath(f);
+
+                        if (isCancelled() || checkCallbackReference() == null) {
+                            return null;
+                        }
+                    }
+                } else {
+                    paths = new String[1];
+                    paths[0] = info.file.getPath();
+                }
+
+                return paths;
+            } catch (Exception e) {
+                e.printStackTrace();
+                cancel(false);
+                re
