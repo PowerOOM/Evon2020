@@ -726,4 +726,23 @@ public class FoldersFragment extends AbsMainActivityFragment implements
     private static abstract class ListingFilesDialogAsyncTask<Params, Progress, Result> extends
             DialogAsyncTask<Params, Progress, Result> {
 
-        Listin
+        ListingFilesDialogAsyncTask(Context context) {
+            super(context);
+        }
+
+        public ListingFilesDialogAsyncTask(Context context, int showDelay) {
+            super(context, showDelay);
+        }
+
+        @Override
+        protected Dialog createDialog(@NonNull Context context) {
+            return new MaterialAlertDialogBuilder(context)
+                    .setTitle(R.string.listing_files)
+                    .setCancelable(false)
+                    .setView(R.layout.loading)
+                    .setOnCancelListener(dialog -> cancel(false))
+                    .setOnDismissListener(dialog -> cancel(false))
+                    .create();
+        }
+    }
+}
