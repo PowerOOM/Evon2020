@@ -33,4 +33,33 @@ import com.maxfour.libreplayer.mvp.presenter.HomeView
 import com.maxfour.libreplayer.util.NavigationUtil
 import com.maxfour.libreplayer.util.PlayerColorUtil
 import com.maxfour.libreplayer.util.PreferenceUtil
-import kotlinx.android.synthetic.main.ab
+import kotlinx.android.synthetic.main.abs_playlists.*
+import kotlinx.android.synthetic.main.fragment_banner_home.*
+import kotlinx.android.synthetic.main.home_content.*
+import java.io.File
+import java.util.*
+import javax.inject.Inject
+
+class BannerHomeFragment : AbsMainActivityFragment(), MainActivityFragmentCallbacks, HomeView {
+    @Inject
+    lateinit var homePresenter: HomePresenter
+
+    private lateinit var homeAdapter: HomeAdapter
+    private lateinit var toolbar: Toolbar
+
+    override fun sections(sections: ArrayList<Home>) {
+        println(sections.size)
+        homeAdapter.swapData(sections)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, viewGroup: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(if (PreferenceUtil.getInstance(requireContext()).isHomeBanner) R.layout.fragment_banner_home else R.layout.fragment_home, viewGroup, false)
+    }
+
+    private fun loadImageFromStorage() {
+        Glide.with(requireContext())
+                .load(File(PreferenceUtil.getInstance(requireContext()).profileImage, Constants.USER_PROFILE))
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .placeholder(R.drawable.ic_pe
