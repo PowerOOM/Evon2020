@@ -62,4 +62,36 @@ class BannerHomeFragment : AbsMainActivityFragment(), MainActivityFragmentCallba
                 .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
-                .placeholder(R.drawable.ic_pe
+                .placeholder(R.drawable.ic_person_flat)
+                .error(R.drawable.ic_person_flat)
+                .into(userImage)
+    }
+
+    private val displayMetrics: DisplayMetrics
+        get() {
+            val display = mainActivity.windowManager.defaultDisplay
+            val metrics = DisplayMetrics()
+            display.getMetrics(metrics)
+            return metrics
+        }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setStatusBarColorAuto(view)
+        toolbar = view.findViewById(R.id.toolbar)
+
+        bannerImage?.setOnClickListener {
+            val options = ActivityOptions.makeSceneTransitionAnimation(mainActivity, userImage, getString(R.string.transition_user_image))
+            NavigationUtil.goToUserInfo(requireActivity(), options)
+        }
+
+        lastAdded.setOnClickListener {
+            NavigationUtil.goToPlaylistNew(requireActivity(), LastAddedPlaylist(requireActivity()))
+        }
+
+        topPlayed.setOnClickListener {
+            NavigationUtil.goToPlaylistNew(requireActivity(), MyTopSongsPlaylist(requireActivity()))
+        }
+
+        actionShuffle.setOnClickListener {
+            MusicPlayerRemote.openAndShuffleQueue(So
