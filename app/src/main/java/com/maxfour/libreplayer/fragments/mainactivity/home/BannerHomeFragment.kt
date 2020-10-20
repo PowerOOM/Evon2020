@@ -94,4 +94,37 @@ class BannerHomeFragment : AbsMainActivityFragment(), MainActivityFragmentCallba
         }
 
         actionShuffle.setOnClickListener {
-            MusicPlayerRemote.openAndShuffleQueue(So
+            MusicPlayerRemote.openAndShuffleQueue(SongLoader.getAllSongs(requireActivity()), true)
+        }
+
+        history.setOnClickListener {
+            NavigationUtil.goToPlaylistNew(requireActivity(), HistoryPlaylist(requireActivity()))
+        }
+
+        setupToolbar()
+
+        userImage?.setOnClickListener {
+            val options = ActivityOptions.makeSceneTransitionAnimation(mainActivity, userImage, getString(R.string.transition_user_image))
+            NavigationUtil.goToUserInfo(requireActivity(), options)
+        }
+        titleWelcome?.text = String.format("%s", PreferenceUtil.getInstance(requireContext()).userName)
+
+        App.musicComponent.inject(this)
+        homeAdapter = HomeAdapter(mainActivity, displayMetrics)
+
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(mainActivity)
+            adapter = homeAdapter
+        }
+        homePresenter.attachView(this)
+        homePresenter.loadSections()
+    }
+
+    private fun toolbarColor(): Int {
+        return if (PreferenceUtil.getInstance(requireContext()).isHomeBanner) {
+            ColorUtil.withAlpha(PlayerColorUtil.toolbarColor(mainActivity), 0.85f)
+        } else {
+            PlayerColorUtil.toolbarColor(mainActivity)
+        }
+    }
+
