@@ -128,3 +128,40 @@ class BannerHomeFragment : AbsMainActivityFragment(), MainActivityFragmentCallba
         }
     }
 
+    private fun setupToolbar() {
+        toolbar.apply {
+            backgroundTintList = ColorStateList.valueOf(ATHUtil.resolveColor(requireContext(), R.attr.colorSurface))
+            setNavigationIcon(R.drawable.ic_menu_white_24dp)
+            setOnClickListener {
+                val options = ActivityOptions.makeSceneTransitionAnimation(mainActivity, toolbarContainer, getString(R.string.transition_toolbar))
+                NavigationUtil.goToSearch(requireActivity(), options)
+            }
+
+        }
+        mainActivity.setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener { showMainMenu(OptionsSheetDialogFragment.LIBRARY) }
+    }
+
+    override fun handleBackPress(): Boolean {
+        return false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getTimeOfTheDay()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        homePresenter.detachView()
+    }
+
+    override fun showEmptyView() {
+        emptyContainer.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_search, menu)
+
+        ToolbarContentTintHelper.handleOnCreate
