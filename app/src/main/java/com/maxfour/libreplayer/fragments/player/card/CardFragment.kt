@@ -41,4 +41,39 @@ class CardFragment : AbsPlayerFragment() {
 
     override fun toolbarIconColor(): Int {
         return Color.WHITE
-  
+    }
+
+    override fun onColorChanged(color: Int) {
+        playbackControlsFragment.setDark(color)
+        lastColor = color
+        callbacks!!.onPaletteColorChanged()
+
+        ToolbarContentTintHelper.colorizeToolbar(playerToolbar, Color.WHITE, activity)
+    }
+
+    override fun toggleFavorite(song: Song) {
+        super.toggleFavorite(song)
+        if (song.id == MusicPlayerRemote.currentSong.id) {
+            updateIsFavorite()
+        }
+    }
+
+    override fun onFavoriteToggled() {
+        toggleFavorite(MusicPlayerRemote.currentSong)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+
+        return inflater.inflate(R.layout.fragment_card_player, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpSubFragments()
+        setUpPlayerToolbar()
+    }
+
+    private fun setUpSubFragments() {
+        playbackControlsFragment = childFragmentManager.findFragmentById(R.id.playbackControlsFragment) as CardPlaybackControlsFragment
+        val playerAlbumCoverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as Pla
