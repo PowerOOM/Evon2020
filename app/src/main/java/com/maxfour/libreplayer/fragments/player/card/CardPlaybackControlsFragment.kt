@@ -35,4 +35,43 @@ class CardPlaybackControlsFragment : AbsPlayerControlsFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        progres
+        progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_card_player_playback_controls, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpMusicControllers()
+
+        playPauseButton.setOnClickListener {
+            if (MusicPlayerRemote.isPlaying) {
+                MusicPlayerRemote.pauseSong()
+            } else {
+                MusicPlayerRemote.resumePlaying()
+            }
+            showBonceAnimation(playPauseButton)
+        }
+        title.isSelected = true
+        text.isSelected = true
+    }
+
+    private fun updateSong() {
+        val song = MusicPlayerRemote.currentSong
+        title.text = song.title
+        text.text = song.artistName
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressViewUpdateHelper!!.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressViewUpdateHelper!!.stop()
+  
