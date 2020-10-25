@@ -191,4 +191,34 @@ class BannerHomeFragment : AbsMainActivityFragment(), MainActivityFragmentCallba
             in 16..19 -> images = resources.getStringArray(R.array.evening)
             in 20..23 -> images = resources.getStringArray(R.array.night)
         }
-        val day = images
+        val day = images[Random().nextInt(images.size)]
+        loadTimeImage(day)
+    }
+
+
+    private fun loadTimeImage(day: String) {
+        bannerImage?.let {
+            val request = Glide.with(requireContext())
+            if (PreferenceUtil.getInstance(requireContext()).bannerImage.isEmpty()) {
+                request.load(day)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .placeholder(R.drawable.material_design_default)
+                        .error(R.drawable.material_design_default)
+                        .into(it)
+            } else {
+                request.load(File(PreferenceUtil.getInstance(requireContext()).bannerImage, USER_BANNER))
+                        .asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .placeholder(R.drawable.material_design_default)
+                        .error(R.drawable.material_design_default)
+                        .into(it)
+            }
+        }
+        loadImageFromStorage()
+    }
+
+    companion object {
+
+        const val TAG: Str
