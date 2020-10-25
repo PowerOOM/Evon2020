@@ -221,4 +221,10 @@ class BannerHomeFragment : AbsMainActivityFragment(), MainActivityFragmentCallba
 
     companion object {
 
-        const val TAG: Str
+        const val TAG: String = "BannerHomeFragment"
+
+        fun newInstance(): BannerHomeFragment {
+            return BannerHomeFragment()
+        }
+    }
+}
