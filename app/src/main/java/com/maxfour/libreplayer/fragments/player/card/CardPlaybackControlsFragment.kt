@@ -74,4 +74,43 @@ class CardPlaybackControlsFragment : AbsPlayerControlsFragment() {
     override fun onPause() {
         super.onPause()
         progressViewUpdateHelper!!.stop()
-  
+    }
+
+    override fun onServiceConnected() {
+        updatePlayPauseDrawableState()
+        updateRepeatState()
+        updateShuffleState()
+        updateSong()
+    }
+
+    override fun onPlayingMetaChanged() {
+        super.onPlayingMetaChanged()
+        updateSong()
+    }
+
+    override fun onPlayStateChanged() {
+        updatePlayPauseDrawableState()
+    }
+
+    override fun onRepeatModeChanged() {
+        updateRepeatState()
+    }
+
+    override fun onShuffleModeChanged() {
+        updateShuffleState()
+    }
+
+    override fun setDark(color: Int) {
+
+        if (ColorUtil.isColorLight(ATHUtil.resolveColor(context, android.R.attr.windowBackground))) {
+            lastPlaybackControlsColor = MaterialValueHelper.getSecondaryTextColor(activity, true)
+            lastDisabledPlaybackControlsColor = MaterialValueHelper.getSecondaryDisabledTextColor(activity, true)
+        } else {
+            lastPlaybackControlsColor = MaterialValueHelper.getPrimaryTextColor(activity, false)
+            lastDisabledPlaybackControlsColor = MaterialValueHelper.getPrimaryDisabledTextColor(activity, false)
+        }
+
+        updateRepeatState()
+        updateShuffleState()
+        updatePrevNextColor()
+        updatePlayPauseCol
