@@ -76,4 +76,36 @@ class CardFragment : AbsPlayerFragment() {
 
     private fun setUpSubFragments() {
         playbackControlsFragment = childFragmentManager.findFragmentById(R.id.playbackControlsFragment) as CardPlaybackControlsFragment
-        val playerAlbumCoverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as Pla
+        val playerAlbumCoverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as PlayerAlbumCoverFragment
+        playerAlbumCoverFragment.setCallbacks(this)
+        playerAlbumCoverFragment.removeSlideEffect()
+    }
+
+    private fun setUpPlayerToolbar() {
+        playerToolbar.inflateMenu(R.menu.menu_player)
+        playerToolbar.setNavigationOnClickListener { activity!!.onBackPressed() }
+        playerToolbar.setOnMenuItemClickListener(this)
+
+        ToolbarContentTintHelper.colorizeToolbar(playerToolbar, Color.WHITE, activity)
+
+    }
+
+    override fun onServiceConnected() {
+        updateIsFavorite()
+    }
+
+    override fun onPlayingMetaChanged() {
+        updateIsFavorite()
+    }
+
+    companion object {
+
+        fun newInstance(): PlayerFragment {
+            val args = Bundle()
+            val fragment = PlayerFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+}
