@@ -164,4 +164,31 @@ class BannerHomeFragment : AbsMainActivityFragment(), MainActivityFragmentCallba
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_search, menu)
 
-        ToolbarContentTintHelper.handleOnCreate
+        ToolbarContentTintHelper.handleOnCreateOptionsMenu(requireActivity(), toolbar, menu, ATHToolbarActivity.getToolbarBackgroundColor(toolbar))
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        ToolbarContentTintHelper.handleOnPrepareOptionsMenu(requireActivity(), toolbar)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_search) {
+            val options = ActivityOptions.makeSceneTransitionAnimation(mainActivity, toolbarContainer, getString(R.string.transition_toolbar))
+            NavigationUtil.goToSearch(requireActivity(), true, options)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun getTimeOfTheDay() {
+        val c = Calendar.getInstance()
+        val timeOfDay = c.get(Calendar.HOUR_OF_DAY)
+        var images = arrayOf<String>()
+        when (timeOfDay) {
+            in 0..5 -> images = resources.getStringArray(R.array.night)
+            in 6..11 -> images = resources.getStringArray(R.array.morning)
+            in 12..15 -> images = resources.getStringArray(R.array.after_noon)
+            in 16..19 -> images = resources.getStringArray(R.array.evening)
+            in 20..23 -> images = resources.getStringArray(R.array.night)
+        }
+        val day = images
