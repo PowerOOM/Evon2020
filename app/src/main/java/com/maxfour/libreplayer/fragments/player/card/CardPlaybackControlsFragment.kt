@@ -113,4 +113,39 @@ class CardPlaybackControlsFragment : AbsPlayerControlsFragment() {
         updateRepeatState()
         updateShuffleState()
         updatePrevNextColor()
-        updatePlayPauseCol
+        updatePlayPauseColor()
+        updateProgressTextColor()
+
+
+        val colorFinal = if (PreferenceUtil.getInstance(requireContext()).adaptiveColor) {
+            color
+        } else {
+            ThemeStore.accentColor(context!!).ripAlpha()
+        }
+        image.setColorFilter(colorFinal, PorterDuff.Mode.SRC_IN)
+        TintHelper.setTintAuto(playPauseButton, MaterialValueHelper.getPrimaryTextColor(context, ColorUtil.isColorLight(colorFinal)), false)
+        TintHelper.setTintAuto(playPauseButton, colorFinal, true)
+
+        volumeFragment?.setTintable(colorFinal)
+
+    }
+
+    private fun updatePlayPauseColor() {
+        //playPauseButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN);
+    }
+
+    private fun setUpPlayPauseFab() {
+        playPauseButton.setOnClickListener(PlayPauseButtonOnClickHandler())
+    }
+
+    private fun updatePlayPauseDrawableState() {
+        if (MusicPlayerRemote.isPlaying) {
+            playPauseButton.setImageResource(R.drawable.ic_pause_white_24dp)
+        } else {
+            playPauseButton.setImageResource(R.drawable.ic_play_arrow_white_32dp)
+        }
+    }
+
+    private fun setUpMusicControllers() {
+        setUpPlayPauseFab()
+        setU
