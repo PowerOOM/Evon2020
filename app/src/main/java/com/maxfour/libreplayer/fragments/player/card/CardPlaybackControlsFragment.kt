@@ -148,4 +148,36 @@ class CardPlaybackControlsFragment : AbsPlayerControlsFragment() {
 
     private fun setUpMusicControllers() {
         setUpPlayPauseFab()
-        setU
+        setUpPrevNext()
+        setUpRepeatButton()
+        setUpShuffleButton()
+        setUpProgressSlider()
+    }
+
+    private fun setUpPrevNext() {
+        updatePrevNextColor()
+        nextButton.setOnClickListener { MusicPlayerRemote.playNextSong() }
+        previousButton.setOnClickListener { MusicPlayerRemote.back() }
+    }
+
+    private fun updatePrevNextColor() {
+        nextButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+        previousButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+    }
+
+    private fun setUpShuffleButton() {
+        shuffleButton.setOnClickListener { MusicPlayerRemote.toggleShuffleMode() }
+    }
+
+    override fun updateShuffleState() {
+        when (MusicPlayerRemote.shuffleMode) {
+            MusicService.SHUFFLE_MODE_SHUFFLE -> shuffleButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            else -> shuffleButton.setColorFilter(lastDisabledPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+        }
+    }
+
+    private fun setUpRepeatButton() {
+        repeatButton.setOnClickListener { MusicPlayerRemote.cycleRepeatMode() }
+    }
+
+    override f
