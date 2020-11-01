@@ -180,4 +180,30 @@ class CardPlaybackControlsFragment : AbsPlayerControlsFragment() {
         repeatButton.setOnClickListener { MusicPlayerRemote.cycleRepeatMode() }
     }
 
-    override f
+    override fun updateRepeatState() {
+        when (MusicPlayerRemote.repeatMode) {
+            MusicService.REPEAT_MODE_NONE -> {
+                repeatButton.setImageResource(R.drawable.ic_repeat_white_24dp)
+                repeatButton.setColorFilter(lastDisabledPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+            MusicService.REPEAT_MODE_ALL -> {
+                repeatButton.setImageResource(R.drawable.ic_repeat_white_24dp)
+                repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+            MusicService.REPEAT_MODE_THIS -> {
+                repeatButton.setImageResource(R.drawable.ic_repeat_one_white_24dp)
+                repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+        }
+    }
+
+    override fun onUpdateProgressViews(progress: Int, total: Int) {
+        progressSlider.max = total
+
+        val animator = ObjectAnimator.ofInt(progressSlider, "progress", progress)
+        animator.duration = SLIDER_ANIMATION_TIME
+        animator.interpolator = LinearInterpolator()
+        animator.start()
+
+        songTotalTime.text = MusicUtil.getReadableDurationString(total.toLong())
+        songCurrentProgres
