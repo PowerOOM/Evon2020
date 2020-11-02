@@ -206,4 +206,31 @@ class CardPlaybackControlsFragment : AbsPlayerControlsFragment() {
         animator.start()
 
         songTotalTime.text = MusicUtil.getReadableDurationString(total.toLong())
-        songCurrentProgres
+        songCurrentProgress.text = MusicUtil.getReadableDurationString(progress.toLong())
+    }
+
+    private fun updateProgressTextColor() {
+        val color = MaterialValueHelper.getPrimaryTextColor(context, false)
+        songTotalTime!!.setTextColor(color)
+        songCurrentProgress!!.setTextColor(color)
+    }
+
+    public override fun show() {
+        //Ignore
+    }
+
+    public override fun hide() {
+        //Ignore
+    }
+
+    override fun setUpProgressSlider() {
+        progressSlider.setOnSeekBarChangeListener(object : SimpleOnSeekbarChangeListener() {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    MusicPlayerRemote.seekTo(progress)
+                    onUpdateProgressViews(MusicPlayerRemote.songProgressMillis, MusicPlayerRemote.songDurationMillis)
+                }
+            }
+        })
+    }
+}
