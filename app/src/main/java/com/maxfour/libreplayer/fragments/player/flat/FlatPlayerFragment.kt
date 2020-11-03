@@ -102,4 +102,23 @@ class FlatPlayerFragment : AbsPlayerFragment() {
         val iconColor = if (PreferenceUtil.getInstance(requireContext()).adaptiveColor)
             MaterialValueHelper.getPrimaryTextColor(requireContext(), isLight)
         else
-            ATHUtil.resolveColor(requireContext(), R.attr.
+            ATHUtil.resolveColor(requireContext(), R.attr.colorControlNormal)
+        ToolbarContentTintHelper.colorizeToolbar(playerToolbar, iconColor, requireActivity())
+        if (PreferenceUtil.getInstance(requireContext()).adaptiveColor) {
+            colorize(color)
+        }
+    }
+
+
+    override fun onFavoriteToggled() {
+        toggleFavorite(MusicPlayerRemote.currentSong)
+    }
+
+
+    override fun toggleFavorite(song: Song) {
+        super.toggleFavorite(song)
+        if (song.id == MusicPlayerRemote.currentSong.id) {
+            updateIsFavorite()
+        }
+    }
+}
