@@ -64,4 +64,42 @@ class FlatPlayerFragment : AbsPlayerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_flat_player, container, false)
-   
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpPlayerToolbar()
+        setUpSubFragments()
+
+    }
+
+    override fun onShow() {
+        flatPlaybackControlsFragment.show()
+    }
+
+    override fun onHide() {
+        flatPlaybackControlsFragment.hide()
+        onBackPressed()
+    }
+
+    override fun onBackPressed(): Boolean {
+        return false
+    }
+
+    override fun toolbarIconColor(): Int {
+        val isLight = ColorUtil.isColorLight(paletteColor)
+        return if (PreferenceUtil.getInstance(requireContext()).adaptiveColor)
+            MaterialValueHelper.getPrimaryTextColor(requireContext(), isLight)
+        else
+            ATHUtil.resolveColor(context, R.attr.colorControlNormal)
+    }
+
+    override fun onColorChanged(color: Int) {
+        lastColor = color
+        flatPlaybackControlsFragment.setDark(color)
+        callbacks?.onPaletteColorChanged()
+        val isLight = ColorUtil.isColorLight(color)
+        val iconColor = if (PreferenceUtil.getInstance(requireContext()).adaptiveColor)
+            MaterialValueHelper.getPrimaryTextColor(requireContext(), isLight)
+        else
+            ATHUtil.resolveColor(requireContext(), R.attr.
