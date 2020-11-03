@@ -36,4 +36,32 @@ class FlatPlayerFragment : AbsPlayerFragment() {
     private fun setUpSubFragments() {
         flatPlaybackControlsFragment = childFragmentManager.findFragmentById(R.id.playbackControlsFragment) as FlatPlaybackControlsFragment
         val playerAlbumCoverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as PlayerAlbumCoverFragment
-        playerAlbumCoverFragm
+        playerAlbumCoverFragment.setCallbacks(this)
+    }
+
+    private fun setUpPlayerToolbar() {
+        playerToolbar.inflateMenu(R.menu.menu_player)
+        playerToolbar.setNavigationOnClickListener { _ -> requireActivity().onBackPressed() }
+        playerToolbar.setOnMenuItemClickListener(this)
+        ToolbarContentTintHelper.colorizeToolbar(playerToolbar, ATHUtil.resolveColor(requireContext(), R.attr.colorControlNormal), requireActivity())
+    }
+
+    private fun colorize(i: Int) {
+        if (valueAnimator != null) {
+            valueAnimator!!.cancel()
+        }
+
+        valueAnimator = ValueAnimator.ofObject(ArgbEvaluator(), android.R.color.transparent, i)
+        valueAnimator!!.addUpdateListener { animation ->
+            val drawable = DrawableGradient(GradientDrawable.Orientation.TOP_BOTTOM,
+                    intArrayOf(animation.animatedValue as Int, android.R.color.transparent), 0)
+            colorGradientBackground?.background = drawable
+
+        }
+        valueAnimator!!.setDuration(ViewUtil.MUSIC_ANIM_TIME.toLong()).start()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_flat_player, container, false)
+   
