@@ -1,5 +1,5 @@
 
-package com.maxfour.libreplayer.fragments.player.lockscreen
+package com.maxfour.libreplayer.fragments.player.material
 
 import android.animation.ObjectAnimator
 import android.graphics.PorterDuff
@@ -7,14 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.SeekBar
 import com.maxfour.appthemehelper.ThemeStore
 import com.maxfour.appthemehelper.util.ATHUtil
 import com.maxfour.appthemehelper.util.ColorUtil
 import com.maxfour.appthemehelper.util.MaterialValueHelper
-import com.maxfour.appthemehelper.util.TintHelper
 import com.maxfour.libreplayer.R
 import com.maxfour.libreplayer.extensions.ripAlpha
 import com.maxfour.libreplayer.fragments.base.AbsPlayerControlsFragment
@@ -26,13 +24,14 @@ import com.maxfour.libreplayer.service.MusicService
 import com.maxfour.libreplayer.util.MusicUtil
 import com.maxfour.libreplayer.util.PreferenceUtil
 import com.maxfour.libreplayer.util.ViewUtil
-import kotlinx.android.synthetic.main.fragment_lock_screen_playback_controls.*
+import kotlinx.android.synthetic.main.fragment_material_playback_controls.*
 
-class LockScreenPlayerControlsFragment : AbsPlayerControlsFragment() {
+class MaterialControlsFragment : AbsPlayerControlsFragment() {
 
-    private var progressViewUpdateHelper: MusicProgressViewUpdateHelper? = null
     private var lastPlaybackControlsColor: Int = 0
     private var lastDisabledPlaybackControlsColor: Int = 0
+    private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,31 +40,30 @@ class LockScreenPlayerControlsFragment : AbsPlayerControlsFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
-        return inflater.inflate(R.layout.fragment_lock_screen_playback_controls, container, false)
+        return inflater.inflate(R.layout.fragment_material_playback_controls, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpMusicControllers()
         title.isSelected = true
+        text.isSelected = true
     }
 
     private fun updateSong() {
         val song = MusicPlayerRemote.currentSong
         title.text = song.title
-        text.text = String.format("%s - %s", song.artistName, song.albumName)
-
+        text.text = song.artistName
     }
 
     override fun onResume() {
         super.onResume()
-        progressViewUpdateHelper!!.start()
+        progressViewUpdateHelper.start()
     }
 
     override fun onPause() {
         super.onPause()
-        progressViewUpdateHelper!!.stop()
+        progressViewUpdateHelper.stop()
     }
 
     override fun onServiceConnected() {
@@ -93,7 +91,6 @@ class LockScreenPlayerControlsFragment : AbsPlayerControlsFragment() {
     }
 
     override fun setDark(color: Int) {
-
         val colorBg = ATHUtil.resolveColor(requireContext(), android.R.attr.colorBackground)
         if (ColorUtil.isColorLight(colorBg)) {
             lastPlaybackControlsColor = MaterialValueHelper.getSecondaryTextColor(requireContext(), true)
@@ -103,22 +100,27 @@ class LockScreenPlayerControlsFragment : AbsPlayerControlsFragment() {
             lastDisabledPlaybackControlsColor = MaterialValueHelper.getPrimaryDisabledTextColor(requireContext(), false)
         }
 
+        updateRepeatState()
+        updateShuffleState()
+
         val colorFinal = if (PreferenceUtil.getInstance(requireContext()).adaptiveColor) {
+            lastPlaybackControlsColor = color
             color
         } else {
             ThemeStore.textColorSecondary(requireContext())
-        }.ripAlpha()
+        }
 
-        volumeFragment?.setTintable(colorFinal)
-        ViewUtil.setProgressDrawable(progressSlider, colorFinal, true)
-
-        updatePrevNextColor()
-
-        val isDark = ColorUtil.isColorLight(colorFinal)
         text.setTextColor(colorFinal)
+        ViewUtil.setProgressDrawable(progressSlider, colorFinal.ripAlpha(), true)
 
-        TintHelper.setTintAuto(playPauseButton, MaterialValueHelper.getPrimaryTextColor(requireContext(), isDark), false)
-        TintHelper.setTintAuto(playPauseButton, colorFinal, true)
+        volumeFragment?.setTintable(colorFinal.ripAlpha())
+
+        updatePlayPauseColor()
+        updatePrevNextColor()
+    }
+
+    private fun updatePlayPauseColor() {
+        playPauseButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
     }
 
     private fun setUpPlayPauseFab() {
@@ -127,19 +129,18 @@ class LockScreenPlayerControlsFragment : AbsPlayerControlsFragment() {
 
     private fun updatePlayPauseDrawableState() {
         if (MusicPlayerRemote.isPlaying) {
-            playPauseButton.setImageResource(R.drawable.ic_pause_white_24dp)
+            playPauseButton.setImageResource(R.drawable.ic_pause_white_64dp)
         } else {
-            playPauseButton.setImageResource(R.drawable.ic_play_arrow_white_32dp)
+            playPauseButton.setImageResource(R.drawable.ic_play_arrow_white_64dp);
         }
     }
-
 
     private fun setUpMusicControllers() {
         setUpPlayPauseFab()
         setUpPrevNext()
-        setUpProgressSlider()
-        setUpShuffleButton()
         setUpRepeatButton()
+        setUpShuffleButton()
+        setUpProgressSlider()
     }
 
     private fun setUpPrevNext() {
@@ -186,22 +187,11 @@ class LockScreenPlayerControlsFragment : AbsPlayerControlsFragment() {
     }
 
     public override fun show() {
-        playPauseButton!!.animate()
-                .scaleX(1f)
-                .scaleY(1f)
-                .rotation(360f)
-                .setInterpolator(DecelerateInterpolator())
-                .start()
+
     }
 
     public override fun hide() {
-        if (playPauseButton != null) {
-            playPauseButton!!.apply {
-                scaleX = 0f
-                scaleY = 0f
-                rotation = 0f
-            }
-        }
+
     }
 
     override fun setUpProgressSlider() {
@@ -217,7 +207,7 @@ class LockScreenPlayerControlsFragment : AbsPlayerControlsFragment() {
     }
 
     override fun onUpdateProgressViews(progress: Int, total: Int) {
-        progressSlider.max = total
+        progressSlider!!.max = total
 
         val animator = ObjectAnimator.ofInt(progressSlider, "progress", progress)
         animator.duration = SLIDER_ANIMATION_TIME
