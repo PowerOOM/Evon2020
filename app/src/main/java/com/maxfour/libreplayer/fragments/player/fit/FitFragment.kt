@@ -62,4 +62,31 @@ class FitFragment : AbsPlayerFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-  
+                              savedInstanceState: Bundle?): View? {
+
+        return inflater.inflate(R.layout.fragment_fit, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpSubFragments()
+        setUpPlayerToolbar()
+    }
+
+    private fun setUpSubFragments() {
+        playbackControlsFragment = childFragmentManager.findFragmentById(R.id.playbackControlsFragment) as FitPlaybackControlsFragment
+        val playerAlbumCoverFragment: PlayerAlbumCoverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as PlayerAlbumCoverFragment
+        playerAlbumCoverFragment.setCallbacks(this)
+        playerAlbumCoverFragment.removeEffect()
+    }
+
+    private fun setUpPlayerToolbar() {
+        playerToolbar.apply {
+            inflateMenu(R.menu.menu_player)
+            setNavigationOnClickListener { requireActivity().onBackPressed() }
+            setOnMenuItemClickListener(this@FitFragment)
+            ToolbarContentTintHelper.colorizeToolbar(this, ATHUtil.resolveColor(requireContext(), R.attr.colorControlNormal), requireActivity())
+        }
+    }
+
+    ove
