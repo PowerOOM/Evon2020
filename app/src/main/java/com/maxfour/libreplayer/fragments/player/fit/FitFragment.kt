@@ -89,4 +89,17 @@ class FitFragment : AbsPlayerFragment() {
         }
     }
 
-    ove
+    override fun onServiceConnected() {
+        updateIsFavorite()
+    }
+
+    override fun onPlayingMetaChanged() {
+        updateIsFavorite()
+    }
+
+    companion object {
+        fun newInstance(): FitFragment {
+            return FitFragment()
+        }
+    }
+}
