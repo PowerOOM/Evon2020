@@ -118,4 +118,47 @@ class PlayerPlaybackControlsFragment : AbsPlayerControlsFragment() {
     }
 
     override fun onPlayingMetaChanged() {
-  
+        super.onPlayingMetaChanged()
+        updateSong()
+    }
+
+    override fun onPlayStateChanged() {
+        updatePlayPauseDrawableState()
+    }
+
+    override fun onRepeatModeChanged() {
+        updateRepeatState()
+    }
+
+    override fun onShuffleModeChanged() {
+        updateShuffleState()
+    }
+
+    private fun setUpPlayPauseFab() {
+        playPauseButton.setOnClickListener(PlayPauseButtonOnClickHandler())
+    }
+
+    private fun updatePlayPauseDrawableState() {
+        if (MusicPlayerRemote.isPlaying) {
+            playPauseButton.setImageResource(R.drawable.ic_pause_white_24dp)
+        } else {
+            playPauseButton.setImageResource(R.drawable.ic_play_arrow_white_24dp)
+        }
+    }
+
+    private fun setUpMusicControllers() {
+        setUpPlayPauseFab()
+        setUpPrevNext()
+        setUpRepeatButton()
+        setUpShuffleButton()
+        setUpProgressSlider()
+    }
+
+    private fun setUpPrevNext() {
+        updatePrevNextColor()
+        nextButton.setOnClickListener { MusicPlayerRemote.playNextSong() }
+        previousButton.setOnClickListener { MusicPlayerRemote.back() }
+    }
+
+    private fun updatePrevNextColor() {
+        nextButton.setColorFilter(lastPlaybackControlsColor, Port
