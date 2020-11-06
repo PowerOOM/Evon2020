@@ -43,4 +43,33 @@ class PlayerPlaybackControlsFragment : AbsPlayerControlsFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_player_playback_controls, container, fal
+        return inflater.inflate(R.layout.fragment_player_playback_controls, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpMusicControllers()
+        playPauseButton.setOnClickListener {
+            if (MusicPlayerRemote.isPlaying) {
+                MusicPlayerRemote.pauseSong()
+            } else {
+                MusicPlayerRemote.resumePlaying()
+            }
+            showBonceAnimation(playPauseButton)
+        }
+        title.isSelected = true
+    }
+
+    override fun setDark(color: Int) {
+        val colorBg = ATHUtil.resolveColor(requireContext(), android.R.attr.colorBackground)
+        if (ColorUtil.isColorLight(colorBg)) {
+            lastPlaybackControlsColor = MaterialValueHelper.getSecondaryTextColor(requireContext(), true)
+            lastDisabledPlaybackControlsColor =
+                MaterialValueHelper.getSecondaryDisabledTextColor(requireContext(), true)
+        } else {
+            lastPlaybackControlsColor = MaterialValueHelper.getPrimaryTextColor(requireContext(), false)
+            lastDisabledPlaybackControlsColor =
+                MaterialValueHelper.getPrimaryDisabledTextColor(requireContext(), false)
+        }
+
+        val colorFinal = i
