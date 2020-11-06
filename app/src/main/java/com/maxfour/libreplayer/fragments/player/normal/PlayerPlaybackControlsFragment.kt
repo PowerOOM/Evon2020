@@ -224,4 +224,24 @@ class PlayerPlaybackControlsFragment : AbsPlayerControlsFragment() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     MusicPlayerRemote.seekTo(progress)
-              
+                    onUpdateProgressViews(
+                        MusicPlayerRemote.songProgressMillis,
+                        MusicPlayerRemote.songDurationMillis
+                    )
+                }
+            }
+        })
+    }
+
+    override fun onUpdateProgressViews(progress: Int, total: Int) {
+        progressSlider.max = total
+
+        val animator = ObjectAnimator.ofInt(progressSlider, "progress", progress)
+        animator.duration = SLIDER_ANIMATION_TIME
+        animator.interpolator = LinearInterpolator()
+        animator.start()
+
+        songTotalTime.text = MusicUtil.getReadableDurationString(total.toLong())
+        songCurrentProgress.text = MusicUtil.getReadableDurationString(progress.toLong())
+    }
+}
