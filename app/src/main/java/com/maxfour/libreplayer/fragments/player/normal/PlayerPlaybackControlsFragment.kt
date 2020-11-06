@@ -72,4 +72,50 @@ class PlayerPlaybackControlsFragment : AbsPlayerControlsFragment() {
                 MaterialValueHelper.getPrimaryDisabledTextColor(requireContext(), false)
         }
 
-        val colorFinal = i
+        val colorFinal = if (PreferenceUtil.getInstance(requireContext()).adaptiveColor) {
+            color
+        } else {
+            ThemeStore.accentColor(requireContext())
+        }.ripAlpha()
+
+        TintHelper.setTintAuto(
+            playPauseButton,
+            MaterialValueHelper.getPrimaryTextColor(requireContext(), ColorUtil.isColorLight(colorFinal)),
+            false
+        )
+        TintHelper.setTintAuto(playPauseButton, colorFinal, true)
+
+        ViewUtil.setProgressDrawable(progressSlider, colorFinal, false)
+
+        volumeFragment?.setTintable(colorFinal)
+
+        updateRepeatState()
+        updateShuffleState()
+        updatePrevNextColor()
+    }
+
+    private fun updateSong() {
+        val song = MusicPlayerRemote.currentSong
+        title.text = song.title
+        text.text = song.artistName
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressViewUpdateHelper.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressViewUpdateHelper.stop()
+    }
+
+    override fun onServiceConnected() {
+        updatePlayPauseDrawableState()
+        updateRepeatState()
+        updateShuffleState()
+        updateSong()
+    }
+
+    override fun onPlayingMetaChanged() {
+  
