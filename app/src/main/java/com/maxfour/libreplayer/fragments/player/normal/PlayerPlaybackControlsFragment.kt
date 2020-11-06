@@ -190,4 +190,38 @@ class PlayerPlaybackControlsFragment : AbsPlayerControlsFragment() {
                 repeatButton.setColorFilter(lastDisabledPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
             }
             MusicService.REPEAT_MODE_ALL -> {
-                repeatButton.setImageResource(R.drawable.ic_repeat_white_2
+                repeatButton.setImageResource(R.drawable.ic_repeat_white_24dp)
+                repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+            MusicService.REPEAT_MODE_THIS -> {
+                repeatButton.setImageResource(R.drawable.ic_repeat_one_white_24dp)
+                repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+        }
+    }
+
+    public override fun show() {
+        playPauseButton!!.animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .rotation(360f)
+            .setInterpolator(DecelerateInterpolator())
+            .start()
+    }
+
+    public override fun hide() {
+        if (playPauseButton != null) {
+            playPauseButton!!.apply {
+                scaleX = 0f
+                scaleY = 0f
+                rotation = 0f
+            }
+        }
+    }
+
+    override fun setUpProgressSlider() {
+        progressSlider.setOnSeekBarChangeListener(object : SimpleOnSeekbarChangeListener() {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    MusicPlayerRemote.seekTo(progress)
+              
