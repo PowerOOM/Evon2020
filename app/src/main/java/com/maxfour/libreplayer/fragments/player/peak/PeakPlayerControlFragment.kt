@@ -179,4 +179,35 @@ class PeakPlayerControlFragment : AbsPlayerControlsFragment() {
     override fun updateRepeatState() {
         when (MusicPlayerRemote.repeatMode) {
             MusicService.REPEAT_MODE_NONE -> {
-                repeatButton.setImag
+                repeatButton.setImageResource(R.drawable.ic_repeat_white_24dp)
+                repeatButton.setColorFilter(lastDisabledPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+            MusicService.REPEAT_MODE_ALL -> {
+                repeatButton.setImageResource(R.drawable.ic_repeat_white_24dp)
+                repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+            MusicService.REPEAT_MODE_THIS -> {
+                repeatButton.setImageResource(R.drawable.ic_repeat_one_white_24dp)
+                repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+        }
+    }
+
+    override fun onPlayStateChanged() {
+        super.onPlayStateChanged()
+        updatePlayPauseDrawableState()
+    }
+
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        updatePlayPauseDrawableState()
+    }
+
+    override fun onRepeatModeChanged() {
+        updateRepeatState()
+    }
+
+    override fun onShuffleModeChanged() {
+        updateShuffleState()
+    }
+}
