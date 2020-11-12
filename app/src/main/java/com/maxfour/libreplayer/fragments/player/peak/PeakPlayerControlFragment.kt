@@ -35,4 +35,47 @@ class PeakPlayerControlFragment : AbsPlayerControlsFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        progressViewUpdateHelper = MusicProgressViewUp
+        progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressViewUpdateHelper.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressViewUpdateHelper.stop()
+    }
+
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_peak_control_player, container, false)
+    }
+
+    override fun onViewCreated(
+            view: View,
+            savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpMusicControllers()
+    }
+
+    override fun show() {
+
+    }
+
+    override fun hide() {
+
+    }
+
+    override fun setDark(color: Int) {
+        val colorBg = ATHUtil.resolveColor(requireContext(), android.R.attr.colorBackground)
+        if (ColorUtil.isColorLight(colorBg)) {
+            lastPlaybackControlsColor = MaterialValueHelper.getSecondaryTextColor(requireContext(), true)
+            lastDisabledPlaybackControlsColor = MaterialValueHelper.getSecondaryDisabledTextColor(requireContext(), true)
+        } else {
+            lastPlaybackControlsCol
