@@ -144,4 +144,39 @@ class PeakPlayerControlFragment : AbsPlayerControlsFragment() {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     MusicPlayerRemote.seekTo(progress)
-                    onUpdateProgressViews(MusicPlayerRemote.songProgressMil
+                    onUpdateProgressViews(MusicPlayerRemote.songProgressMillis, MusicPlayerRemote.songDurationMillis)
+                }
+            }
+        })
+    }
+
+    private fun setUpPlayPauseFab() {
+        TintHelper.setTintAuto(playPauseButton, Color.WHITE, true)
+        TintHelper.setTintAuto(playPauseButton, Color.BLACK, false)
+        playPauseButton.setOnClickListener(PlayPauseButtonOnClickHandler())
+    }
+
+    private fun setUpPrevNext() {
+        updatePrevNextColor()
+        nextButton.setOnClickListener { MusicPlayerRemote.playNextSong() }
+        previousButton.setOnClickListener { MusicPlayerRemote.back() }
+    }
+
+    private fun updatePrevNextColor() {
+        nextButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+        previousButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+    }
+
+
+    override fun updateShuffleState() {
+        when (MusicPlayerRemote.shuffleMode) {
+            MusicService.SHUFFLE_MODE_SHUFFLE -> shuffleButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            else -> shuffleButton.setColorFilter(lastDisabledPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+        }
+    }
+
+
+    override fun updateRepeatState() {
+        when (MusicPlayerRemote.repeatMode) {
+            MusicService.REPEAT_MODE_NONE -> {
+                repeatButton.setImag
