@@ -77,4 +77,34 @@ class PeakPlayerFragment : AbsPlayerFragment() {
         callbacks?.onPaletteColorChanged()
     }
 
-    override fun onFavoriteToggl
+    override fun onFavoriteToggled() {
+
+    }
+
+    private fun updateSong() {
+        val song = MusicPlayerRemote.currentSong
+        title.text = song.title
+        text.text = song.artistName
+
+        SongGlideRequest.Builder.from(Glide.with(requireActivity()), MusicPlayerRemote.currentSong)
+                .checkIgnoreMediaStore(requireContext())
+                .generatePalette(requireContext())
+                .build()
+                .into(object : PlayerColoredTarget(playerImage) {
+                    override fun onColorReady(color: Int) {
+                        playbackControlsFragment.setDark(color)
+                    }
+                })
+
+    }
+
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        updateSong()
+    }
+
+    override fun onPlayingMetaChanged() {
+        super.onPlayingMetaChanged()
+        updateSong()
+    }
+}
