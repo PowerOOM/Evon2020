@@ -31,4 +31,50 @@ class PeakPlayerFragment : AbsPlayerFragment() {
         setUpSubFragments()
         title.isSelected = true
         playerImage.setOnClickListener {
-            NavigationUtil.goToLyrics(require
+            NavigationUtil.goToLyrics(requireActivity())
+        }
+    }
+
+    private fun setUpSubFragments() {
+        playbackControlsFragment = childFragmentManager.findFragmentById(R.id.playbackControlsFragment) as PeakPlayerControlFragment
+    }
+
+    private fun setUpPlayerToolbar() {
+        playerToolbar.apply {
+            inflateMenu(R.menu.menu_player)
+            setNavigationOnClickListener { requireActivity().onBackPressed() }
+            setOnMenuItemClickListener(this@PeakPlayerFragment)
+            ToolbarContentTintHelper.colorizeToolbar(this, ATHUtil.resolveColor(context, R.attr.colorControlNormal), requireActivity())
+        }
+    }
+
+    override fun playerToolbar(): Toolbar {
+        return playerToolbar
+    }
+
+    override fun onShow() {
+
+    }
+
+    override fun onHide() {
+
+    }
+
+    override fun onBackPressed(): Boolean {
+        return false
+    }
+
+    override fun toolbarIconColor(): Int {
+        return ATHUtil.resolveColor(requireContext(), R.attr.colorControlNormal)
+    }
+
+    override val paletteColor: Int
+        get() = lastColor
+
+    override fun onColorChanged(color: Int) {
+        playbackControlsFragment.setDark(color)
+        lastColor = color
+        callbacks?.onPaletteColorChanged()
+    }
+
+    override fun onFavoriteToggl
