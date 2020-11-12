@@ -78,4 +78,32 @@ class PeakPlayerControlFragment : AbsPlayerControlsFragment() {
             lastPlaybackControlsColor = MaterialValueHelper.getSecondaryTextColor(requireContext(), true)
             lastDisabledPlaybackControlsColor = MaterialValueHelper.getSecondaryDisabledTextColor(requireContext(), true)
         } else {
-            lastPlaybackControlsCol
+            lastPlaybackControlsColor = MaterialValueHelper.getPrimaryTextColor(requireContext(), false)
+            lastDisabledPlaybackControlsColor = MaterialValueHelper.getPrimaryDisabledTextColor(requireContext(), false)
+        }
+
+        val colorFinal = if (PreferenceUtil.getInstance(requireContext()).adaptiveColor) {
+            lastPlaybackControlsColor = color
+            color
+        } else {
+            ThemeStore.textColorSecondary(requireContext())
+        }.ripAlpha()
+
+        ViewUtil.setProgressDrawable(progressSlider, colorFinal, true)
+        volumeFragment?.setTintableColor(colorFinal)
+        playPauseButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+        updateRepeatState()
+        updateShuffleState()
+        updatePrevNextColor()
+    }
+
+    override fun onUpdateProgressViews(progress: Int, total: Int) {
+        progressSlider.max = total
+
+        val animator = ObjectAnimator.ofInt(progressSlider, "progress", progress)
+        animator.duration = SLIDER_ANIMATION_TIME
+        animator.interpolator = LinearInterpolator()
+        animator.start()
+
+        songTotalTime.text = MusicUtil.getReadableDurationString(total.toLong())
+        songCurrentProgress.text = Music
