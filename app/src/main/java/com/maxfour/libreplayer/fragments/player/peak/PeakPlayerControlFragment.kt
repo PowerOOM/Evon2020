@@ -106,4 +106,42 @@ class PeakPlayerControlFragment : AbsPlayerControlsFragment() {
         animator.start()
 
         songTotalTime.text = MusicUtil.getReadableDurationString(total.toLong())
-        songCurrentProgress.text = Music
+        songCurrentProgress.text = MusicUtil.getReadableDurationString(progress.toLong())
+    }
+
+    private fun updatePlayPauseDrawableState() {
+        if (MusicPlayerRemote.isPlaying) {
+            playPauseButton.setImageResource(R.drawable.ic_pause_white_24dp)
+        } else {
+            playPauseButton.setImageResource(R.drawable.ic_play_arrow_white_32dp)
+        }
+    }
+
+    private fun setUpMusicControllers() {
+        setUpPlayPauseFab()
+        setUpPrevNext()
+        setUpRepeatButton()
+        setUpShuffleButton()
+        setUpProgressSlider()
+    }
+
+    private fun setUpShuffleButton() {
+        shuffleButton.setOnClickListener {
+            println("shuffleButton Click")
+            MusicPlayerRemote.toggleShuffleMode()
+        }
+    }
+
+    private fun setUpRepeatButton() {
+        repeatButton.setOnClickListener {
+            println("repeatButton Click")
+            MusicPlayerRemote.cycleRepeatMode()
+        }
+    }
+
+    override fun setUpProgressSlider() {
+        progressSlider.setOnSeekBarChangeListener(object : SimpleOnSeekbarChangeListener() {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    MusicPlayerRemote.seekTo(progress)
+                    onUpdateProgressViews(MusicPlayerRemote.songProgressMil
