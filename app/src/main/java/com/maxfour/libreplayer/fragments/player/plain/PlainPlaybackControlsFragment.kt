@@ -113,4 +113,34 @@ class PlainPlaybackControlsFragment : AbsPlayerControlsFragment() {
     }
 
     override fun setDark(color: Int) {
-        val colorBg = ATHUtil.reso
+        val colorBg = ATHUtil.resolveColor(context!!, android.R.attr.colorBackground)
+        if (ColorUtil.isColorLight(colorBg)) {
+            lastPlaybackControlsColor = MaterialValueHelper.getSecondaryTextColor(context!!, true)
+            lastDisabledPlaybackControlsColor = MaterialValueHelper.getSecondaryDisabledTextColor(context!!, true)
+        } else {
+            lastPlaybackControlsColor = MaterialValueHelper.getPrimaryTextColor(context!!, false)
+            lastDisabledPlaybackControlsColor = MaterialValueHelper.getPrimaryDisabledTextColor(context!!, false)
+        }
+
+        val colorFinal = if (PreferenceUtil.getInstance(requireContext()).adaptiveColor) {
+            color
+        } else {
+            ThemeStore.accentColor(context!!)
+        }
+        volumeFragment?.setTintable(colorFinal)
+
+        TintHelper.setTintAuto(
+            playPauseButton,
+            MaterialValueHelper.getPrimaryTextColor(context!!, ColorUtil.isColorLight(colorFinal)),
+            false
+        )
+        TintHelper.setTintAuto(playPauseButton, colorFinal, true)
+
+        ViewUtil.setProgressDrawable(progressSlider, colorFinal.ripAlpha(), true)
+
+        updateRepeatState()
+        updateShuffleState()
+        updatePrevNextColor()
+    }
+
+    private fun setUpShuffleButton() {
