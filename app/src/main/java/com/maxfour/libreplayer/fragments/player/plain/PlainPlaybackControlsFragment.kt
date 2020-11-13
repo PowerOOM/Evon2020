@@ -31,4 +31,48 @@ import kotlinx.android.synthetic.main.media_button.playPauseButton
 import kotlinx.android.synthetic.main.media_button.repeatButton
 import kotlinx.android.synthetic.main.media_button.shuffleButton
 
-class PlainPlaybackControlsFragment : AbsPlayerCont
+class PlainPlaybackControlsFragment : AbsPlayerControlsFragment() {
+
+    private var lastPlaybackControlsColor: Int = 0
+    private var lastDisabledPlaybackControlsColor: Int = 0
+    private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
+
+    override fun onPlayStateChanged() {
+        updatePlayPauseDrawableState()
+    }
+
+    override fun onRepeatModeChanged() {
+        updateRepeatState()
+    }
+
+    override fun onShuffleModeChanged() {
+        updateShuffleState()
+    }
+
+    override fun onServiceConnected() {
+        updatePlayPauseDrawableState()
+        updateRepeatState()
+        updateShuffleState()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        return inflater.inflate(R.layout.fragment_plain_controls_fragment, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressViewUpdateHelper.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressViewUpdateHelper.stop()
+    }
+
+    override fun onViewCreat
