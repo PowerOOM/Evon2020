@@ -75,4 +75,42 @@ class PlainPlaybackControlsFragment : AbsPlayerControlsFragment() {
         progressViewUpdateHelper.stop()
     }
 
-    override fun onViewCreat
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpMusicControllers()
+
+        playPauseButton.setOnClickListener {
+            if (MusicPlayerRemote.isPlaying) {
+                MusicPlayerRemote.pauseSong()
+            } else {
+                MusicPlayerRemote.resumePlaying()
+            }
+            showBonceAnimation()
+        }
+    }
+
+    private fun setUpPlayPauseFab() {
+        playPauseButton.setOnClickListener(PlayPauseButtonOnClickHandler())
+    }
+
+    private fun setUpMusicControllers() {
+        setUpPlayPauseFab()
+        setUpPrevNext()
+        setUpRepeatButton()
+        setUpShuffleButton()
+        setUpProgressSlider()
+    }
+
+    private fun setUpPrevNext() {
+        updatePrevNextColor()
+        nextButton.setOnClickListener { MusicPlayerRemote.playNextSong() }
+        previousButton.setOnClickListener { MusicPlayerRemote.back() }
+    }
+
+    private fun updatePrevNextColor() {
+        nextButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+        previousButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+    }
+
+    override fun setDark(color: Int) {
+        val colorBg = ATHUtil.reso
