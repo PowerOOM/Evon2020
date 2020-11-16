@@ -144,3 +144,32 @@ class PlainPlaybackControlsFragment : AbsPlayerControlsFragment() {
     }
 
     private fun setUpShuffleButton() {
+        shuffleButton.setOnClickListener { MusicPlayerRemote.toggleShuffleMode() }
+    }
+
+    override fun updateShuffleState() {
+        when (MusicPlayerRemote.shuffleMode) {
+            MusicService.SHUFFLE_MODE_SHUFFLE -> shuffleButton.setColorFilter(
+                lastPlaybackControlsColor,
+                PorterDuff.Mode.SRC_IN
+            )
+            else -> shuffleButton.setColorFilter(lastDisabledPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+        }
+    }
+
+    private fun setUpRepeatButton() {
+        repeatButton.setOnClickListener { MusicPlayerRemote.cycleRepeatMode() }
+    }
+
+    override fun updateRepeatState() {
+        when (MusicPlayerRemote.repeatMode) {
+            MusicService.REPEAT_MODE_NONE -> {
+                repeatButton.setImageResource(R.drawable.ic_repeat_white_24dp)
+                repeatButton.setColorFilter(lastDisabledPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+            MusicService.REPEAT_MODE_ALL -> {
+                repeatButton.setImageResource(R.drawable.ic_repeat_white_24dp)
+                repeatButton.setColorFilter(lastPlaybackControlsColor, PorterDuff.Mode.SRC_IN)
+            }
+            MusicService.REPEAT_MODE_THIS -> {
+                repeatButton.setI
