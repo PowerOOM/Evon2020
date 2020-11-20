@@ -211,3 +211,38 @@ class PlainPlaybackControlsFragment : AbsPlayerControlsFragment() {
         })
     }
 
+    private fun showBonceAnimation() {
+        playPauseButton.apply {
+            clearAnimation()
+            scaleX = 0.9f
+            scaleY = 0.9f
+            visibility = View.VISIBLE
+            pivotX = (width / 2).toFloat()
+            pivotY = (height / 2).toFloat()
+
+            animate().setDuration(200)
+                .setInterpolator(DecelerateInterpolator())
+                .scaleX(1.1f)
+                .scaleY(1.1f)
+                .withEndAction {
+                    animate().setDuration(200)
+                        .setInterpolator(AccelerateInterpolator())
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .alpha(1f).start()
+                }.start()
+        }
+    }
+
+    private fun updatePlayPauseDrawableState() {
+        if (MusicPlayerRemote.isPlaying) {
+            playPauseButton.setImageResource(R.drawable.ic_pause_white_24dp)
+        } else {
+            playPauseButton.setImageResource(R.drawable.ic_play_arrow_white_32dp)
+        }
+    }
+
+    override fun onUpdateProgressViews(progress: Int, total: Int) {
+        progressSlider.max = total
+
+        val animator = ObjectAnimator.ofInt(progressSlider, "progress", progre
