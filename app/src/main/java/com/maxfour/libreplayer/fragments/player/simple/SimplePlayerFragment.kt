@@ -40,4 +40,43 @@ class SimplePlayerFragment : AbsPlayerFragment() {
     private fun setUpSubFragments() {
         val playerAlbumCoverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as PlayerAlbumCoverFragment
         playerAlbumCoverFragment.setCallbacks(this)
-        simplePlaybackControlsFragment = childFragmentManager.findFragmentById(R.id.playbackContro
+        simplePlaybackControlsFragment = childFragmentManager.findFragmentById(R.id.playbackControlsFragment) as SimplePlaybackControlsFragment
+    }
+
+    override fun onShow() {
+        simplePlaybackControlsFragment.show()
+    }
+
+    override fun onHide() {
+        simplePlaybackControlsFragment.hide()
+    }
+
+    override fun onBackPressed(): Boolean {
+        return false
+    }
+
+    override fun toolbarIconColor(): Int {
+        return ATHUtil.resolveColor(requireContext(), R.attr.colorControlNormal)
+    }
+
+    override fun onColorChanged(color: Int) {
+        lastColor = color
+        callbacks?.onPaletteColorChanged()
+        simplePlaybackControlsFragment.setDark(color)
+        ToolbarContentTintHelper.colorizeToolbar(playerToolbar, ATHUtil.resolveColor(requireContext(), R.attr.colorControlNormal), requireActivity())
+    }
+
+    override fun onFavoriteToggled() {
+        toggleFavorite(MusicPlayerRemote.currentSong)
+    }
+
+    override fun toggleFavorite(song: Song) {
+        super.toggleFavorite(song)
+        if (song.id == MusicPlayerRemote.currentSong.id) {
+            updateIsFavorite()
+        }
+    }
+
+    private fun setUpPlayerToolbar() {
+        playerToolbar.inflateMenu(R.menu.menu_player)
+        playerToolbar.setNavigationOnClickListener { requireA
