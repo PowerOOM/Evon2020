@@ -1,0 +1,21 @@
+package com.maxfour.libreplayer.fragments.player.tiny
+
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.LinearInterpolator
+import androidx.appcompat.widget.Toolbar
+import com.maxfour.appthemehelper.ThemeStore
+import com.maxfour.appthemehelper.util.ColorUtil
+import com.maxfour.appthemehelper.util.MaterialValueHelper
+import com.maxfour.appthemehelper.util.ToolbarContentTintHelper
+import com.maxfour.libreplayer.R
+import com.maxfour.libreplayer.fragments.MiniPlayerFragment
+import com.maxfour.libreplayer.fragments.base.AbsPlayerFragment
+import com.maxfour.libreplayer.fragments.player.PlayerAlbumCoverFragment
+import com.maxfour.libreplayer.helper.MusicPlayerRemote
+import com.maxfour.libreplayer.helper.MusicProgressViewUpdateHelper
+import com.maxfou

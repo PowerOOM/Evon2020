@@ -79,4 +79,8 @@ class SimplePlayerFragment : AbsPlayerFragment() {
 
     private fun setUpPlayerToolbar() {
         playerToolbar.inflateMenu(R.menu.menu_player)
-        playerToolbar.setNavigationOnClickListener { requireA
+        playerToolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
+        playerToolbar.setOnMenuItemClickListener(this)
+        ToolbarContentTintHelper.colorizeToolbar(playerToolbar, ATHUtil.resolveColor(context, R.attr.colorControlNormal), requireActivity())
+    }
+}
