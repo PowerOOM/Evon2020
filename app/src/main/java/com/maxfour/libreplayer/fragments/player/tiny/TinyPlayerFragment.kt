@@ -98,4 +98,39 @@ class TinyPlayerFragment : AbsPlayerFragment(), MusicProgressViewUpdateHelper.Ca
 
         playerSongTotalTime.setTextColor(textColorPrimary)
 
-        ToolbarContentTintHe
+        ToolbarContentTintHelper.colorizeToolbar(playerToolbar, textColorPrimary, requireActivity())
+    }
+
+    override fun onFavoriteToggled() {
+        toggleFavorite(MusicPlayerRemote.currentSong)
+    }
+
+    private lateinit var tinyPlaybackControlsFragment: TinyPlaybackControlsFragment
+    private lateinit var progressViewUpdateHelper: MusicProgressViewUpdateHelper
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        progressViewUpdateHelper = MusicProgressViewUpdateHelper(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        progressViewUpdateHelper.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressViewUpdateHelper.stop()
+    }
+
+    private fun updateSong() {
+        val song = MusicPlayerRemote.currentSong
+        title.text = song.title
+        text.text = String.format("%s \nby - %s", song.albumName, song.artistName)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_tiny_player, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle
