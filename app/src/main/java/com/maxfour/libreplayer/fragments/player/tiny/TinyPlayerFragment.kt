@@ -63,4 +63,39 @@ class TinyPlayerFragment : AbsPlayerFragment(), MusicProgressViewUpdateHelper.Ca
     }
 
     private var lastColor: Int = 0
-    o
+    override val paletteColor: Int
+        get() = lastColor
+
+    private var textColorPrimary = 0
+    private var textColorPrimaryDisabled = 0
+
+    override fun onColorChanged(color: Int) {
+
+        val colorFinal = if (PreferenceUtil.getInstance(requireContext()).adaptiveColor) {
+            color
+        } else {
+            ThemeStore.accentColor(requireContext())
+        }
+
+        if (ColorUtil.isColorLight(colorFinal)) {
+            textColorPrimary = MaterialValueHelper.getSecondaryTextColor(requireContext(), true)
+            textColorPrimaryDisabled = MaterialValueHelper.getSecondaryTextColor(requireContext(), true)
+        } else {
+            textColorPrimary = MaterialValueHelper.getPrimaryTextColor(requireContext(), false)
+            textColorPrimaryDisabled = MaterialValueHelper.getSecondaryTextColor(requireContext(), false)
+        }
+
+        this.lastColor = colorFinal
+
+        callbacks?.onPaletteColorChanged()
+
+        tinyPlaybackControlsFragment.setDark(colorFinal)
+
+        ViewUtil.setProgressDrawable(progressBar, colorFinal)
+
+        title.setTextColor(textColorPrimary)
+        text.setTextColor(textColorPrimaryDisabled)
+
+        playerSongTotalTime.setTextColor(textColorPrimary)
+
+        ToolbarContentTintHe
