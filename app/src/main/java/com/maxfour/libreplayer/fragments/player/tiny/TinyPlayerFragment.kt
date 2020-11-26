@@ -133,4 +133,38 @@ class TinyPlayerFragment : AbsPlayerFragment(), MusicProgressViewUpdateHelper.Ca
         return inflater.inflate(R.layout.fragment_tiny_player, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        title.isSelected = true
+        progressBar.setOnClickListener(PlayPauseButtonOnClickHandler())
+        progressBar.setOnTouchListener(MiniPlayerFragment.FlingPlayBackController(activity!!))
+
+        setUpPlayerToolbar()
+        setUpSubFragments()
+    }
+
+    private fun setUpSubFragments() {
+        tinyPlaybackControlsFragment = childFragmentManager.findFragmentById(R.id.playbackControlsFragment) as TinyPlaybackControlsFragment
+        val playerAlbumCoverFragment = childFragmentManager.findFragmentById(R.id.playerAlbumCoverFragment) as PlayerAlbumCoverFragment
+        playerAlbumCoverFragment.setCallbacks(this)
+
+    }
+
+    private fun setUpPlayerToolbar() {
+        playerToolbar.apply {
+            inflateMenu(R.menu.menu_player)
+            setNavigationOnClickListener { activity!!.onBackPressed() }
+            setOnMenuItemClickListener(this@TinyPlayerFragment)
+        }
+    }
+
+    override fun toggleFavorite(song: Song) {
+        super.toggleFavorite(song)
+        if (song.id == MusicPlayerRemote.currentSong.id) {
+            updateIsFavorite()
+        }
+    }
+
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        updateSong()
