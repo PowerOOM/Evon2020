@@ -24,4 +24,14 @@ class AudioSettings : AbsSettingsFragment() {
     }
 
     private fun hasEqualizer(): Boolean {
-        val effects = Intent(AudioEffect.ACTION_DISPLAY_AUD
+        val effects = Intent(AudioEffect.ACTION_DISPLAY_AUDIO_EFFECT_CONTROL_PANEL)
+
+        val pm = requireActivity().packageManager
+        val ri = pm.resolveActivity(effects, 0)
+        return ri != null
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        addPreferencesFromResource(R.xml.pref_audio)
+    }
+}
