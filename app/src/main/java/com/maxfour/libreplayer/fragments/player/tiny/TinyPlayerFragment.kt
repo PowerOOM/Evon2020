@@ -168,3 +168,11 @@ class TinyPlayerFragment : AbsPlayerFragment(), MusicProgressViewUpdateHelper.Ca
     override fun onServiceConnected() {
         super.onServiceConnected()
         updateSong()
+    }
+
+    override fun onPlayingMetaChanged() {
+        super.onPlayingMetaChanged()
+        updateSong()
+    }
+
+}
