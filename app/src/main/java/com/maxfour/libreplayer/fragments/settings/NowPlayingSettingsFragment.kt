@@ -24,4 +24,33 @@ class NowPlayingSettingsFragment : AbsSettingsFragment(), SharedPreferences.OnSh
         addPreferencesFromResource(R.xml.pref_now_playing_screen)
     }
 
-    private fun updateAlbumCoverStyleSumma
+    private fun updateAlbumCoverStyleSummary() {
+        val preference: Preference = findPreference(ALBUM_COVER_STYLE)!!
+        preference.setSummary(getInstance(requireContext()).albumCoverStyle.titleRes)
+    }
+
+    private fun updateNowPlayingScreenSummary() {
+        val preference: Preference = findPreference(NOW_PLAYING_SCREEN_ID)!!
+        preference.setSummary(getInstance(requireContext()).nowPlayingScreen.titleRes)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getInstance(requireContext()).registerOnSharedPreferenceChangedListener(this)
+        val preference: Preference = findPreference("album_cover_transform")!!
+        setSummary(preference)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        getInstance(requireContext()).unregisterOnSharedPreferenceChangedListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        when (key) {
+            NOW_PLAYING_SCREEN_ID -> updateNowPlayingScreenSummary()
+            ALBUM_COVER_STYLE -> updateAlbumCoverStyleSummary()
+            CIRCULAR_ALBUM_ART, CAROUSEL_EFFECT -> invalidateSettings()
+        }
+    }
+}
