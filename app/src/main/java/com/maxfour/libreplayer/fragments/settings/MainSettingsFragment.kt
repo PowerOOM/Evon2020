@@ -39,4 +39,12 @@ class MainSettingsFragment : Fragment(), View.OnClickListener {
         personalizeSettings.setOnClickListener(this)
         imageSettings.setOnClickListener(this)
         notificationSettings.setOnClickListener(this)
-        otherSettings.setOnClickListener(this
+        otherSettings.setOnClickListener(this)
+        aboutSettings.setOnClickListener(this)
+
+    }
+
+    private fun inflateFragment(fragment: Fragment, @StringRes title: Int) {
+        (requireActivity() as SettingsActivity).setupFragment(fragment, title)
+    }
+}
