@@ -44,4 +44,7 @@ class PersonalizeSettingsFragment : AbsSettingsFragment(), SharedPreferences.OnS
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            PreferenceUtil.CAROUSEL_EFFECT -
+            PreferenceUtil.CAROUSEL_EFFECT -> invalidateSettings()
+        }
+    }
+}
