@@ -47,4 +47,27 @@ class ThemeSettingsFragment : AbsSettingsFragment() {
                 cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
                 title(R.string.accent_color)
                 positiveButton(R.string.apply)
-                colorChooser(colors = ACCENT_COLORS, allowCustomArgb = true,
+                colorChooser(colors = ACCENT_COLORS, allowCustomArgb = true, subColors = ACCENT_COLORS_SUB) { _, color ->
+                    ThemeStore.editTheme(requireContext()).accentColor(color).commit()
+                    if (VersionUtils.hasNougatMR())
+                        DynamicShortcutManager(requireContext()).updateDynamicShortcuts()
+                    requireActivity().recreate()
+                }
+            }
+            return@setOnPreferenceClickListener true
+        }
+        val blackTheme: ATESwitchPreference? = findPreference("black_theme")
+        blackTheme?.setOnPreferenceChangeListener { _, _ ->
+            ThemeStore.markChanged(requireContext())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                requireActivity().setTheme(PreferenceUtil.getThemeResFromPrefValue("black"))
+                DynamicShortcutManager(requireContext()).updateDynamicShortcuts()
+            }
+            requireActivity().recreate()
+            true
+        }
+
+        val desaturatedColor: ATESwitchPreference? = findPreference(PreferenceUtil.DESATURATED_COLOR)
+        desaturatedColor?.setOnPreferenceChangeListener { _, value ->
+            val desaturated = value as Boolean
+            ThemeStore.prefs(requireContext
