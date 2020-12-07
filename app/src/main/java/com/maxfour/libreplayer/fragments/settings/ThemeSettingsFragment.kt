@@ -70,4 +70,28 @@ class ThemeSettingsFragment : AbsSettingsFragment() {
         val desaturatedColor: ATESwitchPreference? = findPreference(PreferenceUtil.DESATURATED_COLOR)
         desaturatedColor?.setOnPreferenceChangeListener { _, value ->
             val desaturated = value as Boolean
-            ThemeStore.prefs(requireContext
+            ThemeStore.prefs(requireContext()).edit().putBoolean("desaturated_color", desaturated).apply()
+            PreferenceUtil.getInstance(requireContext()).setDesaturatedColor(desaturated)
+            requireActivity().recreate()
+            true
+        }
+
+
+        val colorAppShortcuts: TwoStatePreference = findPreference("should_color_app_shortcuts")!!
+        if (!VersionUtils.hasNougatMR()) {
+            colorAppShortcuts.isVisible = false
+        } else {
+            colorAppShortcuts.isChecked = PreferenceUtil.getInstance(requireContext()).coloredAppShortcuts()
+            colorAppShortcuts.setOnPreferenceChangeListener { _, newValue ->
+                // Save preference
+                PreferenceUtil.getInstance(requireContext()).setColoredAppShortcuts(newValue as Boolean)
+                DynamicShortcutManager(requireContext()).updateDynamicShortcuts()
+                true
+            }
+        }
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        addPreferencesFromResource(R.xml.pref_general)
+    }
+}
