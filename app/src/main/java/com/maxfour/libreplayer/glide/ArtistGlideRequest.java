@@ -58,4 +58,40 @@ public class ArtistGlideRequest {
         }
 
         public PaletteBuilder generatePalette(Context context) {
-            return new Pa
+            return new PaletteBuilder(this, context);
+        }
+
+        public BitmapBuilder asBitmap() {
+            return new BitmapBuilder(this);
+        }
+
+        public Builder noCustomImage(boolean noCustomImage) {
+            this.noCustomImage = noCustomImage;
+            return this;
+        }
+
+        public Builder forceDownload(boolean forceDownload) {
+            this.forceDownload = forceDownload;
+            return this;
+        }
+
+        public DrawableRequestBuilder<GlideDrawable> build() {
+            //noinspection unchecked
+            return createBaseRequest(requestManager, artist, noCustomImage, forceDownload)
+                    .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
+                    .error(DEFAULT_ERROR_IMAGE)
+                    .animate(DEFAULT_ANIMATION)
+                    .priority(Priority.LOW)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .signature(createSignature(artist));
+        }
+    }
+
+    public static class BitmapBuilder {
+        private final Builder builder;
+
+        public BitmapBuilder(Builder builder) {
+            this.builder = builder;
+        }
+
+        public BitmapRequestBuilder<?, Bitmap>
