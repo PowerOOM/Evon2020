@@ -94,4 +94,32 @@ public class ArtistGlideRequest {
             this.builder = builder;
         }
 
-        public BitmapRequestBuilder<?, Bitmap>
+        public BitmapRequestBuilder<?, Bitmap> build() {
+            //noinspection unchecked
+            return createBaseRequest(builder.requestManager, builder.artist, builder.noCustomImage, builder.forceDownload)
+                    .asBitmap()
+                    .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
+                    .error(DEFAULT_ERROR_IMAGE)
+                    .animate(DEFAULT_ANIMATION)
+                    .priority(Priority.LOW)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .signature(createSignature(builder.artist));
+        }
+    }
+
+    public static class PaletteBuilder {
+        final Context context;
+        private final Builder builder;
+
+        public PaletteBuilder(Builder builder, Context context) {
+            this.builder = builder;
+            this.context = context;
+        }
+
+        public BitmapRequestBuilder<?, BitmapPaletteWrapper> build() {
+            //noinspection unchecked
+            return createBaseRequest(builder.requestManager, builder.artist, builder.noCustomImage, builder.forceDownload)
+                    .asBitmap()
+                    .transcode(new BitmapPaletteTranscoder(context), BitmapPaletteWrapper.class)
+                    .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
+               
