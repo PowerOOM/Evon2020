@@ -122,4 +122,29 @@ public class ArtistGlideRequest {
                     .asBitmap()
                     .transcode(new BitmapPaletteTranscoder(context), BitmapPaletteWrapper.class)
                     .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
-               
+                    .error(DEFAULT_ERROR_IMAGE)
+                    .animate(DEFAULT_ANIMATION)
+                    .priority(Priority.LOW)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .signature(createSignature(builder.artist));
+        }
+    }
+}
+
+/*
+public class ArtistGlideRequest {
+
+    public static final int DEFAULT_ANIMATION = android.R.anim.fade_in;
+    private static final DiskCacheStrategy DEFAULT_DISK_CACHE_STRATEGY = DiskCacheStrategy.ALL;
+    private static final int DEFAULT_ERROR_IMAGE = R.drawable.default_artist_art;
+
+    public static DrawableTypeRequest createBaseRequest(RequestManager requestManager, Artist artist, boolean noCustomImage) {
+        boolean hasCustomImage = CustomArtistImageUtil.Companion.getInstance(App.Companion.getContext()).hasCustomArtistImage(artist);
+        if (noCustomImage || !hasCustomImage) {
+            final List<AlbumCover> songs = new ArrayList<>();
+            for (final Album album : artist.getAlbums()) {
+                final Song song = album.safeGetFirstSong();
+                songs.add(new AlbumCover(album.getYear(), song.getData()));
+            }
+            return requestManager.load(new ArtistImage(artist.getName(), songs));
+        } else
