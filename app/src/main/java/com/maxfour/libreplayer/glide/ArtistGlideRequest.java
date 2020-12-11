@@ -185,4 +185,34 @@ public class ArtistGlideRequest {
 
         public DrawableRequestBuilder<GlideDrawable> build() {
             //noinspection unchecked
-        
+            return createBaseRequest(requestManager, artist, noCustomImage)
+                    .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
+                    .error(DEFAULT_ERROR_IMAGE)
+                    .animate(DEFAULT_ANIMATION)
+                    .priority(Priority.LOW)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .signature(createSignature(artist));
+        }
+    }
+
+    public static class BitmapBuilder {
+        private final Builder builder;
+
+        public BitmapBuilder(Builder builder) {
+            this.builder = builder;
+        }
+
+        public BitmapRequestBuilder<?, Bitmap> build() {
+            //noinspection unchecked
+            return createBaseRequest(builder.requestManager, builder.artist, builder.noCustomImage)
+                    .asBitmap()
+                    .diskCacheStrategy(DEFAULT_DISK_CACHE_STRATEGY)
+                    .error(DEFAULT_ERROR_IMAGE)
+                    .animate(DEFAULT_ANIMATION)
+                    .priority(Priority.LOW)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .signature(createSignature(builder.artist));
+        }
+    }
+
+    public static class Palett
