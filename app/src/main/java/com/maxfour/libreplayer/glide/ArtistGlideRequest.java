@@ -147,4 +147,42 @@ public class ArtistGlideRequest {
                 songs.add(new AlbumCover(album.getYear(), song.getData()));
             }
             return requestManager.load(new ArtistImage(artist.getName(), songs));
-        } else
+        } else {
+            return requestManager.load(CustomArtistImageUtil.getFile(artist));
+        }
+    }
+
+    private static Key createSignature(Artist artist) {
+        return ArtistSignatureUtil.getInstance(App.Companion.getContext()).getArtistSignature(artist.getName());
+    }
+
+    public static class Builder {
+        final RequestManager requestManager;
+        final Artist artist;
+        boolean noCustomImage;
+
+        private Builder(@NonNull RequestManager requestManager, Artist artist) {
+            this.requestManager = requestManager;
+            this.artist = artist;
+        }
+
+        public static Builder from(@NonNull RequestManager requestManager, Artist artist) {
+            return new Builder(requestManager, artist);
+        }
+
+        public PaletteBuilder generatePalette(Context context) {
+            return new PaletteBuilder(this, context);
+        }
+
+        public BitmapBuilder asBitmap() {
+            return new BitmapBuilder(this);
+        }
+
+        public Builder noCustomImage(boolean noCustomImage) {
+            this.noCustomImage = noCustomImage;
+            return this;
+        }
+
+        public DrawableRequestBuilder<GlideDrawable> build() {
+            //noinspection unchecked
+        
