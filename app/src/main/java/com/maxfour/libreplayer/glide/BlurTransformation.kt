@@ -82,4 +82,36 @@ class BlurTransformation : BitmapTransformation {
 
         val width = toTransform.width
         val height = toTransform.height
- 
+        val scaledWidth = width / sampling
+        val scaledHeight = height / sampling
+
+        var out: Bitmap? = pool.get(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
+        if (out == null) {
+            out = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(out!!)
+        canvas.scale(1 / sampling.toFloat(), 1 / sampling.toFloat())
+        val paint = Paint()
+        paint.flags = Paint.FILTER_BITMAP_FLAG
+        canvas.drawBitmap(toTransform, 0f, 0f, paint)
+
+        if (Build.VERSION.SDK_INT >= 17) {
+            try {
+                val rs = RenderScript.create(context!!.applicationContext)
+                val input = Allocation.createFromBitmap(rs, out, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT)
+                val output = Allocation.createTyped(rs, input.type)
+                val script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
+
+                script.setRadius(blurRadius)
+                script.setInput(input)
+                script.forEach(output)
+
+                output.copyTo(out)
+
+                rs.destroy()
+
+                return out
+
+            } catch (e: RSRuntimeException) {
+                // on some devices RenderScript.create() throws: android.support.v8.renderscript.RSRuntime
