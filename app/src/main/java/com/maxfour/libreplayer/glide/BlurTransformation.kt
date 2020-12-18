@@ -114,4 +114,20 @@ class BlurTransformation : BitmapTransformation {
                 return out
 
             } catch (e: RSRuntimeException) {
-                // on some devices RenderScript.create() throws: android.support.v8.renderscript.RSRuntime
+                // on some devices RenderScript.create() throws: android.support.v8.renderscript.RSRuntimeException: Error loading libRSSupport library
+                if (BuildConfig.DEBUG) e.printStackTrace()
+            }
+
+        }
+
+        return StackBlur.blur(out, blurRadius)
+    }
+
+    override fun getId(): String {
+        return "BlurTransformation(radius=$blurRadius, sampling=$sampling)"
+    }
+
+    companion object {
+        val DEFAULT_BLUR_RADIUS = 5f
+    }
+}
