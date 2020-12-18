@@ -18,4 +18,22 @@ abstract class PlayerColoredTarget(view: ImageView) : BitmapPaletteTarget(view) 
     protected val albumArtistFooterColor: Int
         get() = ATHUtil.resolveColor(getView().context, R.attr.colorSurface)
 
-    abstract
+    abstract fun onColorReady(color: Int)
+
+    override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
+        super.onLoadFailed(e, errorDrawable)
+        onColorReady(defaultFooterColor)
+    }
+
+    override fun onResourceReady(resource: BitmapPaletteWrapper?, glideAnimation: GlideAnimation<in BitmapPaletteWrapper>?) {
+        super.onResourceReady(resource, glideAnimation)
+        val defaultColor = defaultFooterColor
+
+        resource?.let {
+            onColorReady(if (PreferenceUtil.getInstance(getView().context).isDominantColor)
+                PlayerColorUtil.getDominantColor(it.bitmap, defaultColor)
+            else
+                PlayerColorUtil.getColor(it.palette, defaultColor))
+        }
+    }
+}
