@@ -46,4 +46,31 @@ class ArtistImageFetcher(
     }
 
     override fun loadData(priority: Priority?): InputStream? {
-        if (!Musi
+        if (!MusicUtil.isArtistNameUnknown(model.artistName) && PreferenceUtil.isAllowedToDownloadMetadata(context)) {
+            val artists = model.artistName.split(",")
+            val response = deezerApiService.getArtistImage(artists[0]).execute()
+
+            if (!response.isSuccessful) {
+                throw   IOException("Request failed with code: " + response.code());
+            }
+
+            if (isCancelled) return null
+
+            return try {
+                val deezerResponse = response.body();
+                val imageUrl = deezerResponse?.data?.get(0)?.let { getHighestQuality(it) }
+                val glideUrl = GlideUrl(imageUrl)
+                urlFetcher = urlLoader.getResourceFetcher(glideUrl, width, height)
+                urlFetcher?.loadData(priority)
+            } catch (e: Exception) {
+                null
+            }
+        } else return null
+    }
+
+    private fun getHighestQuality(imageUrl: Data): String {
+        return when {
+            imageUrl.pictureXl.isNotEmpty() -> imageUrl.pictureXl
+            imageUrl.pictureBig.isNotEmpty() -> imageUrl.pictureBig
+            imageUrl.pictureMedium.isNotEmpty() -> imageUrl.pictureMedium
+           
