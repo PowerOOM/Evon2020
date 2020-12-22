@@ -73,4 +73,35 @@ class ArtistImageFetcher(
             imageUrl.pictureXl.isNotEmpty() -> imageUrl.pictureXl
             imageUrl.pictureBig.isNotEmpty() -> imageUrl.pictureBig
             imageUrl.pictureMedium.isNotEmpty() -> imageUrl.pictureMedium
-           
+            imageUrl.pictureSmall.isNotEmpty() -> imageUrl.pictureSmall
+            imageUrl.picture.isNotEmpty() -> imageUrl.picture
+            else -> ""
+        }
+    }
+}
+
+class ArtistImageLoader(
+        val context: Context,
+        private val deezerApiService: DeezerApiService,
+        private val urlLoader: ModelLoader<GlideUrl, InputStream>
+) : StreamModelLoader<ArtistImage> {
+
+    override fun getResourceFetcher(model: ArtistImage, width: Int, height: Int): DataFetcher<InputStream> {
+        return ArtistImageFetcher(context, deezerApiService, model, urlLoader, width, height)
+    }
+}
+
+class Factory(
+        val context: Context
+) : ModelLoaderFactory<ArtistImage, InputStream> {
+    private var deezerApiService: DeezerApiService
+    private var okHttpFactory: OkHttpUrlLoader.Factory
+
+    init {
+        okHttpFactory = OkHttpUrlLoader.Factory(OkHttpClient.Builder()
+                .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .build())
+        deezerApiService = DeezerApiService.invoke(DeezerApiService.createDefaultOkHttpClient(context)
+            
