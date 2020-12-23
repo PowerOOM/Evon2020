@@ -104,4 +104,23 @@ class Factory(
                 .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
                 .build())
         deezerApiService = DeezerApiService.invoke(DeezerApiService.createDefaultOkHttpClient(context)
-            
+                .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
+                .build())
+    }
+
+    override fun build(context: Context?, factories: GenericLoaderFactory?): ModelLoader<ArtistImage, InputStream> {
+        return ArtistImageLoader(context!!, deezerApiService, okHttpFactory.build(context, factories))
+    }
+
+    override fun teardown() {
+        okHttpFactory.teardown()
+    }
+
+    companion object {
+        // we need these very low values to make sure our artist image loading calls doesn't block the image loading queue
+        private const val TIMEOUT: Long = 700
+    }
+
+}
