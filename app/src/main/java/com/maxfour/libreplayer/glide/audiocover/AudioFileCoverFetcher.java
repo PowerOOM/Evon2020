@@ -51,4 +51,13 @@ public class AudioFileCoverFetcher implements DataFetcher<InputStream> {
             try {
                 stream.close();
             } catch (IOException ignore) {
-                // can't do much about
+                // can't do much about it
+            }
+        }
+    }
+
+    @Override
+    public void cancel() {
+        // cannot cancel
+    }
+}
