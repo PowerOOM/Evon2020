@@ -24,4 +24,26 @@ public class AudioFileCoverUtils {
             MP3File mp3File = new MP3File(path);
             if (mp3File.hasID3v2Tag()) {
                 Artwork art = mp3File.getTag().getFirstArtwork();
-                if (art != null)
+                if (art != null) {
+                    byte[] imageData = art.getBinaryData();
+                    return new ByteArrayInputStream(imageData);
+                }
+            }
+            // If there are any exceptions, we ignore them and continue to the other fallback method
+        } catch (ReadOnlyFileException ignored) {
+        } catch (InvalidAudioFrameException ignored) {
+        } catch (TagException ignored) {
+        } catch (IOException ignored) {
+        }
+
+        // Method 2: look for album art in external files
+        final File parent = new File(path).getParentFile();
+        for (String fallback : FALLBACKS) {
+            File cover = new File(parent, fallback);
+            if (cover.exists()) {
+                return new FileInputStream(cover);
+            }
+        }
+        return null;
+    }
+}
