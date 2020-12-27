@@ -262,3 +262,47 @@ public class StackBlur {
                     sum_r += sum_in_r;
                     sum_g += sum_in_g;
                     sum_b += sum_in_b;
+
+                    ++sp;
+                    if (sp >= div) sp = 0;
+                    stack_i = sp;
+
+                    sum_out_r += ((stack[stack_i] >>> 16) & 0xff);
+                    sum_out_g += ((stack[stack_i] >>> 8) & 0xff);
+                    sum_out_b += (stack[stack_i] & 0xff);
+                    sum_in_r -= ((stack[stack_i] >>> 16) & 0xff);
+                    sum_in_g -= ((stack[stack_i] >>> 8) & 0xff);
+                    sum_in_b -= (stack[stack_i] & 0xff);
+                }
+            }
+        }
+
+    }
+
+    private static class BlurTask implements Callable<Void> {
+        private final int[] _src;
+        private final int _w;
+        private final int _h;
+        private final int _radius;
+        private final int _totalCores;
+        private final int _coreIndex;
+        private final int _round;
+
+        public BlurTask(int[] src, int w, int h, int radius, int totalCores, int coreIndex, int round) {
+            _src = src;
+            _w = w;
+            _h = h;
+            _radius = radius;
+            _totalCores = totalCores;
+            _coreIndex = coreIndex;
+            _round = round;
+        }
+
+        @Override
+        public Void call() throws Exception {
+            blurIteration(_src, _w, _h, _radius, _totalCores, _coreIndex, _round);
+            return null;
+        }
+
+    }
+}
