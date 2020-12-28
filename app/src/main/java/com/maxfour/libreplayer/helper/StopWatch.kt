@@ -49,4 +49,27 @@ class StopWatch {
      * @see .reset
      */
     fun pause() {
-        synchroniz
+        synchronized(this) {
+            previousElapsedTime += System.currentTimeMillis() - startTime
+            isRunning = false
+        }
+    }
+
+    /**
+     * Stops and resets the stop watch to zero milliseconds.
+     *
+     * @see .start
+     * @see .pause
+     */
+    fun reset() {
+        synchronized(this) {
+            startTime = 0
+            previousElapsedTime = 0
+            isRunning = false
+        }
+    }
+
+    override fun toString(): String {
+        return String.format("%d millis", elapsedTime)
+    }
+}
