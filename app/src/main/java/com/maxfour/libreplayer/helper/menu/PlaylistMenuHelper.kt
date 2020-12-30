@@ -76,4 +76,12 @@ object PlaylistMenuHelper {
                     .saved_playlist_to), PlaylistsUtil.savePlaylist(App.getContext(), params[0]))
         }
 
-        override fun onPostExecute
+        override fun onPostExecute(string: String) {
+            super.onPostExecute(string)
+            val context = context
+            if (context != null) {
+                Toast.makeText(context, string, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+}
