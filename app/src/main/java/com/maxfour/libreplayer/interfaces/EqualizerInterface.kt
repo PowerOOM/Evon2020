@@ -31,4 +31,6 @@ interface EqualizerInterface {
 
     fun getBandLevel(band: Int): Int
 
-    fun setBandLevel(band: Int, level: 
+    fun setBandLevel(band: Int, level: Int)
+
+}
