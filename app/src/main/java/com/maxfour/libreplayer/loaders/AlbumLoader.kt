@@ -51,4 +51,34 @@ object AlbumLoader {
         val albums = ArrayList<Album>()
         if (songs != null) {
             for (song in songs) {
-                getOrCreateAlbum(albums, song
+                getOrCreateAlbum(albums, song.albumId).songs?.add(song)
+            }
+        }
+        for (album in albums) {
+            sortSongsByTrackNumber(album)
+        }
+        return albums
+    }
+
+    private fun getOrCreateAlbum(
+            albums: ArrayList<Album>,
+            albumId: Int
+    ): Album {
+        for (album in albums) {
+            if (album.songs!!.isNotEmpty() && album.songs[0].albumId == albumId) {
+                return album
+            }
+        }
+        val album = Album()
+        albums.add(album)
+        return album
+    }
+
+    private fun sortSongsByTrackNumber(album: Album) {
+        album.songs?.sortWith(Comparator { o1, o2 -> o1.songNumber.compareTo(o2.songNumber) })
+    }
+
+    private fun getSongLoaderSortOrder(context: Context): String {
+        return PreferenceUtil.getInstance(context).albumSortOrder + ", " + PreferenceUtil.getInstance(context).albumSongSortOrder
+    }
+}
