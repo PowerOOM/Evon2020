@@ -85,4 +85,44 @@ object PlaylistLoader {
                 arrayOf(context.getString(com.maxfour.libreplayer.R.string.favorites))))
     }
 
-    private fun getAllPlaylistsFlowable(cursor: Cursor
+    private fun getAllPlaylistsFlowable(cursor: Cursor?): Observable<ArrayList<Playlist>> {
+        return Observable.create { e ->
+            val playlists = ArrayList<Playlist>()
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    playlists.add(getPlaylistFromCursorImpl(cursor))
+                } while (cursor.moveToNext())
+            }
+            cursor?.close()
+
+            e.onNext(playlists)
+            e.onComplete()
+        }
+    }
+
+    fun getAllPlaylists(context: Context): ArrayList<Playlist> {
+        return getAllPlaylists(makePlaylistCursor(context, null, null))
+    }
+
+    fun getFavoritePlaylist(context: Context): ArrayList<Playlist> {
+        return getAllPlaylists(makePlaylistCursor(
+                context,
+                PlaylistsColumns.NAME + "=?",
+                arrayOf(context.getString(com.maxfour.libreplayer.R.string.favorites))))
+    }
+
+    fun getAllPlaylists(cursor: Cursor?): ArrayList<Playlist> {
+        val playlists = ArrayList<Playlist>()
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                playlists.add(getPlaylistFromCursorImpl(cursor))
+            } while (cursor.moveToNext())
+        }
+        cursor?.close()
+        return playlists
+    }
+
+    fun deletePlaylists(context: Context, playlistId: Long) {
+        v
