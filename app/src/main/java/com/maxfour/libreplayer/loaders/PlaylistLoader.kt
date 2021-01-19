@@ -125,4 +125,39 @@ object PlaylistLoader {
     }
 
     fun deletePlaylists(context: Context, playlistId: Long) {
-        v
+        val localUri = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
+        val localStringBuilder = StringBuilder()
+        localStringBuilder.append("_id IN (")
+        localStringBuilder.append(playlistId)
+        localStringBuilder.append(")")
+        context.contentResolver.delete(localUri, localStringBuilder.toString(), null)
+    }
+
+    private fun makePlaylistCursor(
+            context: Context,
+            selection: String?,
+            values: Array<String>?
+    ): Cursor? {
+        try {
+            return context.contentResolver.query(
+                    MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI,
+                    arrayOf(BaseColumns._ID, /* 0 */
+                            PlaylistsColumns.NAME), /* 1 */
+                    selection,
+                    values,
+                    MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER)
+        } catch (e: SecurityException) {
+            return null
+        }
+    }
+
+    fun getPlaylist(
+            context: Context,
+            playlistId: Int
+    ): Playlist {
+        return getPlaylist(makePlaylistCursor(
+                context,
+                BaseColumns._ID + "=?",
+                arrayOf(playlistId.toString())
+        ))
+    }
