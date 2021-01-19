@@ -161,3 +161,13 @@ object PlaylistLoader {
                 arrayOf(playlistId.toString())
         ))
     }
+
+    private fun getPlaylistFromCursorImpl(
+            cursor: Cursor
+    ): Playlist {
+        val id = cursor.getInt(0)
+        val name = cursor.getString(1)
+        return Playlist(id, name)
+    }
+
+}
