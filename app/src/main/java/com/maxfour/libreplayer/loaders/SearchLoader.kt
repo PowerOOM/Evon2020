@@ -23,4 +23,15 @@ object SearchLoader {
 
             val albums = AlbumLoader.getAlbums(context, searchString)
             if (albums.isNotEmpty()) {
-  
+                results.add(context.resources.getString(R.string.albums))
+                results.addAll(albums)
+            }
+            val genres: List<Genre> = GenreLoader.searchGenres(context).filter { genre -> genre.name.toLowerCase(Locale.getDefault()).contains(searchString.toLowerCase(Locale.getDefault())) }
+            if (genres.isNotEmpty()) {
+                results.add(context.resources.getString(R.string.genres))
+                results.addAll(genres)
+            }
+        }
+        return results
+    }
+}
