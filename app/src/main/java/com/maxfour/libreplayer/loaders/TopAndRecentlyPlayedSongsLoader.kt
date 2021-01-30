@@ -139,3 +139,20 @@ object TopAndRecentlyPlayedSongsLoader {
     ): ArrayList<Album> {
         arrayListOf<Album>()
         return AlbumLoader.splitIntoAlbums(getTopSongs(context))
+    }
+
+    fun getTopArtistsFlowable(context: Context): Observable<ArrayList<Artist>> {
+        return Observable.create { e ->
+            getTopAlbumsFlowable(context).subscribe { albums ->
+                if (albums.size > 0) {
+                    e.onNext(ArtistLoader.splitIntoArtists(albums))
+                }
+                e.onComplete()
+            }
+        }
+    }
+
+    fun getTopArtists(context: Context): ArrayList<Artist> {
+        return ArtistLoader.splitIntoArtists(getTopAlbums(context))
+    }
+}
