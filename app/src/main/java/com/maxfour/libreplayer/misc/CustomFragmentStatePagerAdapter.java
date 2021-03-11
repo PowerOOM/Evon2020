@@ -62,4 +62,41 @@ public abstract class CustomFragmentStatePagerAdapter extends PagerAdapter {
     private ArrayList<Fragment> mFragments = new ArrayList<Fragment>();
     private Fragment mCurrentPrimaryItem = null;
 
-    public CustomFragmentStatePagerAdapter(F
+    public CustomFragmentStatePagerAdapter(FragmentManager fm) {
+        mFragmentManager = fm;
+    }
+
+    /**
+     * Return the Fragment associated with a specified position.
+     */
+    public abstract Fragment getItem(int position);
+
+    @Override
+    public void startUpdate(ViewGroup container) {
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        // If we already have this item instantiated, there is nothing
+        // to do.  This can happen when we are restoring the entire pager
+        // from its saved state, where the fragment manager has already
+        // taken care of restoring the fragments we previously had instantiated.
+        if (mFragments.size() > position) {
+            Fragment f = mFragments.get(position);
+            if (f != null) {
+                return f;
+            }
+        }
+
+        if (mCurTransaction == null) {
+            mCurTransaction = mFragmentManager.beginTransaction();
+        }
+
+        Fragment fragment = getItem(position);
+        if (DEBUG) Log.v(TAG, "Adding item #" + position + ": f=" + fragment);
+        if (mSavedState.size() > position) {
+            Fragment.SavedState fss = mSavedState.get(position);
+            if (fss != null) {
+                fragment.setInitialSavedState(fss);
+      
