@@ -99,4 +99,39 @@ public abstract class CustomFragmentStatePagerAdapter extends PagerAdapter {
             Fragment.SavedState fss = mSavedState.get(position);
             if (fss != null) {
                 fragment.setInitialSavedState(fss);
-      
+            }
+        }
+        while (mFragments.size() <= position) {
+            mFragments.add(null);
+        }
+        fragment.setMenuVisibility(false);
+        fragment.setUserVisibleHint(false);
+        mFragments.set(position, fragment);
+        mCurTransaction.add(container.getId(), fragment);
+
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        Fragment fragment = (Fragment) object;
+
+        if (mCurTransaction == null) {
+            mCurTransaction = mFragmentManager.beginTransaction();
+        }
+        if (DEBUG) Log.v(TAG, "Removing item #" + position + ": f=" + object
+                + " v=" + ((Fragment) object).getView());
+        while (mSavedState.size() <= position) {
+            mSavedState.add(null);
+        }
+        mSavedState.set(position, mFragmentManager.saveFragmentInstanceState(fragment));
+        mFragments.set(position, null);
+
+        mCurTransaction.remove(fragment);
+    }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        Fragment fragment = (Fragment) object;
+        if (fragment != mCurrentPrimaryItem) {
+            if (mCurrentPrimaryItem != null
