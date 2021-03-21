@@ -204,4 +204,20 @@ public abstract class CustomFragmentStatePagerAdapter extends PagerAdapter {
                         while (mFragments.size() <= index) {
                             mFragments.add(null);
                         }
-                        f.setMenuVisibi
+                        f.setMenuVisibility(false);
+                        mFragments.set(index, f);
+                    } else {
+                        Log.w(TAG, "Bad fragment at key " + key);
+                    }
+                }
+            }
+        }
+    }
+
+    public Fragment getFragment(int position) {
+        if (position < mFragments.size() && position >= 0) {
+            return mFragments.get(position);
+        }
+        return null;
+    }
+}
