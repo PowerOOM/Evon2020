@@ -134,4 +134,41 @@ public abstract class CustomFragmentStatePagerAdapter extends PagerAdapter {
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         Fragment fragment = (Fragment) object;
         if (fragment != mCurrentPrimaryItem) {
-            if (mCurrentPrimaryItem != null
+            if (mCurrentPrimaryItem != null) {
+                mCurrentPrimaryItem.setMenuVisibility(false);
+                mCurrentPrimaryItem.setUserVisibleHint(false);
+            }
+            if (fragment != null) {
+                fragment.setMenuVisibility(true);
+                fragment.setUserVisibleHint(true);
+            }
+            mCurrentPrimaryItem = fragment;
+        }
+    }
+
+    @Override
+    public void finishUpdate(ViewGroup container) {
+        if (mCurTransaction != null) {
+            mCurTransaction.commitAllowingStateLoss();
+            mCurTransaction = null;
+            mFragmentManager.executePendingTransactions();
+        }
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return ((Fragment) object).getView() == view;
+    }
+
+    @Override
+    public Parcelable saveState() {
+        Bundle state = null;
+        if (mSavedState.size() > 0) {
+            state = new Bundle();
+            Fragment.SavedState[] fss = new Fragment.SavedState[mSavedState.size()];
+            mSavedState.toArray(fss);
+            state.putParcelableArray("states", fss);
+        }
+        for (int i = 0; i < mFragments.size(); i++) {
+            Fragment f = mFragments.get(i);
+            if (f != 
