@@ -27,4 +27,48 @@ public abstract class DialogAsyncTask<Params, Progress, Result> extends WeakCont
     }
 
     @Override
-    protected v
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if (delay > 0) {
+            new Handler().postDelayed(this::initAndShowDialog, delay);
+        } else {
+            initAndShowDialog();
+        }
+    }
+
+    private void initAndShowDialog() {
+        Context context = getContext();
+        if (!supposedToBeDismissed && context != null) {
+            Dialog dialog = createDialog(context);
+            dialogWeakReference = new WeakReference<>(dialog);
+            dialog.show();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void onProgressUpdate(Progress... values) {
+        super.onProgressUpdate(values);
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            onProgressUpdate(dialog, values);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void onProgressUpdate(@NonNull Dialog dialog, Progress... values) {
+    }
+
+    @Nullable
+    protected Dialog getDialog() {
+        return dialogWeakReference.get();
+    }
+
+    @Override
+    protected void onCancelled(Result result) {
+        super.onCancelled(result);
+        tryToDismiss();
+    }
+
+    @Override
+    protected void onPostExecute(
