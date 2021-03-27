@@ -24,4 +24,39 @@ public class LagTracker {
 
     private void print(String str, long j) {
         long toMillis = TimeUnit.NANOSECONDS.toMillis(j);
-        Log.d("LagTracker", "
+        Log.d("LagTracker", "[" + str + " completed in]: " + j + " ns (" + toMillis + "ms, " + TimeUnit.NANOSECONDS.toSeconds(j) + "s)");
+    }
+
+    public LagTracker disable() {
+        this.mEnabled = false;
+        return this;
+    }
+
+    public LagTracker enable() {
+        this.mEnabled = true;
+        return this;
+    }
+
+    public void end(String str) {
+        long nanoTime = System.nanoTime();
+        if (this.mEnabled) {
+            if (mMap.containsKey(str)) {
+                print(str, nanoTime - mMap.get(str).longValue());
+                mMap.remove(str);
+                return;
+            }
+            throw new IllegalStateException("No start time found for " + str);
+        } else if (!mMap.isEmpty()) {
+            mMap.clear();
+        }
+    }
+
+    public void start(String str) {
+        long nanoTime = System.nanoTime();
+        if (this.mEnabled) {
+            mMap.put(str, Long.valueOf(nanoTime));
+        } else if (!mMap.isEmpty()) {
+            mMap.clear();
+        }
+    }
+}
