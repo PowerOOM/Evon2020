@@ -71,4 +71,21 @@ public abstract class DialogAsyncTask<Params, Progress, Result> extends WeakCont
     }
 
     @Override
-    protected void onPostExecute(
+    protected void onPostExecute(Result result) {
+        super.onPostExecute(result);
+        tryToDismiss();
+    }
+
+    private void tryToDismiss() {
+        supposedToBeDismissed = true;
+        try {
+            Dialog dialog = getDialog();
+            if (dialog != null)
+                dialog.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected abstract Dialog createDialog(@NonNull Context context);
+}
