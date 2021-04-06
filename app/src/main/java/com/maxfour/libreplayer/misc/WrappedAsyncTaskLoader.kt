@@ -33,4 +33,26 @@ abstract class WrappedAsyncTaskLoader<D>
         if (this.mData != null) {
             deliverResult(this.mData)
         } else if (takeContentChanged() || this.mData == null) {
-            
+            forceLoad()
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun onStopLoading() {
+        super.onStopLoading()
+        // Attempt to cancel the current load task if possible
+        cancelLoad()
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    override fun onReset() {
+        super.onReset()
+        // Ensure the loader is stopped
+        onStopLoading()
+        this.mData = null
+    }
+}
