@@ -16,4 +16,40 @@ public abstract class AbsSynchronizedLyrics extends Lyrics {
         for (int i = 0; i < lines.size(); i++) {
             int lineTime = lines.keyAt(i);
 
-        
+            if (time >= lineTime) {
+                lastLineTime = lineTime;
+            } else {
+                break;
+            }
+        }
+
+        return lines.get(lastLineTime);
+    }
+
+    public boolean isSynchronized() {
+        return true;
+    }
+
+    public boolean isValid() {
+        parse(true);
+        return valid;
+    }
+
+    @Override
+    public String getText() {
+        parse(false);
+
+        if (valid) {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < lines.size(); i++) {
+                String line = lines.valueAt(i);
+                sb.append(line).append("\r\n");
+            }
+
+            return sb.toString().trim().replaceAll("(\r?\n){3,}", "\r\n\r\n");
+        }
+
+        return super.getText();
+    }
+}
