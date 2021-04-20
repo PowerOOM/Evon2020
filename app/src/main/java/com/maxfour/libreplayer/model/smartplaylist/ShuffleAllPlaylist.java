@@ -49,4 +49,11 @@ public class ShuffleAllPlaylist extends AbsSmartPlaylist {
 
     @Override
     public void clear(@NonNull Context context) {
-        // Shuffle all is not a real "Smart Playli
+        // Shuffle all is not a real "Smart Playlist"
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+}
