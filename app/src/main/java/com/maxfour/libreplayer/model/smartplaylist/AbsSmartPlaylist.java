@@ -40,4 +40,30 @@ public abstract class AbsSmartPlaylist extends AbsCustomPlaylist {
 
     @Override
     public boolean equals(@Nullable final Object obj) {
-       
+        if (super.equals(obj)) {
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final AbsSmartPlaylist other = (AbsSmartPlaylist) obj;
+            return iconRes == other.iconRes;
+        }
+        return false;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(this.iconRes);
+    }
+
+    protected AbsSmartPlaylist(Parcel in) {
+        super(in);
+        this.iconRes = in.readInt();
+    }
+}
