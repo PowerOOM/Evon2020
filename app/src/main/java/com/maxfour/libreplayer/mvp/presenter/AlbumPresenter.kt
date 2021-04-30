@@ -21,4 +21,26 @@ interface AlbumsPresenter : Presenter<AlbumsView> {
 
     class AlbumsPresenterImpl @Inject constructor(
       private val repository: Repository
-    ) : 
+    ) : PresenterImpl<AlbumsView>(), AlbumsPresenter, CoroutineScope {
+        private val job = Job()
+
+        override val coroutineContext: CoroutineContext
+            get() = Dispatchers.IO + job
+
+        override fun detachView() {
+            super.detachView()
+            job.cancel()
+        }
+
+        override fun loadAlbums() {
+            launch {
+                when (val result = repository.allAlbums()) {
+                    is Result.Success -> withContext(Dispatchers.Main) {
+                        view?.albums(result.data)
+                    }
+                    is Result.Error   -> withContext(Dispatchers.Main) { view?.showEmptyView() }
+                }
+            }
+        }
+    }
+}
