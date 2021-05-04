@@ -1,26 +1,27 @@
+
 package com.maxfour.libreplayer.mvp.presenter
 
 import com.maxfour.libreplayer.Result
-import com.maxfour.libreplayer.model.Artist
+import com.maxfour.libreplayer.model.Genre
 import com.maxfour.libreplayer.mvp.BaseView
 import com.maxfour.libreplayer.mvp.Presenter
 import com.maxfour.libreplayer.mvp.PresenterImpl
 import com.maxfour.libreplayer.providers.interfaces.Repository
 import kotlinx.coroutines.*
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-interface ArtistsView : BaseView {
-    fun artists(artists: ArrayList<Artist>)
+interface GenresView : BaseView {
+    fun genres(genres: ArrayList<Genre>)
 }
 
-interface ArtistsPresenter : Presenter<ArtistsView> {
+interface GenresPresenter : Presenter<GenresView> {
+    fun loadGenres()
 
-    fun loadArtists()
-
-    class ArtistsPresenterImpl @Inject constructor(
+    class GenresPresenterImpl @Inject constructor(
             private val repository: Repository
-    ) : PresenterImpl<ArtistsView>(), ArtistsPresenter, CoroutineScope {
+    ) : PresenterImpl<GenresView>(), GenresPresenter, CoroutineScope {
         private val job = Job()
 
         override val coroutineContext: CoroutineContext
@@ -31,10 +32,12 @@ interface ArtistsPresenter : Presenter<ArtistsView> {
             job.cancel()
         }
 
-        override fun loadArtists() {
+        override fun loadGenres() {
             launch {
-                when (val result = repository.allArtists()) {
-                    is Result.Success -> withContext(Dispatchers.Main) { view?.artists(result.data) }
+                when (val result = repository.allGenres()) {
+                    is Result.Success -> withContext(Dispatchers.Main) {
+                        view?.genres(result.data)
+                    }
                     is Result.Error -> withContext(Dispatchers.Main) { view?.showEmptyView() }
                 }
             }
