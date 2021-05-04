@@ -48,4 +48,21 @@ interface ArtistDetailsPresenter : Presenter<ArtistDetailsView> {
 
         override fun loadArtist(artistId: Int) {
             launch {
-              
+                when (val result = repository.artistById(artistId)) {
+                    is Result.Success -> withContext(Dispatchers.Main) {
+                        view?.artist(result.data)
+
+                    }
+                    is Result.Error -> withContext(Dispatchers.Main) {
+                        view?.showEmptyView()
+                    }
+                }
+            }
+        }
+
+        override fun detachView() {
+            super.detachView()
+            job.cancel()
+        }
+    }
+}
