@@ -51,4 +51,10 @@ interface HomePresenter : Presenter<HomeView> {
                         is Result.Success -> list.add(r.data)
                     }
                 }
-     
+                withContext(Dispatchers.Main) {
+                    if (list.isNotEmpty()) view?.sections(list) else view?.showEmptyView()
+                }
+            }
+        }
+    }
+}
