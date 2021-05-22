@@ -27,4 +27,20 @@ interface PlaylistSongsPresenter : Presenter<PlaylistSongsView> {
         override val coroutineContext: CoroutineContext
             get() = Dispatchers.IO + job
 
-        ove
+        override fun loadPlaylistSongs(playlist: Playlist) {
+            launch {
+                when (val songs = repository.getPlaylistSongs(playlist)) {
+                    is Result.Success -> withContext(Dispatchers.Main) {
+                        view?.songs(songs.data)
+                    }
+                    is Result.Error -> withContext(Dispatchers.Main) { view?.showEmptyView() }
+                }
+            }
+        }
+
+        override fun detachView() {
+            super.detachView()
+            job.cancel()
+        }
+    }
+}
