@@ -37,4 +37,26 @@ class BlacklistPreference : ATEDialogPreference {
 class BlacklistPreferenceDialog : DialogFragment(), BlacklistFolderChooserDialog.FolderCallback {
     companion object {
         fun newInstance(): BlacklistPreferenceDialog {
-            return BlacklistPreferen
+            return BlacklistPreferenceDialog()
+        }
+    }
+
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val blacklistFolderChooserDialog = childFragmentManager.findFragmentByTag("FOLDER_CHOOSER") as BlacklistFolderChooserDialog?
+        blacklistFolderChooserDialog?.setCallback(this)
+        refreshBlacklistData()
+        return MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+            title(com.maxfour.libreplayer.R.string.blacklist)
+            cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
+            positiveButton(android.R.string.ok) {
+                dismiss()
+            }
+            neutralButton(text = getString(R.string.clear_action)) {
+                MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+                    title(com.maxfour.libreplayer.R.string.clear_blacklist)
+                    message(com.maxfour.libreplayer.R.string.do_you_want_to_clear_the_blacklist)
+                    cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
+                    positiveButton(com.maxfour.libreplayer.R.string.clear_action) {
+                        BlacklistStore.getInstance(context).clear()
+      
