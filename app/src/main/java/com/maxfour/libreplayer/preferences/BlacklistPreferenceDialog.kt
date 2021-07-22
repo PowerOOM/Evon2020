@@ -59,4 +59,23 @@ class BlacklistPreferenceDialog : DialogFragment(), BlacklistFolderChooserDialog
                     cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
                     positiveButton(com.maxfour.libreplayer.R.string.clear_action) {
                         BlacklistStore.getInstance(context).clear()
-      
+                        refreshBlacklistData()
+                    }
+                    negativeButton(android.R.string.cancel)
+                }
+            }
+            negativeButton(R.string.add_action) {
+                val dialog = BlacklistFolderChooserDialog.create()
+                dialog.setCallback(this@BlacklistPreferenceDialog)
+                dialog.show(childFragmentManager, "FOLDER_CHOOSER");
+            }
+            listItems(items = paths, waitForPositiveButton = false) { _, _, text ->
+                MaterialDialog(context, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+                    cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
+                    title(com.maxfour.libreplayer.R.string.remove_from_blacklist)
+                    message(text = Html.fromHtml(getString(com.maxfour.libreplayer.R.string.do_you_want_to_remove_from_the_blacklist, text)))
+                    positiveButton(com.maxfour.libreplayer.R.string.remove_action) {
+                        BlacklistStore.getInstance(context).removePath(File(text.toString()))
+                        refreshBlacklistData()
+                    }
+            
