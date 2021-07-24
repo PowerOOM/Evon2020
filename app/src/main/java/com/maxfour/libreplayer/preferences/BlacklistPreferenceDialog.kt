@@ -78,4 +78,23 @@ class BlacklistPreferenceDialog : DialogFragment(), BlacklistFolderChooserDialog
                         BlacklistStore.getInstance(context).removePath(File(text.toString()))
                         refreshBlacklistData()
                     }
-            
+                    negativeButton(android.R.string.cancel)
+                }
+            }
+            noAutoDismiss()
+        }
+    }
+
+    private lateinit var paths: ArrayList<String>
+
+    private fun refreshBlacklistData() {
+        this.paths = BlacklistStore.getInstance(context!!).paths
+        val dialog = dialog as MaterialDialog?
+        dialog?.listItems(items = paths)
+    }
+
+    override fun onFolderSelection(dialog: BlacklistFolderChooserDialog, folder: File) {
+        BlacklistStore.getInstance(context!!).addPath(folder);
+        refreshBlacklistData();
+    }
+}
