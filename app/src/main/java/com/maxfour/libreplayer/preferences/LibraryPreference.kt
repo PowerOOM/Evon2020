@@ -44,4 +44,31 @@ class LibraryPreferenceDialog : PreferenceDialogFragmentCompat() {
     lateinit var adapter: CategoryInfoAdapter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val view = requireActivity().layoutInflater.inflate(R.layout.preference_dialog_lib
+        val view = requireActivity().layoutInflater.inflate(R.layout.preference_dialog_library_categories, null)
+
+        val categoryInfos: List<CategoryInfo> = if (savedInstanceState != null) {
+            savedInstanceState.getParcelableArrayList(PreferenceUtil.LIBRARY_CATEGORIES)!!
+        } else {
+            PreferenceUtil.getInstance(requireContext()).libraryCategoryInfos
+        }
+        adapter = CategoryInfoAdapter(categoryInfos)
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = adapter
+
+        adapter.attachToRecyclerView(recyclerView)
+
+        return MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT))
+                .title(R.string.library_categories)
+                .cornerRadius(PreferenceUtil.getInstance(requireContext()).dialogCorner)
+                .customView(view = view)
+                .positiveButton(android.R.string.ok) {
+                    updateCategories(adapter.categoryInfos)
+                    dismiss()
+                }
+                .negativeButton(android.R.string.cancel) {
+                    dismiss()
+                }
+                .neutralButton(R.string.reset_action) {
+                    adapter.categoryInfos = PreferenceUtil.getInstance(requireContex
