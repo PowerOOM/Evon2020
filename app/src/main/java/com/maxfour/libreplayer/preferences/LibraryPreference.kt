@@ -71,4 +71,38 @@ class LibraryPreferenceDialog : PreferenceDialogFragmentCompat() {
                     dismiss()
                 }
                 .neutralButton(R.string.reset_action) {
-                    adapter.categoryInfos = PreferenceUtil.getInstance(requireContex
+                    adapter.categoryInfos = PreferenceUtil.getInstance(requireContext()).defaultLibraryCategoryInfos
+                }
+                .noAutoDismiss()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList(PreferenceUtil.LIBRARY_CATEGORIES, ArrayList(adapter.categoryInfos))
+    }
+
+    private fun updateCategories(categories: List<CategoryInfo>) {
+        if (getSelected(categories) == 0) return
+        if (getSelected(categories) > 5) {
+            Toast.makeText(context, "Not more than 5 items", Toast.LENGTH_SHORT).show()
+            return
+        }
+        PreferenceUtil.getInstance(requireContext()).libraryCategoryInfos = categories
+    }
+
+    private fun getSelected(categories: List<CategoryInfo>): Int {
+        var selected = 0
+        for (categoryInfo in categories) {
+            if (categoryInfo.visible)
+                selected++
+        }
+        return selected
+    }
+
+    companion object {
+
+        fun newInstance(key: String): LibraryPreferenceDialog {
+            val bundle = Bundle()
+            bundle.putString(ARG_KEY, key)
+            val fragment = LibraryPreferenceDialog()
+            fragment.argument
