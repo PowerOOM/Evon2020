@@ -105,4 +105,8 @@ class LibraryPreferenceDialog : PreferenceDialogFragmentCompat() {
             val bundle = Bundle()
             bundle.putString(ARG_KEY, key)
             val fragment = LibraryPreferenceDialog()
-            fragment.argument
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
+}
