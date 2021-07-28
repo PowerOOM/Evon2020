@@ -51,4 +51,43 @@ public class MusicPlaybackQueueStore extends SQLiteOpenHelper {
     public void onCreate(@NonNull final SQLiteDatabase db) {
         createTable(db, PLAYING_QUEUE_TABLE_NAME);
         createTable(db, ORIGINAL_PLAYING_QUEUE_TABLE_NAME);
-    
+    }
+
+    private void createTable(@NonNull final SQLiteDatabase db, final String tableName) {
+        //noinspection StringBufferReplaceableByString
+        StringBuilder builder = new StringBuilder();
+        builder.append("CREATE TABLE IF NOT EXISTS ");
+        builder.append(tableName);
+        builder.append("(");
+
+        builder.append(BaseColumns._ID);
+        builder.append(" INT NOT NULL,");
+
+        builder.append(AudioColumns.TITLE);
+        builder.append(" STRING NOT NULL,");
+
+        builder.append(AudioColumns.TRACK);
+        builder.append(" INT NOT NULL,");
+
+        builder.append(AudioColumns.YEAR);
+        builder.append(" INT NOT NULL,");
+
+        builder.append(AudioColumns.DURATION);
+        builder.append(" LONG NOT NULL,");
+
+        builder.append(AudioColumns.DATA);
+        builder.append(" STRING NOT NULL,");
+
+        builder.append(AudioColumns.DATE_MODIFIED);
+        builder.append(" LONG NOT NULL,");
+
+        builder.append(AudioColumns.ALBUM_ID);
+        builder.append(" INT NOT NULL,");
+
+        builder.append(AudioColumns.ALBUM);
+        builder.append(" STRING NOT NULL,");
+
+        builder.append(AudioColumns.ARTIST_ID);
+        builder.append(" INT NOT NULL,");
+
+        builder.
