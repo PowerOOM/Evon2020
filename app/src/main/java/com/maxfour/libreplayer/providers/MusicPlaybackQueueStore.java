@@ -121,4 +121,34 @@ public class MusicPlaybackQueueStore extends SQLiteOpenHelper {
     }
 
     /**
-     * Clears the existing database and saves the queue into the db so that when 
+     * Clears the existing database and saves the queue into the db so that when the
+     * app is restarted, the songs you were listening to is restored
+     *
+     * @param queue the queue to save
+     */
+    private synchronized void saveQueue(final String tableName, @NonNull final ArrayList<Song> queue) {
+        final SQLiteDatabase database = getWritableDatabase();
+        database.beginTransaction();
+
+        try {
+            database.delete(tableName, null, null);
+            database.setTransactionSuccessful();
+        } finally {
+            database.endTransaction();
+        }
+
+        final int NUM_PROCESS = 20;
+        int position = 0;
+        while (position < queue.size()) {
+            database.beginTransaction();
+            try {
+                for (int i = position; i < queue.size() && i < position + NUM_PROCESS; i++) {
+                    Song song = queue.get(i);
+                    ContentValues values = new ContentValues(4);
+
+                    values.put(BaseColumns._ID, song.getId());
+                    values.put(AudioColumns.TITLE, song.getTitle());
+                    values.put(AudioColumns.TRACK, song.getSongNumber());
+                    values.put(AudioColumns.YEAR, song.getYear());
+                    values.put(AudioColumns.DURATION, song.getDuration());
+ 
