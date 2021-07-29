@@ -90,4 +90,35 @@ public class MusicPlaybackQueueStore extends SQLiteOpenHelper {
         builder.append(AudioColumns.ARTIST_ID);
         builder.append(" INT NOT NULL,");
 
-        builder.
+        builder.append(AudioColumns.ARTIST);
+        builder.append(" STRING NOT NULL,");
+
+        builder.append(AudioColumns.COMPOSER);
+        builder.append(" STRING);");
+
+        db.execSQL(builder.toString());
+    }
+
+    @Override
+    public void onUpgrade(@NonNull final SQLiteDatabase db, final int oldVersion, final int newVersion) {
+        // not necessary yet
+        db.execSQL("DROP TABLE IF EXISTS " + PLAYING_QUEUE_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ORIGINAL_PLAYING_QUEUE_TABLE_NAME);
+        onCreate(db);
+    }
+
+    @Override
+    public void onDowngrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
+        // If we ever have downgrade, drop the table to be safe
+        db.execSQL("DROP TABLE IF EXISTS " + PLAYING_QUEUE_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ORIGINAL_PLAYING_QUEUE_TABLE_NAME);
+        onCreate(db);
+    }
+
+    public synchronized void saveQueues(@NonNull final ArrayList<Song> playingQueue, @NonNull final ArrayList<Song> originalPlayingQueue) {
+        saveQueue(PLAYING_QUEUE_TABLE_NAME, playingQueue);
+        saveQueue(ORIGINAL_PLAYING_QUEUE_TABLE_NAME, originalPlayingQueue);
+    }
+
+    /**
+     * Clears the existing database and saves the queue into the db so that when 
