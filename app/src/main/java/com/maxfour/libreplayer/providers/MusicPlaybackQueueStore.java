@@ -151,4 +151,37 @@ public class MusicPlaybackQueueStore extends SQLiteOpenHelper {
                     values.put(AudioColumns.TRACK, song.getSongNumber());
                     values.put(AudioColumns.YEAR, song.getYear());
                     values.put(AudioColumns.DURATION, song.getDuration());
- 
+                    values.put(AudioColumns.DATA, song.getData());
+                    values.put(AudioColumns.DATE_MODIFIED, song.getDateModified());
+                    values.put(AudioColumns.ALBUM_ID, song.getAlbumId());
+                    values.put(AudioColumns.ALBUM, song.getAlbumName());
+                    values.put(AudioColumns.ARTIST_ID, song.getArtistId());
+                    values.put(AudioColumns.ARTIST, song.getArtistName());
+                    values.put(AudioColumns.COMPOSER, song.getComposer());
+
+                    database.insert(tableName, null, values);
+                }
+                database.setTransactionSuccessful();
+            } finally {
+                database.endTransaction();
+                position += NUM_PROCESS;
+            }
+        }
+    }
+
+    @NonNull
+    public Observable<ArrayList<Song>> getSavedPlayingQueueFlowable() {
+        return getQueueFlowable(PLAYING_QUEUE_TABLE_NAME);
+    }
+
+    @NonNull
+    public Observable<ArrayList<Song>> getSavedOriginalPlayingQueueFlowable() {
+        return getQueueFlowable(ORIGINAL_PLAYING_QUEUE_TABLE_NAME);
+    }
+
+    @NonNull
+    public ArrayList<Song> getSavedPlayingQueue() {
+        return getQueue(PLAYING_QUEUE_TABLE_NAME);
+    }
+
+    @NonNul
