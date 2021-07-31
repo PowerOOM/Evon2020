@@ -274,3 +274,117 @@ public class SongPlayCountStore extends SQLiteOpenHelper {
                 }
             } else if (bumpCount) {
                 // else no shifting, just update the scores
+                ContentValues values = new ContentValues(2);
+
+                // increase the score by a single score amount
+                int scoreIndex = cursor.getColumnIndex(SongPlayCountColumns.PLAY_COUNT_SCORE);
+                float score = cursor.getFloat(scoreIndex) + getScoreMultiplierForWeek(0);
+                values.put(SongPlayCountColumns.PLAY_COUNT_SCORE, score);
+
+                // increase the play count by 1
+                values.put(getColumnNameForWeek(0), cursor.getInt(getColumnIndexForWeek(0)) + 1);
+
+                // update the entry
+                database.update(SongPlayCountColumns.NAME, values, WHERE_ID_EQUALS,
+                        new String[]{stringId});
+            }
+
+            cursor.close();
+        } else if (bumpCount) {
+            // if we have no existing results, create a new one
+            createNewPlayedEntry(database, id);
+        }
+
+        database.setTransactionSuccessful();
+        database.endTransaction();
+    }
+
+    public void clear() {
+        final SQLiteDatabase database = getWritableDatabase();
+        database.delete(SongPlayCountColumns.NAME, null, null);
+    }
+
+    /**
+     * Gets a cursor containing the top songs played.  Note this only returns songs that have been
+     * played at least once in the past NUM_WEEKS
+     *
+     * @param numResults number of results to limit by.  If <= 0 it returns all results
+     * @return the top tracks
+     */
+    public Cursor getTopPlayedResults(int numResults) {
+        updateResults();
+
+        final SQLiteDatabase database = getReadableDatabase();
+        return database.query(SongPlayCountColumns.NAME, new String[]{SongPlayCountColumns.ID},
+                null, null, null, null, SongPlayCountColumns.PLAY_COUNT_SCORE + " DESC",
+                (numResults <= 0 ? null : String.valueOf(numResults)));
+    }
+
+    /**
+     * This updates all the results for the getTopPlayedResults so that we can get an
+     * accurate list of the top played results
+     */
+    private synchronized void updateResults() {
+        if (mDatabaseUpdated) {
+            return;
+        }
+
+        final SQLiteDatabase database = getWritableDatabase();
+
+        database.beginTransaction();
+
+        int oldestWeekWeCareAbout = mNumberOfWeeksSinceEpoch - NUM_WEEKS + 1;
+        // delete rows we don't care about anymore
+        database.delete(SongPlayCountColumns.NAME, SongPlayCountColumns.LAST_UPDATED_WEEK_INDEX
+                + " < " + oldestWeekWeCareAbout, null);
+
+        // get the remaining rows
+        Cursor cursor = database.query(SongPlayCountColumns.NAME,
+                new String[]{SongPlayCountColumns.ID},
+                null, null, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            // for each row, update it
+            do {
+                updateExistingRow(database, cursor.getLong(0), false);
+            } while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        mDatabaseUpdated = true;
+        database.setTransactionSuccessful();
+        database.endTransaction();
+    }
+
+    /**
+     * @param songId The song Id to remove.
+     */
+    public void removeItem(final long songId) {
+        final SQLiteDatabase database = getWritableDatabase();
+        deleteEntry(database, String.valueOf(songId));
+    }
+
+    /**
+     * Deletes the entry
+     *
+     * @param database database to use
+     * @param stringId id to delete
+     */
+    private void deleteEntry(@NonNull final SQLiteDatabase database, final String stringId) {
+        database.delete(SongPlayCountColumns.NAME, WHERE_ID_EQUALS, new String[]{stringId});
+    }
+
+    public interface SongPlayCountColumns {
+
+        String NAME = "song_play_count";
+
+        String ID = "song_id";
+
+        String WEEK_PLAY_COUNT = "week";
+
+        String LAST_UPDATED_WEEK_INDEX = "week_index";
+
+        String PLAY_COUNT_SCORE = "play_count_score";
+    }
+}
