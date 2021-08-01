@@ -36,4 +36,5 @@ interface Repository {
 
     suspend fun artistInfo(name: String, lang: String?, cache: String?): Result<LastFmArtist>
 
-    sus
+    suspend fun artistById(artistId: Int): Result<Artist>
+}
