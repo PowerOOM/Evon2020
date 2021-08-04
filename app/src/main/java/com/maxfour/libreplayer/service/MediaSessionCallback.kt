@@ -58,4 +58,27 @@ class MediaSessionCallback(private val context: Context,
 
             TOGGLE_SHUFFLE -> {
                 musicService.toggleShuffle()
-                musicService.updateMediaSessionPla
+                musicService.updateMediaSessionPlaybackState()
+            }
+            TOGGLE_FAVORITE -> {
+                MusicUtil.toggleFavorite(context, MusicPlayerRemote.currentSong)
+                musicService.updateMediaSessionPlaybackState()
+            }
+            else -> {
+                println("Unsupported action: $action")
+            }
+        }
+    }
+
+    private fun checkAndStartPlaying(songs: ArrayList<Song>, itemId: Int) {
+        var songIndex = MusicUtil.indexOfSongInList(songs, itemId)
+        if (songIndex == -1) {
+            songIndex = 0
+        }
+        openQueue(songs, songIndex)
+    }
+
+    private fun openQueue(songs: ArrayList<Song>, index: Int, startPlaying: Boolean = true) {
+        MusicPlayerRemote.openQueue(songs, index, startPlaying)
+    }
+}
