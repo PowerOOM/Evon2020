@@ -36,4 +36,25 @@ import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.BitmapRequestBuilder;
-im
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.maxfour.libreplayer.R;
+import com.maxfour.libreplayer.appwidgets.AppWidgetBig;
+import com.maxfour.libreplayer.appwidgets.AppWidgetCard;
+import com.maxfour.libreplayer.appwidgets.AppWidgetClassic;
+import com.maxfour.libreplayer.appwidgets.AppWidgetSmall;
+import com.maxfour.libreplayer.appwidgets.AppWidgetText;
+import com.maxfour.libreplayer.glide.BlurTransformation;
+import com.maxfour.libreplayer.glide.SongGlideRequest;
+import com.maxfour.libreplayer.helper.ShuffleHelper;
+import com.maxfour.libreplayer.model.Playlist;
+import com.maxfour.libreplayer.model.Song;
+import com.maxfour.libreplayer.providers.HistoryStore;
+import com.maxfour.libreplayer.providers.MusicPlaybackQueueStore;
+import com.maxfour.libreplayer.providers.SongPlayCountStore;
+import com.maxfour.libreplayer.service.notification.PlayingNotification;
+import com.maxfour.libreplayer.service.notification.PlayingNotificationImpl;
+import com.maxfour.libreplayer.service.notification.PlayingNotificationOreo;
+import com.maxfour.libreplayer.service.playback.Playback;
+import com.maxfour.lib
