@@ -57,4 +57,27 @@ import com.maxfour.libreplayer.service.notification.PlayingNotification;
 import com.maxfour.libreplayer.service.notification.PlayingNotificationImpl;
 import com.maxfour.libreplayer.service.notification.PlayingNotificationOreo;
 import com.maxfour.libreplayer.service.playback.Playback;
-import com.maxfour.lib
+import com.maxfour.libreplayer.util.MusicUtil;
+import com.maxfour.libreplayer.util.PlayerUtil;
+import com.maxfour.libreplayer.util.PreferenceUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
+public class MusicService extends Service implements
+        SharedPreferences.OnSharedPreferenceChangeListener, Playback.PlaybackCallbacks {
+    public static final String TAG = MusicService.class.getSimpleName();
+
+    public static final String MUSIC_PACKAGE_NAME = "com.android.music";
+
+    public static final String ACTION_TOGGLE_PAUSE = MUSIC_PACKAGE_NAME + ".togglepause";
+    public static final String ACTION_PLAY = MUSIC_PACKAGE_NAME + ".play";
+    public static final String ACTION_PLAY_PLAYLIST = MUSIC_PACKAGE_NAME + ".play.playlist";
+    public static final String ACTION_PAUSE = MUSIC_PACKAGE_NAME + ".pause";
+    public static final String ACTION_STOP = MUSIC_PACKAGE_NAME + ".stop";
+    public static final String ACTION_SKIP = MUSIC_PACKAGE_NAME + ".skip";
+    public static final String ACTION_REWIND = MUSIC_PACKAGE_NAME + ".rewind";
+    public static final String ACTION_QUIT = MUSIC_PACKAGE_NAME + ".quitservice";
+    public static final String ACTION_P
