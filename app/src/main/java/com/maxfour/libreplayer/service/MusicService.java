@@ -80,4 +80,20 @@ public class MusicService extends Service implements
     public static final String ACTION_SKIP = MUSIC_PACKAGE_NAME + ".skip";
     public static final String ACTION_REWIND = MUSIC_PACKAGE_NAME + ".rewind";
     public static final String ACTION_QUIT = MUSIC_PACKAGE_NAME + ".quitservice";
-    public static final String ACTION_P
+    public static final String ACTION_PENDING_QUIT = MUSIC_PACKAGE_NAME + ".pendingquitservice";
+    public static final String INTENT_EXTRA_PLAYLIST = MUSIC_PACKAGE_NAME + "intentextra.playlist";
+    public static final String INTENT_EXTRA_SHUFFLE_MODE = MUSIC_PACKAGE_NAME + ".intentextra.shufflemode";
+
+    public static final String APP_WIDGET_UPDATE = MUSIC_PACKAGE_NAME + ".appwidgetupdate";
+    public static final String EXTRA_APP_WIDGET_NAME = MUSIC_PACKAGE_NAME + "app_widget_name";
+
+    // Do not change these three strings as it will break support with other apps (e.g. last.fm scrobbling)
+    public static final String META_CHANGED = MUSIC_PACKAGE_NAME + ".metachanged";
+    public static final String QUEUE_CHANGED = MUSIC_PACKAGE_NAME + ".queuechanged";
+    public static final String PLAY_STATE_CHANGED = MUSIC_PACKAGE_NAME + ".playstatechanged";
+
+    public static final String FAVORITE_STATE_CHANGED = MUSIC_PACKAGE_NAME + "favoritestatechanged";
+
+    public static final String REPEAT_MODE_CHANGED = MUSIC_PACKAGE_NAME + ".repeatmodechanged";
+    public static final String SHUFFLE_MODE_CHANGED = MUSIC_PACKAGE_NAME + ".shufflemodechanged";
+    public static final String MEDIA_STORE_CHANGED = MUSIC_PACKAG
