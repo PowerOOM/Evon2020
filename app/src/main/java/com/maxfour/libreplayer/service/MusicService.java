@@ -96,4 +96,31 @@ public class MusicService extends Service implements
 
     public static final String REPEAT_MODE_CHANGED = MUSIC_PACKAGE_NAME + ".repeatmodechanged";
     public static final String SHUFFLE_MODE_CHANGED = MUSIC_PACKAGE_NAME + ".shufflemodechanged";
-    public static final String MEDIA_STORE_CHANGED = MUSIC_PACKAG
+    public static final String MEDIA_STORE_CHANGED = MUSIC_PACKAGE_NAME + ".mediastorechanged";
+
+    public static final String CYCLE_REPEAT = MUSIC_PACKAGE_NAME + ".cyclerepeat";
+    public static final String TOGGLE_SHUFFLE = MUSIC_PACKAGE_NAME + ".toggleshuffle";
+    public static final String TOGGLE_FAVORITE = MUSIC_PACKAGE_NAME + ".togglefavorite";
+
+    public static final String SAVED_POSITION = "POSITION";
+    public static final String SAVED_POSITION_IN_TRACK = "POSITION_IN_TRACK";
+    public static final String SAVED_SHUFFLE_MODE = "SHUFFLE_MODE";
+    public static final String SAVED_REPEAT_MODE = "REPEAT_MODE";
+
+    public static final int RELEASE_WAKELOCK = 0;
+    public static final int SONG_ENDED = 1;
+    public static final int SONG_WENT_TO_NEXT = 2;
+    public static final int PLAY_SONG = 3;
+    public static final int PREPARE_NEXT = 4;
+    public static final int SET_POSITION = 5;
+    public static final int FOCUS_CHANGE = 6;
+    public static final int DUCK = 7;
+    public static final int UNDUCK = 8;
+    public static final int RESTORE_QUEUES = 9;
+
+    public static final int SHUFFLE_MODE_NONE = 0;
+    public static final int SHUFFLE_MODE_SHUFFLE = 1;
+
+    public static final int REPEAT_MODE_NONE = 0;
+    public static final int REPEAT_MODE_ALL = 1;
+    public 
