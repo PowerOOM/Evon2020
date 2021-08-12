@@ -147,4 +147,34 @@ public class MusicService extends Service implements
     private AppWidgetText appWidgetText = AppWidgetText.Companion.getInstance();
     private final BroadcastReceiver widgetIntentReceiver = new BroadcastReceiver() {
         @Override
-        public void on
+        public void onReceive(final Context context, final Intent intent) {
+            final String command = intent.getStringExtra(EXTRA_APP_WIDGET_NAME);
+            final int[] ids = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+            if (command != null) {
+                switch (command) {
+                    case AppWidgetClassic.NAME: {
+                        appWidgetClassic.performUpdate(MusicService.this, ids);
+                        break;
+                    }
+                    case AppWidgetSmall.NAME: {
+                        appWidgetSmall.performUpdate(MusicService.this, ids);
+                        break;
+                    }
+                    case AppWidgetBig.NAME: {
+                        appWidgetBig.performUpdate(MusicService.this, ids);
+                        break;
+                    }
+                    case AppWidgetCard.NAME: {
+                        appWidgetCard.performUpdate(MusicService.this, ids);
+                        break;
+                    }
+                    case AppWidgetText.NAME: {
+                        appWidgetText.performUpdate(MusicService.this, ids);
+                        break;
+                    }
+                }
+            }
+
+        }
+    };
+    private A
