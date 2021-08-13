@@ -177,4 +177,31 @@ public class MusicService extends Service implements
 
         }
     };
-    private A
+    private ArrayList<Song> playingQueue = new ArrayList<>();
+    private ArrayList<Song> originalPlayingQueue = new ArrayList<>();
+    private int shuffleMode;
+    private int repeatMode;
+    private boolean queuesRestored;
+    private boolean pausedByTransientLossOfFocus;
+    private final BroadcastReceiver becomingNoisyReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, @NonNull Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals(AudioManager.ACTION_AUDIO_BECOMING_NOISY)) {
+                pause();
+            }
+        }
+    };
+    private PlayingNotification playingNotification;
+    private final BroadcastReceiver updateFavoriteReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            updateNotification();
+        }
+    };
+    private AudioManager audioManager;
+    private MediaSessionCompat mediaSession;
+    private PowerManager.WakeLock wakeLock;
+    private PlaybackHandler playerHandler;
+    private final AudioManager.OnAudioFocusChangeListener audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+    
