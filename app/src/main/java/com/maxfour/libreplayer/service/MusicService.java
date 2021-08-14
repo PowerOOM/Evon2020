@@ -204,4 +204,27 @@ public class MusicService extends Service implements
     private PlaybackHandler playerHandler;
     private final AudioManager.OnAudioFocusChangeListener audioFocusListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
-    
+        public void onAudioFocusChange(final int focusChange) {
+            playerHandler.obtainMessage(FOCUS_CHANGE, focusChange, 0).sendToTarget();
+        }
+    };
+    private QueueSaveHandler queueSaveHandler;
+    private HandlerThread musicPlayerHandlerThread;
+    private HandlerThread queueSaveHandlerThread;
+    private SongPlayCountHelper songPlayCountHelper = new SongPlayCountHelper();
+    private ThrottledSeekHandler throttledSeekHandler;
+    private boolean becomingNoisyReceiverRegistered;
+    private IntentFilter becomingNoisyReceiverIntentFilter = new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+    private ContentObserver mediaStoreObserver;
+    private boolean notHandledMetaChangedForCurrentSong;
+    private PhoneStateListener phoneStateListener = new PhoneStateListener() {
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            switch (state) {
+                case TelephonyManager.CALL_STATE_IDLE:
+                    //Not in call: Play music
+                    play();
+                    break;
+                case TelephonyManager.CALL_STATE_RINGING:
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    //A call is di
