@@ -227,4 +227,37 @@ public class MusicService extends Service implements
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
                 case TelephonyManager.CALL_STATE_OFFHOOK:
-                    //A call is di
+                    //A call is dialing, active or on hold
+                    pause();
+                    break;
+                default:
+            }
+            super.onCallStateChanged(state, incomingNumber);
+        }
+    };
+    private Handler uiThreadHandler;
+    private IntentFilter headsetReceiverIntentFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+    private boolean headsetReceiverRegistered = false;
+    private BroadcastReceiver headsetReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action != null) {
+                if (Intent.ACTION_HEADSET_PLUG.equals(action)) {
+                    int state = intent.getIntExtra("state", -1);
+                    switch (state) {
+                        case 0:
+                            Log.d(TAG, "Headset unplugged");
+                            pause();
+                            break;
+                        case 1:
+                            Log.d(TAG, "Headset plugged");
+                            play();
+                            break;
+                    }
+                }
+            }
+        }
+    };
+
+    priva
