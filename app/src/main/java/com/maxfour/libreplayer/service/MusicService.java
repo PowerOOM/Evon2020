@@ -294,4 +294,28 @@ public class MusicService extends Service implements
 
         musicPlayerHandlerThread = new HandlerThread("PlaybackHandler");
         musicPlayerHandlerThread.start();
-      
+        playerHandler = new PlaybackHandler(this, musicPlayerHandlerThread.getLooper());
+
+        playback = new MultiPlayer(this);
+        playback.setCallbacks(this);
+
+        setupMediaSession();
+
+        // queue saving needs to run on a separate thread so that it doesn't block the playback handler events
+        queueSaveHandlerThread = new HandlerThread("QueueSaveHandler", Process.THREAD_PRIORITY_BACKGROUND);
+        queueSaveHandlerThread.start();
+        queueSaveHandler = new QueueSaveHandler(this, queueSaveHandlerThread.getLooper());
+
+        uiThreadHandler = new Handler();
+
+        registerReceiver(widgetIntentReceiver, new IntentFilter(APP_WIDGET_UPDATE));
+        registerReceiver(updateFavoriteReceiver, new IntentFilter(FAVORITE_STATE_CHANGED));
+
+        initNotification();
+
+        mediaStoreObserver = new MediaStoreObserver(this, playerHandler);
+        throttledSeekHandler = new ThrottledSeekHandler(this, playerHandler);
+        getContentResolver().registerContentObserver(
+                MediaStore.Audio.Media.INTERNAL_CONTENT_URI, true, mediaStoreObserver);
+        getContentResolver().registerContentObserver(
+                MediaStore.Audio
