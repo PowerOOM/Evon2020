@@ -318,4 +318,40 @@ public class MusicService extends Service implements
         getContentResolver().registerContentObserver(
                 MediaStore.Audio.Media.INTERNAL_CONTENT_URI, true, mediaStoreObserver);
         getContentResolver().registerContentObserver(
-                MediaStore.Audio
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, true, mediaStoreObserver);
+
+        PreferenceUtil.getInstance(this).registerOnSharedPreferenceChangedListener(this);
+
+        restoreState();
+
+        sendBroadcast(new Intent("com.maxfour.libreplayer.MUSIC_SERVICE_CREATED"));
+
+        registerHeadsetEvents();
+    }
+
+    private AudioManager getAudioManager() {
+        if (audioManager == null) {
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        }
+        return audioManager;
+    }
+
+    private void setupMediaSession() {
+        ComponentName mediaButtonReceiverComponentName = new ComponentName(
+                getApplicationContext(),
+                MediaButtonIntentReceiver.class);
+
+        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        mediaButtonIntent.setComponent(mediaButtonReceiverComponentName);
+
+
+        PendingIntent mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(
+                getApplicationContext(),
+                0,
+                mediaButtonIntent,
+                0);
+
+        mediaSession = new MediaSessionCompat(this,
+                "MusicPlayer",
+                mediaButtonReceiverComponentName,
+                mediaButton
