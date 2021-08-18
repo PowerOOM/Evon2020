@@ -354,4 +354,35 @@ public class MusicService extends Service implements
         mediaSession = new MediaSessionCompat(this,
                 "MusicPlayer",
                 mediaButtonReceiverComponentName,
-                mediaButton
+                mediaButtonReceiverPendingIntent);
+        MediaSessionCallback mediasessionCallback = new MediaSessionCallback(
+                getApplicationContext(), this);
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
+                | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS
+        );
+        mediaSession.setCallback(mediasessionCallback);
+        mediaSession.setActive(true);
+        mediaSession.setMediaButtonReceiver(mediaButtonReceiverPendingIntent);
+
+    }
+
+    @Override
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+        if (intent != null) {
+            if (intent.getAction() != null) {
+                restoreQueuesAndPositionIfNecessary();
+                String action = intent.getAction();
+                switch (action) {
+                    case ACTION_TOGGLE_PAUSE:
+                        if (isPlaying()) {
+                            pause();
+                        } else {
+                            play();
+                        }
+                        break;
+                    case ACTION_PAUSE:
+                        pause();
+                        break;
+                    case ACTION_PLAY:
+                        play();
+           
