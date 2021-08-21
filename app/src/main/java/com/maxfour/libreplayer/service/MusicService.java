@@ -385,4 +385,36 @@ public class MusicService extends Service implements
                         break;
                     case ACTION_PLAY:
                         play();
-           
+                        break;
+                    case ACTION_PLAY_PLAYLIST:
+                        playFromPlaylist(intent);
+                        break;
+                    case ACTION_REWIND:
+                        back(true);
+                        break;
+                    case ACTION_SKIP:
+                        playNextSong(true);
+                        break;
+                    case ACTION_STOP:
+                    case ACTION_QUIT:
+                        pendingQuit = false;
+                        quit();
+                        break;
+                    case ACTION_PENDING_QUIT:
+                        pendingQuit = true;
+                        break;
+                    case TOGGLE_FAVORITE:
+                        MusicUtil.toggleFavorite(getApplicationContext(), getCurrentSong());
+                        break;
+                }
+            }
+        }
+
+        return START_NOT_STICKY;
+    }
+
+    private void playFromPlaylist(Intent intent) {
+        Playlist playlist = intent.getParcelableExtra(INTENT_EXTRA_PLAYLIST);
+        int shuffleMode = intent.getIntExtra(INTENT_EXTRA_SHUFFLE_MODE, getShuffleMode());
+        if (playlist != null) {
+            ArrayList<Song> playlistSongs = playlist.getSongs(g
