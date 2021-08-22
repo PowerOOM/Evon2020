@@ -445,4 +445,48 @@ public class MusicService extends Service implements
         if (headsetReceiverRegistered) {
             unregisterReceiver(headsetReceiver);
             headsetReceiverRegistered = false;
-       
+        }
+        mediaSession.setActive(false);
+        quit();
+        releaseResources();
+        getContentResolver().unregisterContentObserver(mediaStoreObserver);
+        PreferenceUtil.getInstance(this).unregisterOnSharedPreferenceChangedListener(this);
+        wakeLock.release();
+
+        sendBroadcast(new Intent("com.maxfour.libreplayer.MUSIC_SERVICE_DESTROYED"));
+    }
+
+    @NonNull
+    @Override
+    public IBinder onBind(Intent intent) {
+        return musicBind;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        if (!isPlaying()) {
+            stopSelf();
+        }
+        return true;
+    }
+
+    public void saveQueuesImpl() {
+        MusicPlaybackQueueStore.getInstance(this).saveQueues(playingQueue, originalPlayingQueue);
+    }
+
+    private void savePosition() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(SAVED_POSITION, getPosition()).apply();
+    }
+
+    public void savePositionInTrack() {
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(SAVED_POSITION_IN_TRACK, getSongProgressMillis()).apply();
+    }
+
+    public void saveState() {
+        saveQueues();
+        savePosition();
+        savePositionInTrack();
+    }
+
+    private void saveQueues() {
+        queueSaveHandler.removeMes
