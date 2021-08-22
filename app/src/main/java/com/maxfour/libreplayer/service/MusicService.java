@@ -417,4 +417,32 @@ public class MusicService extends Service implements
         Playlist playlist = intent.getParcelableExtra(INTENT_EXTRA_PLAYLIST);
         int shuffleMode = intent.getIntExtra(INTENT_EXTRA_SHUFFLE_MODE, getShuffleMode());
         if (playlist != null) {
-            ArrayList<Song> playlistSongs = playlist.getSongs(g
+            ArrayList<Song> playlistSongs = playlist.getSongs(getApplicationContext());
+            if (!playlistSongs.isEmpty()) {
+                if (shuffleMode == SHUFFLE_MODE_SHUFFLE) {
+                    int startPosition = new Random().nextInt(playlistSongs.size());
+                    openQueue(playlistSongs, startPosition, true);
+                    setShuffleMode(shuffleMode);
+                } else {
+                    openQueue(playlistSongs, 0, true);
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.playlist_is_empty, Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.playlist_is_empty, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(widgetIntentReceiver);
+        unregisterReceiver(updateFavoriteReceiver);
+        if (becomingNoisyReceiverRegistered) {
+            unregisterReceiver(becomingNoisyReceiver);
+            becomingNoisyReceiverRegistered = false;
+        }
+        if (headsetReceiverRegistered) {
+            unregisterReceiver(headsetReceiver);
+            headsetReceiverRegistered = false;
+       
