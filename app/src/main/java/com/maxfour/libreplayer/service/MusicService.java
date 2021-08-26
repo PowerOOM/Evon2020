@@ -489,4 +489,25 @@ public class MusicService extends Service implements
     }
 
     private void saveQueues() {
-        queueSaveHandler.removeMes
+        queueSaveHandler.removeMessages(SAVE_QUEUES);
+        queueSaveHandler.sendEmptyMessage(SAVE_QUEUES);
+    }
+
+    private void restoreState() {
+        shuffleMode = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_SHUFFLE_MODE, 0);
+        repeatMode = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_REPEAT_MODE, 0);
+        handleAndSendChangeInternal(SHUFFLE_MODE_CHANGED);
+        handleAndSendChangeInternal(REPEAT_MODE_CHANGED);
+
+        playerHandler.removeMessages(RESTORE_QUEUES);
+        playerHandler.sendEmptyMessage(RESTORE_QUEUES);
+    }
+
+    public synchronized void restoreQueuesAndPositionIfNecessary() {
+        if (!queuesRestored && playingQueue.isEmpty()) {
+            ArrayList<Song> restoredQueue = MusicPlaybackQueueStore.getInstance(this).getSavedPlayingQueue();
+            ArrayList<Song> restoredOriginalQueue = MusicPlaybackQueueStore.getInstance(this).getSavedOriginalPlayingQueue();
+            int restoredPosition = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_POSITION, -1);
+            int restoredPositionInTrack = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_POSITION_IN_TRACK, -1);
+
+            if (restoredQueu
