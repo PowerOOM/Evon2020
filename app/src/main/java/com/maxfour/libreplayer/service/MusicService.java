@@ -510,4 +510,42 @@ public class MusicService extends Service implements
             int restoredPosition = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_POSITION, -1);
             int restoredPositionInTrack = PreferenceManager.getDefaultSharedPreferences(this).getInt(SAVED_POSITION_IN_TRACK, -1);
 
-            if (restoredQueu
+            if (restoredQueue.size() > 0 && restoredQueue.size() == restoredOriginalQueue.size() && restoredPosition != -1) {
+                this.originalPlayingQueue = restoredOriginalQueue;
+                this.playingQueue = restoredQueue;
+
+                position = restoredPosition;
+                openCurrent();
+                prepareNext();
+
+                if (restoredPositionInTrack > 0) seek(restoredPositionInTrack);
+
+                notHandledMetaChangedForCurrentSong = true;
+                sendChangeInternal(META_CHANGED);
+                sendChangeInternal(QUEUE_CHANGED);
+            }
+        }
+        queuesRestored = true;
+    }
+
+    public void quit() {
+        pause();
+        playingNotification.stop();
+
+        closeAudioEffectSession();
+        getAudioManager().abandonAudioFocus(audioFocusListener);
+        stopSelf();
+    }
+
+
+    private void releaseResources() {
+        playerHandler.removeCallbacksAndMessages(null);
+        musicPlayerHandlerThread.quitSafely();
+        queueSaveHandler.removeCallbacksAndMessages(null);
+        queueSaveHandlerThread.quitSafely();
+        if (playback != null) {
+            playback.release();
+        }
+        playback = null;
+        mediaSession.release();
+  
