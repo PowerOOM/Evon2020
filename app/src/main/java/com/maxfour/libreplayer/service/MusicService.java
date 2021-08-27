@@ -548,4 +548,42 @@ public class MusicService extends Service implements
         }
         playback = null;
         mediaSession.release();
-  
+    }
+
+    public boolean isPlaying() {
+        return playback != null && playback.isPlaying();
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(final int position) {
+        // handle this on the handlers thread to avoid blocking the ui thread
+        playerHandler.removeMessages(SET_POSITION);
+        playerHandler.obtainMessage(SET_POSITION, position, 0).sendToTarget();
+    }
+
+    public void playNextSong(boolean force) {
+        playSongAt(getNextPosition(force));
+    }
+
+    public boolean openSongAndPrepareNextAt(int position) {
+        synchronized (this) {
+            this.position = position;
+            boolean prepared = openCurrent();
+            if (prepared) prepareNextImpl();
+            notifyChange(META_CHANGED);
+            notHandledMetaChangedForCurrentSong = false;
+            return prepared;
+        }
+    }
+
+    private boolean openCurrent() {
+        synchronized (this) {
+            try {
+                if (playback != null) {
+                    return playback.setDataSource(getSongUri(Objects.requireNonNull(getCurrentSong())));
+                }
+            } catch (Exception e) {
+                return fal
