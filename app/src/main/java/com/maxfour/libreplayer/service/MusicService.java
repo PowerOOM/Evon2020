@@ -586,4 +586,40 @@ public class MusicService extends Service implements
                     return playback.setDataSource(getSongUri(Objects.requireNonNull(getCurrentSong())));
                 }
             } catch (Exception e) {
-                return fal
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private void prepareNext() {
+        playerHandler.removeMessages(PREPARE_NEXT);
+        playerHandler.obtainMessage(PREPARE_NEXT).sendToTarget();
+    }
+
+    public boolean prepareNextImpl() {
+        synchronized (this) {
+            try {
+                int nextPosition = getNextPosition(false);
+                if (playback != null) {
+                    playback.setNextDataSource(getSongUri(Objects.requireNonNull(getSongAt(nextPosition))));
+                }
+                this.nextPosition = nextPosition;
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    }
+
+    private void closeAudioEffectSession() {
+        final Intent audioEffectsIntent = new Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
+        if (playback != null) {
+            audioEffectsIntent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, playback.getAudioSessionId());
+        }
+        audioEffectsIntent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+        sendBroadcast(audioEffectsIntent);
+    }
+
+    private boolean requestFocus() {
+        return (getAudioManager().requestAudioFocus(audi
