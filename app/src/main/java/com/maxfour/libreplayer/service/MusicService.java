@@ -622,4 +622,34 @@ public class MusicService extends Service implements
     }
 
     private boolean requestFocus() {
-        return (getAudioManager().requestAudioFocus(audi
+        return (getAudioManager().requestAudioFocus(audioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
+    }
+
+    public void initNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !PreferenceUtil.getInstance(this).classicNotification()) {
+            playingNotification = new PlayingNotificationImpl();
+        } else {
+            playingNotification = new PlayingNotificationOreo();
+        }
+        playingNotification.init(this);
+    }
+
+    public void updateNotification() {
+        if (playingNotification != null && getCurrentSong().getId() != -1) {
+            playingNotification.update();
+        }
+    }
+
+    public void updateMediaSessionPlaybackState() {
+        PlaybackStateCompat.Builder stateBuilder = new PlaybackStateCompat.Builder()
+                .setActions(MEDIA_SESSION_ACTIONS)
+                .setState(isPlaying() ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED,
+                        getSongProgressMillis(), 1);
+
+        setCustomAction(stateBuilder);
+
+        mediaSession.setPlaybackState(stateBuilder.build());
+    }
+
+    private void setCustomAction(PlaybackStateCompat.Builder stateBuilder) {
+        int repeatIcon = R.draw
