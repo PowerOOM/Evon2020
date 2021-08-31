@@ -695,4 +695,27 @@ public class MusicService extends Service implements
 
         if (PreferenceUtil.getInstance(this).albumArtOnLockscreen()) {
             final Point screenSize = PlayerUtil.getScreenSize(MusicService.this);
-            final BitmapRequestBuilder<?, Bitmap> request = SongGlideRequest.Builder.from(Glid
+            final BitmapRequestBuilder<?, Bitmap> request = SongGlideRequest.Builder.from(Glide.with(MusicService.this), song)
+                    .checkIgnoreMediaStore(MusicService.this)
+                    .asBitmap().build();
+            if (PreferenceUtil.getInstance(this).blurredAlbumArt()) {
+                request.transform(new BlurTransformation.Builder(MusicService.this).build());
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    request.into(new SimpleTarget<Bitmap>(screenSize.x, screenSize.y) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            metaData.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, copy(resource));
+                            mediaSession.setMetadata(metaData.build());
+                        }
+
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            super.onLoadFailed(e, errorDrawable);
+                            mediaSession.setMetadata(metaData.build());
+                        }
+                    });
+                }
+       
