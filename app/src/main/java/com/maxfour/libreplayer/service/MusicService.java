@@ -673,4 +673,26 @@ public class MusicService extends Service implements
                 .build());
     }
 
-    void updateMediaSess
+    void updateMediaSessionMetaData() {
+        final Song song = getCurrentSong();
+
+        if (song.getId() == -1) {
+            mediaSession.setMetadata(null);
+            return;
+        }
+
+        final MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.getArtistName())
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, song.getArtistName())
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, song.getAlbumName())
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song.getTitle())
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, song.getDuration())
+                .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, getPosition() + 1)
+                .putLong(MediaMetadataCompat.METADATA_KEY_YEAR, song.getYear())
+                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null)
+                .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, getPlayingQueue().size());
+
+
+        if (PreferenceUtil.getInstance(this).albumArtOnLockscreen()) {
+            final Point screenSize = PlayerUtil.getScreenSize(MusicService.this);
+            final BitmapRequestBuilder<?, Bitmap> request = SongGlideRequest.Builder.from(Glid
