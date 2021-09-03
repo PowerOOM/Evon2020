@@ -718,4 +718,45 @@ public class MusicService extends Service implements
                         }
                     });
                 }
-       
+            });
+        } else {
+            mediaSession.setMetadata(metaData.build());
+        }
+    }
+
+    public void runOnUiThread(Runnable runnable) {
+        uiThreadHandler.post(runnable);
+    }
+
+    @NonNull
+    public Song getCurrentSong() {
+        return getSongAt(getPosition());
+    }
+
+    @NonNull
+    public Song getSongAt(int position) {
+        if (position >= 0 && getPlayingQueue() != null && position < getPlayingQueue().size()) {
+            return getPlayingQueue().get(position);
+        } else {
+            return Song.Companion.getEmptySong();
+        }
+    }
+
+    public int getNextPosition(boolean force) {
+        int position = getPosition() + 1;
+        switch (getRepeatMode()) {
+            case REPEAT_MODE_ALL:
+                if (isLastSong()) {
+                    position = 0;
+                }
+                break;
+            case REPEAT_MODE_THIS:
+                if (force) {
+                    if (isLastSong()) {
+                        position = 0;
+                    }
+                } else {
+                    position -= 1;
+                }
+                break;
+            defaul
