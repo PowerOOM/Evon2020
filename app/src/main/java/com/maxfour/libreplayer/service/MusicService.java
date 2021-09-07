@@ -759,4 +759,46 @@ public class MusicService extends Service implements
                     position -= 1;
                 }
                 break;
-            defaul
+            default:
+            case REPEAT_MODE_NONE:
+                if (isLastSong()) {
+                    position -= 1;
+                }
+                break;
+        }
+        return position;
+    }
+
+    public boolean isLastSong() {
+        if (getPlayingQueue() != null) {
+            return getPosition() == getPlayingQueue().size() - 1;
+        }
+        return false;
+    }
+
+    @Nullable
+    public ArrayList<Song> getPlayingQueue() {
+        return playingQueue;
+    }
+
+    public int getRepeatMode() {
+        return repeatMode;
+    }
+
+    public void setRepeatMode(final int repeatMode) {
+        switch (repeatMode) {
+            case REPEAT_MODE_NONE:
+            case REPEAT_MODE_ALL:
+            case REPEAT_MODE_THIS:
+                this.repeatMode = repeatMode;
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putInt(SAVED_REPEAT_MODE, repeatMode)
+                        .apply();
+                prepareNext();
+                handleAndSendChangeInternal(REPEAT_MODE_CHANGED);
+                break;
+        }
+    }
+
+    public void openQueue(@Nullable final ArrayList<Song> playingQueue, final int startPosition, final boolean startPlaying) {
+        if (playingQ
