@@ -801,4 +801,37 @@ public class MusicService extends Service implements
     }
 
     public void openQueue(@Nullable final ArrayList<Song> playingQueue, final int startPosition, final boolean startPlaying) {
-        if (playingQ
+        if (playingQueue != null && !playingQueue.isEmpty() && startPosition >= 0 && startPosition < playingQueue.size()) {
+            // it is important to copy the playing queue here first as we might add/remove songs later
+            originalPlayingQueue = new ArrayList<>(playingQueue);
+            this.playingQueue = new ArrayList<>(originalPlayingQueue);
+
+            int position = startPosition;
+            if (shuffleMode == SHUFFLE_MODE_SHUFFLE) {
+                ShuffleHelper.INSTANCE.makeShuffleList(this.playingQueue, startPosition);
+                position = 0;
+            }
+            if (startPlaying) {
+                playSongAt(position);
+            } else {
+                setPosition(position);
+            }
+            notifyChange(QUEUE_CHANGED);
+        }
+    }
+
+    public void addSong(int position, Song song) {
+        playingQueue.add(position, song);
+        originalPlayingQueue.add(position, song);
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    public void addSong(Song song) {
+        playingQueue.add(song);
+        originalPlayingQueue.add(song);
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    public void addSongs(int position, List<Song> songs) {
+        playingQueue.addAll(position, songs);
+        originalPla
