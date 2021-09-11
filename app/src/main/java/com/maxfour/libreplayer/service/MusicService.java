@@ -834,4 +834,43 @@ public class MusicService extends Service implements
 
     public void addSongs(int position, List<Song> songs) {
         playingQueue.addAll(position, songs);
-        originalPla
+        originalPlayingQueue.addAll(position, songs);
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    public void addSongs(List<Song> songs) {
+        playingQueue.addAll(songs);
+        originalPlayingQueue.addAll(songs);
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    public void removeSong(int position) {
+        if (getShuffleMode() == SHUFFLE_MODE_NONE) {
+            playingQueue.remove(position);
+            originalPlayingQueue.remove(position);
+        } else {
+            originalPlayingQueue.remove(playingQueue.remove(position));
+        }
+
+        rePosition(position);
+
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    public void removeSong(@NonNull Song song) {
+        for (int i = 0; i < playingQueue.size(); i++) {
+            if (playingQueue.get(i).getId() == song.getId()) {
+                playingQueue.remove(i);
+                rePosition(i);
+            }
+        }
+        for (int i = 0; i < originalPlayingQueue.size(); i++) {
+            if (originalPlayingQueue.get(i).getId() == song.getId()) {
+                originalPlayingQueue.remove(i);
+            }
+        }
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    private void rePosition(int deletedPosition) {
+        int currentPosition = getPo
