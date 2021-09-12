@@ -909,4 +909,38 @@ public class MusicService extends Service implements
         originalPlayingQueue.clear();
 
         setPosition(-1);
-        notif
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    public void playSongAt(final int position) {
+        // handle this on the handlers thread to avoid blocking the ui thread
+        playerHandler.removeMessages(PLAY_SONG);
+        playerHandler.obtainMessage(PLAY_SONG, position, 0).sendToTarget();
+    }
+
+    public void playSongAtImpl(int position) {
+        if (openSongAndPrepareNextAt(position)) {
+            play();
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.unplayable_file), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void pause() {
+        pausedByTransientLossOfFocus = false;
+        if (playback != null && playback.isPlaying()) {
+            playback.pause();
+            notifyChange(PLAY_STATE_CHANGED);
+        }
+    }
+
+    public void play() {
+        synchronized (this) {
+            if (requestFocus()) {
+                if (playback != null && !playback.isPlaying()) {
+                    if (!playback.isInitialized()) {
+                        playSongAt(getPosition());
+                    } else {
+                        playback.start();
+                        if (!becomingNoisyReceiverRegistered) {
+                            registerReceiver(b
