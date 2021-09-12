@@ -873,4 +873,40 @@ public class MusicService extends Service implements
     }
 
     private void rePosition(int deletedPosition) {
-        int currentPosition = getPo
+        int currentPosition = getPosition();
+        if (deletedPosition < currentPosition) {
+            position = currentPosition - 1;
+        } else if (deletedPosition == currentPosition) {
+            if (playingQueue.size() > deletedPosition) {
+                setPosition(position);
+            } else {
+                setPosition(position - 1);
+            }
+        }
+    }
+
+    public void moveSong(int from, int to) {
+        if (from == to) return;
+        final int currentPosition = getPosition();
+        Song songToMove = playingQueue.remove(from);
+        playingQueue.add(to, songToMove);
+        if (getShuffleMode() == SHUFFLE_MODE_NONE) {
+            Song tmpSong = originalPlayingQueue.remove(from);
+            originalPlayingQueue.add(to, tmpSong);
+        }
+        if (from > currentPosition && to <= currentPosition) {
+            position = currentPosition + 1;
+        } else if (from < currentPosition && to >= currentPosition) {
+            position = currentPosition - 1;
+        } else if (from == currentPosition) {
+            position = to;
+        }
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    public void clearQueue() {
+        playingQueue.clear();
+        originalPlayingQueue.clear();
+
+        setPosition(-1);
+        notif
