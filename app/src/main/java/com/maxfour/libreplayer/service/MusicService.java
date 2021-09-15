@@ -943,4 +943,29 @@ public class MusicService extends Service implements
                     } else {
                         playback.start();
                         if (!becomingNoisyReceiverRegistered) {
-                            registerReceiver(b
+                            registerReceiver(becomingNoisyReceiver, becomingNoisyReceiverIntentFilter);
+                            becomingNoisyReceiverRegistered = true;
+                        }
+                        if (notHandledMetaChangedForCurrentSong) {
+                            handleChangeInternal(META_CHANGED);
+                            notHandledMetaChangedForCurrentSong = false;
+                        }
+                        notifyChange(PLAY_STATE_CHANGED);
+
+                        // fixes a bug where the volume would stay ducked because the AudioManager.AUDIOFOCUS_GAIN event is not sent
+                        playerHandler.removeMessages(DUCK);
+                        playerHandler.sendEmptyMessage(UNDUCK);
+                    }
+                }
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.audio_focus_denied), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void playSongs(ArrayList<Song> songs, int shuffleMode) {
+        if (songs != null && !songs.isEmpty()) {
+            if (shuffleMode == SHUFFLE_MODE_SHUFFLE) {
+                int startPosition = new Random().nextInt(songs.size());
+                openQueue(songs, startPosition, false);
+                setShuffleMod
