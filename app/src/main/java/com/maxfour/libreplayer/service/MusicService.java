@@ -968,4 +968,44 @@ public class MusicService extends Service implements
             if (shuffleMode == SHUFFLE_MODE_SHUFFLE) {
                 int startPosition = new Random().nextInt(songs.size());
                 openQueue(songs, startPosition, false);
-                setShuffleMod
+                setShuffleMode(shuffleMode);
+            } else {
+                openQueue(songs, 0, false);
+            }
+            play();
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.playlist_is_empty, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void playPreviousSong(boolean force) {
+        playSongAt(getPreviousPosition(force));
+    }
+
+    public void back(boolean force) {
+        if (getSongProgressMillis() > 2000) {
+            seek(0);
+        } else {
+            playPreviousSong(force);
+        }
+    }
+
+    public int getPreviousPosition(boolean force) {
+        int newPosition = getPosition() - 1;
+        switch (repeatMode) {
+            case REPEAT_MODE_ALL:
+                if (newPosition < 0) {
+                    if (getPlayingQueue() != null) {
+                        newPosition = getPlayingQueue().size() - 1;
+                    }
+                }
+                break;
+            case REPEAT_MODE_THIS:
+                if (force) {
+                    if (newPosition < 0) {
+                        if (getPlayingQueue() != null) {
+                            newPosition = getPlayingQueue().size() - 1;
+                        }
+                    }
+                } else {
+    
