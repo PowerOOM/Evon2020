@@ -1008,4 +1008,53 @@ public class MusicService extends Service implements
                         }
                     }
                 } else {
-    
+                    newPosition = getPosition();
+                }
+                break;
+            default:
+            case REPEAT_MODE_NONE:
+                if (newPosition < 0) {
+                    newPosition = 0;
+                }
+                break;
+        }
+        return newPosition;
+    }
+
+    public int getSongProgressMillis() {
+        if (playback != null) {
+            return playback.position();
+        }
+        return -1;
+    }
+
+    public int getSongDurationMillis() {
+        if (playback != null) {
+            return playback.duration();
+        }
+        return -1;
+    }
+
+    public long getQueueDurationMillis(int position) {
+        long duration = 0;
+        for (int i = position + 1; i < playingQueue.size(); i++)
+            duration += playingQueue.get(i).getDuration();
+        return duration;
+    }
+
+    public int seek(int millis) {
+        synchronized (this) {
+            try {
+                int newPosition = 0;
+                if (playback != null) {
+                    newPosition = playback.seek(millis);
+                }
+                throttledSeekHandler.notifySeek();
+                return newPosition;
+            } catch (Exception e) {
+                return -1;
+            }
+        }
+    }
+
+   
