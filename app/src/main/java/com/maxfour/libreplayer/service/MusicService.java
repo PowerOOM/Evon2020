@@ -1057,4 +1057,42 @@ public class MusicService extends Service implements
         }
     }
 
-   
+    public void cycleRepeatMode() {
+        switch (getRepeatMode()) {
+            case REPEAT_MODE_NONE:
+                setRepeatMode(REPEAT_MODE_ALL);
+                break;
+            case REPEAT_MODE_ALL:
+                setRepeatMode(REPEAT_MODE_THIS);
+                break;
+            default:
+                setRepeatMode(REPEAT_MODE_NONE);
+                break;
+        }
+    }
+
+    public void toggleShuffle() {
+        if (getShuffleMode() == SHUFFLE_MODE_NONE) {
+            setShuffleMode(SHUFFLE_MODE_SHUFFLE);
+        } else {
+            setShuffleMode(SHUFFLE_MODE_NONE);
+        }
+    }
+
+    public int getShuffleMode() {
+        return shuffleMode;
+    }
+
+    public void setShuffleMode(final int shuffleMode) {
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putInt(SAVED_SHUFFLE_MODE, shuffleMode)
+                .apply();
+        switch (shuffleMode) {
+            case SHUFFLE_MODE_SHUFFLE:
+                this.shuffleMode = shuffleMode;
+                if (this.getPlayingQueue() != null) {
+                    ShuffleHelper.INSTANCE.makeShuffleList(this.getPlayingQueue(), getPosition());
+                }
+                position = 0;
+                break;
+            case SHUFFLE_MODE_NONE
