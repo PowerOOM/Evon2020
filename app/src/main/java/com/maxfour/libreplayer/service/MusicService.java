@@ -1095,4 +1095,35 @@ public class MusicService extends Service implements
                 }
                 position = 0;
                 break;
-            case SHUFFLE_MODE_NONE
+            case SHUFFLE_MODE_NONE:
+                this.shuffleMode = shuffleMode;
+                int currentSongId = Objects.requireNonNull(getCurrentSong()).getId();
+                playingQueue = new ArrayList<>(originalPlayingQueue);
+                int newPosition = 0;
+                if (getPlayingQueue() != null) {
+                    for (Song song : getPlayingQueue()) {
+                        if (song.getId() == currentSongId) {
+                            newPosition = getPlayingQueue().indexOf(song);
+                        }
+                    }
+                }
+                position = newPosition;
+                break;
+        }
+        handleAndSendChangeInternal(SHUFFLE_MODE_CHANGED);
+        notifyChange(QUEUE_CHANGED);
+    }
+
+    public void notifyChange(@NonNull final String what) {
+        handleAndSendChangeInternal(what);
+        sendPublicIntent(what);
+    }
+
+    public void handleAndSendChangeInternal(@NonNull final String what) {
+        handleChangeInternal(what);
+        sendChangeInternal(what);
+    }
+
+    // to let other apps know whats playing. i.E. last.fm (scrobbling) or musixmatch
+    public void sendPublicIntent(@NonNull final String what) {
+        final Intent intent = new Intent(MUSIC_PACKAGE_NAME
