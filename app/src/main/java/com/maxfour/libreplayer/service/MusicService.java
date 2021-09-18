@@ -1126,4 +1126,35 @@ public class MusicService extends Service implements
 
     // to let other apps know whats playing. i.E. last.fm (scrobbling) or musixmatch
     public void sendPublicIntent(@NonNull final String what) {
-        final Intent intent = new Intent(MUSIC_PACKAGE_NAME
+        final Intent intent = new Intent(MUSIC_PACKAGE_NAME);
+
+        final Song song = getCurrentSong();
+
+        if (song != null) {
+            intent.putExtra("id", song.getId());
+            intent.putExtra("artist", song.getArtistName());
+            intent.putExtra("album", song.getAlbumName());
+            intent.putExtra("song", song.getTitle());
+            intent.putExtra("duration", song.getDuration());
+            intent.putExtra("position", (long) getSongProgressMillis());
+            intent.putExtra("playing", isPlaying());
+            intent.putExtra("scrobbling_source", MUSIC_PACKAGE_NAME);
+            sendStickyBroadcast(intent);
+        }
+    }
+
+    private void sendChangeInternal(final String what) {
+        sendBroadcast(new Intent(what));
+        appWidgetBig.notifyChange(this, what);
+        appWidgetClassic.notifyChange(this, what);
+        appWidgetSmall.notifyChange(this, what);
+        appWidgetCard.notifyChange(this, what);
+        appWidgetText.notifyChange(this, what);
+    }
+
+    private void handleChangeInternal(@NonNull final String what) {
+        switch (what) {
+            case PLAY_STATE_CHANGED:
+                updateNotification();
+                updateMediaSessionPlaybackState();
+                final boolean isPlaying = isPlaying();
