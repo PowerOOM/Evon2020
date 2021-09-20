@@ -1158,3 +1158,31 @@ public class MusicService extends Service implements
                 updateNotification();
                 updateMediaSessionPlaybackState();
                 final boolean isPlaying = isPlaying();
+                if (!isPlaying && getSongProgressMillis() > 0) {
+                    savePositionInTrack();
+                }
+                songPlayCountHelper.notifyPlayStateChanged(isPlaying);
+                break;
+            case FAVORITE_STATE_CHANGED:
+            case META_CHANGED:
+                updateNotification();
+                updateMediaSessionMetaData();
+                savePosition();
+                savePositionInTrack();
+                final Song currentSong = getCurrentSong();
+                if (currentSong != null) {
+                    HistoryStore.getInstance(this).addSongId(currentSong.getId());
+                }
+                if (songPlayCountHelper.shouldBumpPlayCount()) {
+                    SongPlayCountStore.getInstance(this).bumpPlayCount(songPlayCountHelper.getSong().getId());
+                }
+                if (currentSong != null) {
+                    songPlayCountHelper.notifySongChanged(currentSong);
+                }
+                break;
+            case QUEUE_CHANGED:
+                updateMediaSessionMetaData(); // because playing queue size might have changed
+                saveState();
+                if (playingQueue.size() > 0) {
+                    prepareNext();
+               
