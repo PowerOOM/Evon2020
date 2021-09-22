@@ -1230,4 +1230,44 @@ public class MusicService extends Service implements
             case PreferenceUtil.BLURRED_ALBUM_ART:
                 updateMediaSessionMetaData();
                 break;
-       
+            case PreferenceUtil.COLORED_NOTIFICATION:
+            case PreferenceUtil.DOMINANT_COLOR:
+                updateNotification();
+                break;
+            case PreferenceUtil.CLASSIC_NOTIFICATION:
+                initNotification();
+                updateNotification();
+                break;
+            case PreferenceUtil.TOGGLE_HEADSET:
+                registerHeadsetEvents();
+                break;
+        }
+    }
+
+    private void registerHeadsetEvents() {
+        if (!headsetReceiverRegistered && PreferenceUtil.getInstance(this).getHeadsetPlugged()) {
+            registerReceiver(headsetReceiver, headsetReceiverIntentFilter);
+            headsetReceiverRegistered = true;
+        }
+    }
+
+    @Override
+    public void onSongWentToNext() {
+        playerHandler.sendEmptyMessage(SONG_WENT_TO_NEXT);
+    }
+
+    @Override
+    public void onSongEnded() {
+        acquireWakeLock(30000);
+        playerHandler.sendEmptyMessage(SONG_ENDED);
+    }
+
+    public boolean isPausedByTransientLossOfFocus() {
+        return pausedByTransientLossOfFocus;
+    }
+
+    public void setPausedByTransientLossOfFocus(boolean pausedByTransientLossOfFocus) {
+        this.pausedByTransientLossOfFocus = pausedByTransientLossOfFocus;
+    }
+
+    public
