@@ -1185,4 +1185,49 @@ public class MusicService extends Service implements
                 saveState();
                 if (playingQueue.size() > 0) {
                     prepareNext();
-               
+                } else {
+                    playingNotification.stop();
+                }
+                break;
+        }
+    }
+
+    public int getAudioSessionId() {
+        if (playback != null) {
+            return playback.getAudioSessionId();
+        }
+        return -1;
+    }
+
+    @NonNull
+    public MediaSessionCompat getMediaSession() {
+        return mediaSession;
+    }
+
+    public void releaseWakeLock() {
+        if (wakeLock.isHeld()) {
+            wakeLock.release();
+        }
+    }
+
+    public void acquireWakeLock(long milli) {
+        wakeLock.acquire(milli);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(@NonNull SharedPreferences sharedPreferences, @NonNull String key) {
+        switch (key) {
+            case PreferenceUtil.GAPLESS_PLAYBACK:
+                if (sharedPreferences.getBoolean(key, false)) {
+                    prepareNext();
+                } else {
+                    if (playback != null) {
+                        playback.setNextDataSource(null);
+                    }
+                }
+                break;
+            case PreferenceUtil.ALBUM_ART_ON_LOCKSCREEN:
+            case PreferenceUtil.BLURRED_ALBUM_ART:
+                updateMediaSessionMetaData();
+                break;
+       
