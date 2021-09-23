@@ -1270,4 +1270,10 @@ public class MusicService extends Service implements
         this.pausedByTransientLossOfFocus = pausedByTransientLossOfFocus;
     }
 
-    public
+    public class MusicBinder extends Binder {
+        @NonNull
+        public MusicService getService() {
+            return MusicService.this;
+        }
+    }
+}
