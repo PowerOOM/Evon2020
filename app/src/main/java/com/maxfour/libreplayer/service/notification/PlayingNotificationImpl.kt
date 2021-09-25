@@ -29,3 +29,27 @@ class PlayingNotificationImpl : PlayingNotification() {
     private var target: Target<BitmapPaletteWrapper>? = null
     @Synchronized
     override fun update() {
+        stopped = false
+
+        val song = service.currentSong
+        val isPlaying = service.isPlaying
+        val isFavorite = MusicUtil.isFavorite(service, song)
+        val playButtonResId = if (isPlaying) R.drawable.ic_pause_white_48dp else R.drawable.ic_play_arrow_white_48dp
+        val favoriteResId = if (isFavorite) R.drawable.ic_favorite_white_24dp else R.drawable.ic_favorite_border_white_24dp
+
+        val action = Intent(service, MainActivity::class.java)
+        action.putExtra("expand", true)
+        action.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        val clickIntent = PendingIntent.getActivity(service, 0, action, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val serviceName = ComponentName(service, MusicService::class.java)
+        val intent = Intent(ACTION_QUIT)
+        intent.component = serviceName
+        val deleteIntent = PendingIntent.getService(service, 0, intent, 0)
+
+        val bigNotificationImageSize = service.resources
+                .getDimensionPixelSize(R.dimen.notification_big_image_size)
+        service.runOnUiThread {
+            if (target != null) {
+                Glide.clear(target)
+         
