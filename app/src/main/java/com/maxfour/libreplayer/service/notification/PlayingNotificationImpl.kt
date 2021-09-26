@@ -71,4 +71,16 @@ class PlayingNotificationImpl : PlayingNotification() {
                         }
 
                         fun update(bitmap: Bitmap?, color: Int) {
-                         
+                            var bitmapFinal = bitmap
+                            if (bitmapFinal == null) {
+                                bitmapFinal = BitmapFactory.decodeResource(service.resources, R.drawable.default_album_art)
+                            }
+
+                            val toggleFavorite = NotificationCompat.Action(favoriteResId, service.getString(R.string.action_toggle_favorite), retrievePlaybackAction(TOGGLE_FAVORITE))
+                            val playPauseAction = NotificationCompat.Action(playButtonResId, service.getString(R.string.action_play_pause), retrievePlaybackAction(ACTION_TOGGLE_PAUSE))
+                            val previousAction = NotificationCompat.Action(R.drawable.ic_skip_previous_round_white_32dp, service.getString(R.string.action_previous), retrievePlaybackAction(ACTION_REWIND))
+                            val nextAction = NotificationCompat.Action(R.drawable.ic_skip_next_round_white_32dp, service.getString(R.string.action_next), retrievePlaybackAction(ACTION_SKIP))
+
+                            val builder = NotificationCompat.Builder(service,
+                                    NOTIFICATION_CHANNEL_ID)
+                  
