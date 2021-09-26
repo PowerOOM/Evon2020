@@ -52,4 +52,23 @@ class PlayingNotificationImpl : PlayingNotification() {
         service.runOnUiThread {
             if (target != null) {
                 Glide.clear(target)
-         
+            }
+            target = SongGlideRequest.Builder.from(Glide.with(service), song)
+                    .checkIgnoreMediaStore(service)
+                    .generatePalette(service).build()
+                    .centerCrop()
+                    .into(object : SimpleTarget<BitmapPaletteWrapper>(bigNotificationImageSize, bigNotificationImageSize) {
+                        override fun onResourceReady(resource: BitmapPaletteWrapper, glideAnimation: GlideAnimation<in BitmapPaletteWrapper>) {
+                            update(resource.bitmap, when {
+                                PreferenceUtil.getInstance(service).isDominantColor -> PlayerColorUtil.getDominantColor(resource.bitmap, Color.TRANSPARENT)
+                                else -> PlayerColorUtil.getColor(resource.palette, Color.TRANSPARENT)
+                            })
+                        }
+
+                        override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
+                            super.onLoadFailed(e, errorDrawable)
+                            update(null, Color.TRANSPARENT)
+                        }
+
+                        fun update(bitmap: Bitmap?, color: Int) {
+                         
