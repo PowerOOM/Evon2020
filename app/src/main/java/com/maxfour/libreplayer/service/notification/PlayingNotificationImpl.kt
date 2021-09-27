@@ -83,4 +83,22 @@ class PlayingNotificationImpl : PlayingNotification() {
 
                             val builder = NotificationCompat.Builder(service,
                                     NOTIFICATION_CHANNEL_ID)
-                  
+                                    .setSmallIcon(R.drawable.ic_notification)
+                                    .setLargeIcon(bitmapFinal)
+                                    .setContentIntent(clickIntent)
+                                    .setDeleteIntent(deleteIntent)
+                                    .setContentTitle(Html.fromHtml("<b>" + song.title + "</b>"))
+                                    .setContentText(song.artistName)
+                                    .setSubText(Html.fromHtml("<b>" + song.albumName + "</b>"))
+                                    .setOngoing(isPlaying)
+                                    .setShowWhen(false)
+                                    .addAction(toggleFavorite)
+                                    .addAction(previousAction)
+                                    .addAction(playPauseAction)
+                                    .addAction(nextAction)
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                builder.setStyle(MediaStyle()
+                                        .setMediaSession(service.mediaSession.sessionToken)
+                                        .setShowActionsInCompactView(1, 2, 3))
+                                        .setVisibility(Notification
