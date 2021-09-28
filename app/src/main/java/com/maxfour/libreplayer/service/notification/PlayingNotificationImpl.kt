@@ -101,4 +101,25 @@ class PlayingNotificationImpl : PlayingNotification() {
                                 builder.setStyle(MediaStyle()
                                         .setMediaSession(service.mediaSession.sessionToken)
                                         .setShowActionsInCompactView(1, 2, 3))
-                                        .setVisibility(Notification
+                                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O && PreferenceUtil.getInstance(service).coloredNotification()) {
+                                    builder.color = color
+                                }
+                            }
+
+                            if (stopped) {
+                                return  // notification has been stopped before loading was finished
+                            }
+                            updateNotifyModeAndPostNotification(builder.build())
+                        }
+                    })
+        }
+    }
+
+    private fun retrievePlaybackAction(action: String): PendingIntent {
+        val serviceName = ComponentName(service, MusicService::class.java)
+        val intent = Intent(action)
+        intent.component = serviceName
+        return PendingIntent.getService(service, 0, intent, 0)
+    }
+}
