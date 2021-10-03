@@ -59,4 +59,25 @@ class PlayingNotificationOreo : PlayingNotification() {
 
         val builder = NotificationCompat.Builder(service, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentInten
+                .setContentIntent(clickIntent)
+                .setDeleteIntent(deleteIntent)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setCustomContentView(notificationLayout)
+                .setCustomBigContentView(notificationLayoutBig)
+                .setOngoing(isPlaying)
+
+        val bigNotificationImageSize = service.resources
+                .getDimensionPixelSize(R.dimen.notification_big_image_size)
+        service.runOnUiThread {
+            if (target != null) {
+                Glide.clear(target)
+            }
+            target = SongGlideRequest.Builder.from(Glide.with(service), song)
+                    .checkIgnoreMediaStore(service)
+                    .generatePalette(service).build()
+                    .centerCrop()
+                    .into(object : SimpleTarget<BitmapPaletteWrapper>(bigNotificationImageSize, bigNotificationImageSize) {
+                        override fun onResourceReady(resource: BitmapPaletteWrapper, glideAnimation: GlideAnimation<in BitmapPaletteWrapper>) {
+                            val mediaNotificat
