@@ -99,4 +99,25 @@ class PlayingNotificationOreo : PlayingNotification() {
                                 notificationLayoutBig.setImageViewResource(R.id.largeIcon, R.drawable.default_album_art)
                             }
 
-       
+                            if (!PreferenceUtil.getInstance(service).coloredNotification()) {
+                                bgColorFinal = ATHUtil.resolveColor(service, R.attr.colorPrimary, Color.WHITE)
+                            }
+                            setBackgroundColor(bgColorFinal)
+                            setNotificationContent(ColorUtil.isColorLight(bgColorFinal))
+
+                            if (stopped) {
+                                return  // notification has been stopped before loading was finished
+                            }
+                            updateNotifyModeAndPostNotification(builder.build())
+                        }
+
+                        private fun setBackgroundColor(color: Int) {
+                            notificationLayout.setInt(R.id.image, "setBackgroundColor", color)
+                            notificationLayoutBig.setInt(R.id.image, "setBackgroundColor", color)
+                        }
+
+                        private fun setNotificationContent(dark: Boolean) {
+                            val primary = MaterialValueHelper.getPrimaryTextColor(service, dark)
+                            val secondary = MaterialValueHelper.getSecondaryTextColor(service, dark)
+
+                            v
