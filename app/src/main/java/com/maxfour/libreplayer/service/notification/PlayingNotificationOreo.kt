@@ -80,4 +80,23 @@ class PlayingNotificationOreo : PlayingNotification() {
                     .centerCrop()
                     .into(object : SimpleTarget<BitmapPaletteWrapper>(bigNotificationImageSize, bigNotificationImageSize) {
                         override fun onResourceReady(resource: BitmapPaletteWrapper, glideAnimation: GlideAnimation<in BitmapPaletteWrapper>) {
-                            val mediaNotificat
+                            val mediaNotificationProcessor = MediaNotificationProcessor(service, service) { i, _ -> update(resource.bitmap, i) }
+                            mediaNotificationProcessor.processNotification(resource.bitmap)
+                        }
+
+                        override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
+                            super.onLoadFailed(e, errorDrawable)
+                            update(null, ATHUtil.resolveColor(service, R.attr.colorSurface, Color.WHITE))
+                        }
+
+                        private fun update(bitmap: Bitmap?, bgColor: Int) {
+                            var bgColorFinal = bgColor
+                            if (bitmap != null) {
+                                notificationLayout.setImageViewBitmap(R.id.largeIcon, bitmap)
+                                notificationLayoutBig.setImageViewBitmap(R.id.largeIcon, bitmap)
+                            } else {
+                                notificationLayout.setImageViewResource(R.id.largeIcon, R.drawable.default_album_art)
+                                notificationLayoutBig.setImageViewResource(R.id.largeIcon, R.drawable.default_album_art)
+                            }
+
+       
