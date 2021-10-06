@@ -120,4 +120,17 @@ class PlayingNotificationOreo : PlayingNotification() {
                             val primary = MaterialValueHelper.getPrimaryTextColor(service, dark)
                             val secondary = MaterialValueHelper.getSecondaryTextColor(service, dark)
 
-                            v
+                            val close = createBitmap(PlayerUtil.getTintedVectorDrawable(service, R.drawable.ic_close_white_24dp, primary)!!, NOTIFICATION_CONTROLS_SIZE_MULTIPLIER)
+                            val prev = createBitmap(PlayerUtil.getTintedVectorDrawable(service, R.drawable.ic_skip_previous_round_white_32dp, primary)!!, NOTIFICATION_CONTROLS_SIZE_MULTIPLIER)
+                            val next = createBitmap(PlayerUtil.getTintedVectorDrawable(service, R.drawable.ic_skip_next_round_white_32dp, primary)!!, NOTIFICATION_CONTROLS_SIZE_MULTIPLIER)
+                            val playPause = createBitmap(PlayerUtil.getTintedVectorDrawable(service,
+                                    if (isPlaying)
+                                        R.drawable.ic_pause_white_48dp
+                                    else
+                                        R.drawable.ic_play_arrow_white_48dp, primary)!!, NOTIFICATION_CONTROLS_SIZE_MULTIPLIER)
+
+                            notificationLayout.setTextColor(R.id.title, primary)
+                            notificationLayout.setTextColor(R.id.subtitle, secondary)
+                            notificationLayout.setTextColor(R.id.appName, secondary)
+
+                            notificationLayout.setImageViewBitmap(R.id.act
