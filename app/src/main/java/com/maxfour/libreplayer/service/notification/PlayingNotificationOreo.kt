@@ -133,4 +133,18 @@ class PlayingNotificationOreo : PlayingNotification() {
                             notificationLayout.setTextColor(R.id.subtitle, secondary)
                             notificationLayout.setTextColor(R.id.appName, secondary)
 
-                            notificationLayout.setImageViewBitmap(R.id.act
+                            notificationLayout.setImageViewBitmap(R.id.action_prev, prev)
+                            notificationLayout.setImageViewBitmap(R.id.action_next, next)
+                            notificationLayout.setImageViewBitmap(R.id.action_play_pause, playPause)
+
+                            notificationLayoutBig.setTextColor(R.id.title, primary)
+                            notificationLayoutBig.setTextColor(R.id.subtitle, secondary)
+                            notificationLayoutBig.setTextColor(R.id.appName, secondary)
+
+                            notificationLayoutBig.setImageViewBitmap(R.id.action_quit, close)
+                            notificationLayoutBig.setImageViewBitmap(R.id.action_prev, prev)
+                            notificationLayoutBig.setImageViewBitmap(R.id.action_next, next)
+                            notificationLayoutBig.setImageViewBitmap(R.id.action_play_pause, playPause)
+
+                            notificationLayout.setImageViewBitmap(R.id.smallIcon, createBitmap(PlayerUtil.getTintedVectorDrawable(service, R.drawable.ic_notification, secondary)!!, 0.6f))
+                            notificationLayoutBig.setImageViewBitmap(R.id.smallIcon, createBitmap(PlayerUtil.getTintedVectorDrawable(service, R.drawable.ic_notification, secondary)!!,
