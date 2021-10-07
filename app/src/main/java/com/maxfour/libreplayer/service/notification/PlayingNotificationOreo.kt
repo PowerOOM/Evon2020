@@ -147,4 +147,39 @@ class PlayingNotificationOreo : PlayingNotification() {
                             notificationLayoutBig.setImageViewBitmap(R.id.action_play_pause, playPause)
 
                             notificationLayout.setImageViewBitmap(R.id.smallIcon, createBitmap(PlayerUtil.getTintedVectorDrawable(service, R.drawable.ic_notification, secondary)!!, 0.6f))
-                            notificationLayoutBig.setImageViewBitmap(R.id.smallIcon, createBitmap(PlayerUtil.getTintedVectorDrawable(service, R.drawable.ic_notification, secondary)!!,
+                            notificationLayoutBig.setImageViewBitmap(R.id.smallIcon, createBitmap(PlayerUtil.getTintedVectorDrawable(service, R.drawable.ic_notification, secondary)!!, 0.6f))
+
+                        }
+                    })
+        }
+
+        if (stopped) {
+            return  // notification has been stopped before loading was finished
+        }
+        updateNotifyModeAndPostNotification(builder.build())
+    }
+
+
+    private fun buildPendingIntent(context: Context, action: String,
+                                   serviceName: ComponentName?): PendingIntent {
+        val intent = Intent(action)
+        intent.component = serviceName
+        return PendingIntent.getService(context, 0, intent, 0)
+    }
+
+
+    private fun linkButtons(notificationLayout: RemoteViews) {
+        var pendingIntent: PendingIntent
+
+        val serviceName = ComponentName(service, MusicService::class.java)
+
+        // Previous song
+        pendingIntent = buildPendingIntent(service, ACTION_REWIND, serviceName)
+        notificationLayout.setOnClickPendingIntent(R.id.action_prev, pendingIntent)
+
+        // Play and pause
+        pendingIntent = buildPendingIntent(service, ACTION_TOGGLE_PAUSE, serviceName)
+        notificationLayout.setOnClickPendingIntent(R.id.action_play_pause, pendingIntent)
+
+        // Next song
+        pendingIntent = buildPendingIntent(service, ACTION_SKIP
