@@ -182,4 +182,12 @@ class PlayingNotificationOreo : PlayingNotification() {
         notificationLayout.setOnClickPendingIntent(R.id.action_play_pause, pendingIntent)
 
         // Next song
-        pendingIntent = buildPendingIntent(service, ACTION_SKIP
+        pendingIntent = buildPendingIntent(service, ACTION_SKIP, serviceName)
+        notificationLayout.setOnClickPendingIntent(R.id.action_next, pendingIntent)
+
+        // Close
+        pendingIntent = buildPendingIntent(service, ACTION_QUIT, serviceName)
+        notificationLayout.setOnClickPendingIntent(R.id.action_quit, pendingIntent)
+    }
+
+}
