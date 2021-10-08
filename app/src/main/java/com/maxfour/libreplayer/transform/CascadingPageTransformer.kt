@@ -25,4 +25,15 @@ class CascadingPageTransformer : ViewPager.PageTransformer {
             page.scaleY = scale
 
             page.translationX = -page.width * position
-            page.translation
+            page.translationY = mScaleOffset * 0.8f * position
+        } else {
+            val scale = (page.width - mScaleOffset * position) / page.width.toFloat()
+
+            page.scaleX = scale
+            page.scaleY = scale
+
+            page.translationX = -page.width * position
+            page.translationY = mScaleOffset * 0.7f * position
+        }
+    }
+}
