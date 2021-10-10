@@ -18,4 +18,23 @@ class ParallaxPagerTransformer(private val id: Int) : ViewPager.PageTransformer 
             if (position > -1 && position < 1) {
                 val width = parallaxView.width.toFloat()
                 parallaxView.translationX = -(position * width * speed)
-                val sc
+                val sc = (view.width.toFloat() - border) / view.width
+                if (position == 0f) {
+                    view.scaleX = 1f
+                    view.scaleY = 1f
+                } else {
+                    view.scaleX = sc
+                    view.scaleY = sc
+                }
+            }
+        }
+    }
+
+    fun setBorder(px: Int) {
+        border = px
+    }
+
+    fun setSpeed(speed: Float) {
+        this.speed = speed
+    }
+}
