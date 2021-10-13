@@ -24,4 +24,43 @@ class ImageSaver(val context: Context) {
         return this
     }
 
-    fun setStoreType
+    fun setStoreType(external: Boolean): ImageSaver {
+        this.external = external
+        return this
+    }
+
+    fun save(bitmap: Bitmap) {
+        var fileOutputStream: FileOutputStream? = null
+        try {
+            fileOutputStream = FileOutputStream(createFile())
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+        } catch (er: Exception) {
+            println(er)
+        } finally {
+            try {
+                fileOutputStream?.close()
+            } catch (er: IOException) {
+                println(er)
+            }
+        }
+    }
+
+    fun getFile(): File {
+        return createFile()
+    }
+
+    private fun createFile(): File {
+        val directory: File = if (external) {
+            getFileStorePlace(directoryName)
+        } else {
+            context.getDir(directoryName, Context.MODE_PRIVATE)
+        }
+        if (!directory.exists() && !directory.mkdirs()) {
+            println("Error in creating folders $directory")
+        }
+        println("Create file -> $directory/$fileName")
+        return File(directory, fileName)
+    }
+
+    private fun getFileStorePlace(directoryName: String): File {
+        return File(Environment.getExternalStoragePublicDirectory(E
