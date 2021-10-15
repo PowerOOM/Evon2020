@@ -15,4 +15,39 @@ public class LastFMUtil {
         for (Image image : list) {
             Object obj = null;
             String size = image.getSize();
-            if 
+            if (size == null) {
+                obj = ImageSize.UNKNOWN;
+            } else {
+                try {
+                    obj = ImageSize.valueOf(size.toUpperCase(Locale.ENGLISH));
+                } catch (IllegalArgumentException ignored) {
+                }
+            }
+            if (obj != null) {
+                hashMap.put(obj, image.getText());
+            }
+        }
+        return getLargestImageUrl(hashMap);
+    }
+
+    public static String getLargestArtistImageUrl(List<LastFmArtist.Artist.Image> list) {
+        Map hashMap = new HashMap();
+        for (LastFmArtist.Artist.Image image : list) {
+            Object obj = null;
+            String size = image.getSize();
+            if (size == null) {
+                obj = ImageSize.UNKNOWN;
+            } else {
+                try {
+                    obj = ImageSize.valueOf(size.toUpperCase(Locale.ENGLISH));
+                } catch (IllegalArgumentException ignored) {
+                }
+            }
+            if (obj != null) {
+                hashMap.put(obj, image.getText());
+            }
+        }
+        return getLargestImageUrl(hashMap);
+    }
+
+    private static String getLargestImageU
