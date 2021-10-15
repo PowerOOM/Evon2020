@@ -63,4 +63,21 @@ class ImageSaver(val context: Context) {
     }
 
     private fun getFileStorePlace(directoryName: String): File {
-        return File(Environment.getExternalStoragePublicDirectory(E
+        return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), directoryName)
+    }
+
+    fun load(): Bitmap? {
+        var inputStream: FileInputStream? = null
+        return try {
+            inputStream = FileInputStream(createFile())
+            BitmapFactory.decodeStream(inputStream)
+        } catch (er: Exception) {
+            try {
+                inputStream?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            null
+        }
+    }
+}
