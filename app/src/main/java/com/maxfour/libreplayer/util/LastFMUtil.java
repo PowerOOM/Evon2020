@@ -50,4 +50,21 @@ public class LastFMUtil {
         return getLargestImageUrl(hashMap);
     }
 
-    private static String getLargestImageU
+    private static String getLargestImageUrl(Map<ImageSize, String> map) {
+        return map.containsKey(ImageSize.MEGA) ? map.get(ImageSize.MEGA)
+                : map.containsKey(ImageSize.EXTRALARGE) ? map.get(ImageSize.EXTRALARGE)
+                : map.containsKey(ImageSize.LARGE) ? map.get(ImageSize.LARGE)
+                : map.containsKey(ImageSize.MEDIUM) ? map.get(ImageSize.MEDIUM)
+                : map.containsKey(ImageSize.SMALL) ? map.get(ImageSize.SMALL)
+                : map.containsKey(ImageSize.UNKNOWN) ? map.get(ImageSize.UNKNOWN) : null;
+    }
+
+    private enum ImageSize {
+        SMALL,
+        MEDIUM,
+        LARGE,
+        EXTRALARGE,
+        MEGA,
+        UNKNOWN
+    }
+}
