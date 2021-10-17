@@ -310,3 +310,101 @@ public class MusicUtil {
                                 lyrics = newLyrics;
                             }
                         } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
+        return lyrics;
+    }
+
+    public static void toggleFavorite(@NonNull final Context context, @NonNull final Song song) {
+        if (isFavorite(context, song)) {
+            PlaylistsUtil.removeFromPlaylist(context, song, getFavoritesPlaylist(context).id);
+        } else {
+            PlaylistsUtil.addToPlaylist(context, song, getOrCreateFavoritesPlaylist(context).id,
+                    false);
+        }
+        context.sendBroadcast(new Intent(MusicService.FAVORITE_STATE_CHANGED));
+    }
+
+    public static boolean isFavoritePlaylist(@NonNull final Context context,
+                                             @NonNull final Playlist playlist) {
+        return playlist.name != null && playlist.name.equals(context.getString(R.string.favorites));
+    }
+
+    private static Playlist getFavoritesPlaylist(@NonNull final Context context) {
+        return PlaylistLoader.INSTANCE.getPlaylist(context, context.getString(R.string.favorites));
+    }
+
+    private static Playlist getOrCreateFavoritesPlaylist(@NonNull final Context context) {
+        return PlaylistLoader.INSTANCE.getPlaylist(context,
+                PlaylistsUtil.createPlaylist(context, context.getString(R.string.favorites)));
+    }
+
+    public static boolean isFavorite(@NonNull final Context context, @NonNull final Song song) {
+        return PlaylistsUtil
+                .doPlaylistContains(context, getFavoritesPlaylist(context).id, song.getId());
+    }
+
+    public static boolean isArtistNameUnknown(@Nullable String artistName) {
+        if (TextUtils.isEmpty(artistName)) {
+            return false;
+        }
+        if (artistName.equals(Artist.UNKNOWN_ARTIST_DISPLAY_NAME)) {
+            return true;
+        }
+        artistName = artistName.trim().toLowerCase();
+        return artistName.equals("unknown") || artistName.equals("<unknown>");
+    }
+
+    @NonNull
+    public static String getSectionName(@Nullable String musicMediaTitle) {
+        if (TextUtils.isEmpty(musicMediaTitle)) {
+            return "";
+        }
+        musicMediaTitle = musicMediaTitle.trim().toLowerCase();
+        if (musicMediaTitle.startsWith("the ")) {
+            musicMediaTitle = musicMediaTitle.substring(4);
+        } else if (musicMediaTitle.startsWith("a ")) {
+            musicMediaTitle = musicMediaTitle.substring(2);
+        }
+        if (musicMediaTitle.isEmpty()) {
+            return "";
+        }
+        return String.valueOf(musicMediaTitle.charAt(0)).toUpperCase();
+    }
+
+    @NonNull
+    public static Playlist getPlaylist() {
+        return playlist;
+    }
+
+    public static void setPlaylist(@NonNull Playlist playlist) {
+        MusicUtil.playlist = playlist;
+    }
+
+    public static long getTotalDuration(@NonNull final Context context, @NonNull List<Song> songs) {
+        long duration = 0;
+        for (int i = 0; i < songs.size(); i++) {
+            duration += songs.get(i).getDuration();
+        }
+        return duration;
+    }
+
+    public static int indexOfSongInList(List<Song> songs, int songId) {
+        for (int i = 0; i < songs.size(); i++) {
+            if (songs.get(i).getId() == songId) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @NonNull
+    public static String getYearString(int year) {
+        return year > 0 ? String.valueOf(year) : "-";
+    }
+}
