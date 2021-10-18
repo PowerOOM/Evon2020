@@ -49,4 +49,30 @@ public class NavigationUtil {
     }
 
     public static void goToArtist(@NonNull Activity activity, int i) {
-        Inten
+        Intent intent = new Intent(activity, ArtistDetailActivity.class);
+        intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_ID, i);
+        ActivityCompat.startActivity(activity, intent, null);
+    }
+
+    public static void goToArtistOptions(@NotNull AppCompatActivity activity,
+            int artistId,
+            @NonNull ActivityOptions options) {
+
+        Intent intent = new Intent(activity, ArtistDetailActivity.class);
+        intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_ID, artistId);
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
+
+    public static void goToGenre(@NonNull Activity activity, @NonNull Genre genre) {
+        Intent intent = new Intent(activity, GenreDetailsActivity.class);
+        intent.putExtra(GenreDetailsActivity.EXTRA_GENRE_ID, genre);
+        ActivityCompat.startActivity(activity, intent, null);
+    }
+
+    public static void goToLyrics(@NonNull Activity activity) {
+        Intent intent = new Intent(activity, LyricsActivity.class);
+        ActivityCompat.startActivity(activity, intent, null);
+    }
+
+    public static void goToPlayingQueue(@NonNull Activity activity) {
+        I
