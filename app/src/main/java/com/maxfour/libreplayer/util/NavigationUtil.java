@@ -22,4 +22,31 @@ import com.maxfour.libreplayer.activities.PlaylistDetailActivity;
 import com.maxfour.libreplayer.activities.SearchActivity;
 import com.maxfour.libreplayer.activities.SettingsActivity;
 import com.maxfour.libreplayer.activities.UserInfoActivity;
-import com
+import com.maxfour.libreplayer.helper.MusicPlayerRemote;
+import com.maxfour.libreplayer.model.Genre;
+import com.maxfour.libreplayer.model.Playlist;
+
+import org.jetbrains.annotations.NotNull;
+
+public class NavigationUtil {
+
+    public static void goToAbout(@NonNull Activity activity) {
+        ActivityCompat.startActivity(activity, new Intent(activity, AboutActivity.class), null);
+    }
+
+    public static void goToAlbum(@NonNull Activity activity, int albumId) {
+        Intent intent = new Intent(activity, AlbumDetailsActivity.class);
+        intent.putExtra(AlbumDetailsActivity.EXTRA_ALBUM_ID, albumId);
+        ActivityCompat.startActivity(activity, intent, null);
+    }
+
+    public static void goToAlbumOptions(@NonNull Activity activity,
+                                        int albumId,
+                                        @NonNull ActivityOptions options) {
+        Intent intent = new Intent(activity, AlbumDetailsActivity.class);
+        intent.putExtra(AlbumDetailsActivity.EXTRA_ALBUM_ID, albumId);
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
+    }
+
+    public static void goToArtist(@NonNull Activity activity, int i) {
+        Inten
