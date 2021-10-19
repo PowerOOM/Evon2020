@@ -75,4 +75,31 @@ public class NavigationUtil {
     }
 
     public static void goToPlayingQueue(@NonNull Activity activity) {
-        I
+        Intent intent = new Intent(activity, PlayingQueueActivity.class);
+        ActivityCompat.startActivity(activity, intent, null);
+    }
+
+    public static void goToPlaylistNew(@NonNull Activity activity, @NonNull Playlist playlist) {
+        Intent intent = new Intent(activity, PlaylistDetailActivity.class);
+        intent.putExtra(PlaylistDetailActivity.Companion.getEXTRA_PLAYLIST(), playlist);
+        ActivityCompat.startActivity(activity, intent, null);
+    }
+
+    public static void goToSearch(@NonNull Activity activity,
+            @NonNull ActivityOptions activityOptions) {
+        ActivityCompat.startActivity(activity, new Intent(activity, SearchActivity.class),
+                activityOptions.toBundle());
+    }
+
+    public static void goToSearch(@NonNull Activity activity, boolean isMicOpen,
+            @NonNull ActivityOptions activityOptions) {
+        ActivityCompat.startActivity(activity, new Intent(activity, SearchActivity.class)
+                        .putExtra(SearchActivity.EXTRA_SHOW_MIC, isMicOpen),
+                activityOptions.toBundle());
+    }
+
+    public static void goToSettings(@NonNull Activity activity) {
+        ActivityCompat.startActivity(activity, new Intent(activity, SettingsActivity.class), null);
+    }
+
+   
