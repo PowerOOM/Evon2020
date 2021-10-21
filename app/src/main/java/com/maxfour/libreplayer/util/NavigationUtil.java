@@ -124,4 +124,10 @@ public class NavigationUtil {
                 effects.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
                 activity.startActivityForResult(effects, 0);
             } catch (@NonNull final ActivityNotFoundException notFound) {
-                Toast.makeText(activity, activity.getResource
+                Toast.makeText(activity, activity.getResources().getString(R.string.no_equalizer),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+}
