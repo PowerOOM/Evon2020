@@ -429,3 +429,464 @@ public final class PreferenceUtil {
     }
 
     public final int getAlbumGridSize(Context context) {
+        return mPreferences
+                .getInt(ALBUM_GRID_SIZE, context.getResources().getInteger(R.integer.default_grid_columns));
+    }
+
+    public void setSongGridSize(final int gridSize) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(SONG_GRID_SIZE, gridSize);
+        editor.apply();
+    }
+
+    public final int getSongGridSize(Context context) {
+        return mPreferences
+                .getInt(SONG_GRID_SIZE, context.getResources().getInteger(R.integer.default_list_columns));
+    }
+
+    public void setArtistGridSize(final int gridSize) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(ARTIST_GRID_SIZE, gridSize);
+        editor.apply();
+    }
+
+    public final int getArtistGridSize(Context context) {
+        return mPreferences.getInt(ARTIST_GRID_SIZE,
+                context.getResources().getInteger(R.integer.default_list_artist_columns));
+    }
+
+    public void setAlbumGridSizeLand(final int gridSize) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(ALBUM_GRID_SIZE_LAND, gridSize);
+        editor.apply();
+    }
+
+    public final int getAlbumGridSizeLand(Context context) {
+        return mPreferences.getInt(ALBUM_GRID_SIZE_LAND,
+                context.getResources().getInteger(R.integer.default_grid_columns_land));
+    }
+
+    public void setSongGridSizeLand(final int gridSize) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(SONG_GRID_SIZE_LAND, gridSize);
+        editor.apply();
+    }
+
+    public final int getSongGridSizeLand(Context context) {
+        return mPreferences.getInt(SONG_GRID_SIZE_LAND,
+                context.getResources().getInteger(R.integer.default_list_columns_land));
+    }
+
+    public void setArtistGridSizeLand(final int gridSize) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(ARTIST_GRID_SIZE_LAND, gridSize);
+        editor.apply();
+    }
+
+    public final int getArtistGridSizeLand(Context context) {
+        return mPreferences.getInt(ARTIST_GRID_SIZE_LAND,
+                context.getResources().getInteger(R.integer.default_list_artist_columns_land));
+    }
+
+    public void setAlbumGridSize(final int gridSize) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putInt(ALBUM_GRID_SIZE, gridSize);
+        editor.apply();
+    }
+
+    public void setAlbumColoredFooters(final boolean value) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(ALBUM_COLORED_FOOTERS, value);
+        editor.apply();
+    }
+
+    public final boolean albumColoredFooters() {
+        return mPreferences.getBoolean(ALBUM_COLORED_FOOTERS, false);
+    }
+
+    public void setAlbumArtistColoredFooters(final boolean value) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(ALBUM_ARTIST_COLORED_FOOTERS, value);
+        editor.apply();
+    }
+
+    public final boolean albumArtistColoredFooters() {
+        return mPreferences.getBoolean(ALBUM_ARTIST_COLORED_FOOTERS, true);
+    }
+
+    public void setSongColoredFooters(final boolean value) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(SONG_COLORED_FOOTERS, value);
+        editor.apply();
+    }
+
+    public final boolean songColoredFooters() {
+        return mPreferences.getBoolean(SONG_COLORED_FOOTERS, false);
+    }
+
+    public void setArtistColoredFooters(final boolean value) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(ARTIST_COLORED_FOOTERS, value);
+        editor.apply();
+    }
+
+    public final boolean artistColoredFooters() {
+        return mPreferences.getBoolean(ARTIST_COLORED_FOOTERS, true);
+    }
+
+    public void setLastChangeLogVersion(int version) {
+        mPreferences.edit().putInt(LAST_CHANGELOG_VERSION, version).apply();
+    }
+
+    public final int getLastChangelogVersion() {
+        return mPreferences.getInt(LAST_CHANGELOG_VERSION, -1);
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    public void setIntroShown() {
+        // don't use apply here
+        mPreferences.edit().putBoolean(INTRO_SHOWN, true).commit();
+    }
+
+    public final File getStartDirectory() {
+        return new File(mPreferences
+                .getString(START_DIRECTORY, FoldersFragment.getDefaultStartDirectory().getPath()));
+    }
+
+    public void setStartDirectory(File file) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(START_DIRECTORY, FileUtil.safeGetCanonicalPath(file));
+        editor.apply();
+    }
+
+    public final boolean introShown() {
+        return mPreferences.getBoolean(INTRO_SHOWN, false);
+    }
+
+    public final String autoDownloadImagesPolicy() {
+        return mPreferences.getString(AUTO_DOWNLOAD_IMAGES_POLICY, "never");
+    }
+
+    public final boolean synchronizedLyricsShow() {
+        return mPreferences.getBoolean(SYNCHRONIZED_LYRICS_SHOW, true);
+    }
+
+    public int getGeneralTheme() {
+        return getThemeResFromPrefValue(mPreferences.getString(GENERAL_THEME, "light"));
+    }
+
+    public void setGeneralTheme(String theme) {
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(GENERAL_THEME, theme);
+        editor.apply();
+    }
+
+    @NonNull
+    public String getGeneralThemeValue() {
+        if (isBlackMode()) return "black";
+        else
+            return mPreferences.getString(GENERAL_THEME, "light");
+    }
+
+    public String getBaseTheme() {
+        return mPreferences.getString(GENERAL_THEME, "light");
+    }
+
+    public long getLastAddedCutoff() {
+        final CalendarUtil calendarUtil = new CalendarUtil();
+        long interval;
+
+        switch (mPreferences.getString(LAST_ADDED_CUTOFF, "")) {
+            case "today":
+                interval = calendarUtil.getElapsedToday();
+                break;
+            case "this_week":
+                interval = calendarUtil.getElapsedWeek();
+                break;
+            case "past_three_months":
+                interval = calendarUtil.getElapsedMonths(3);
+                break;
+            case "this_year":
+                interval = calendarUtil.getElapsedYear();
+                break;
+            case "this_month":
+            default:
+                interval = calendarUtil.getElapsedMonth();
+                break;
+        }
+
+        return (System.currentTimeMillis() - interval) / 1000;
+    }
+
+    public boolean getAdaptiveColor() {
+        return mPreferences.getBoolean(ADAPTIVE_COLOR_APP, false);
+    }
+
+    public boolean getLockScreen() {
+        return mPreferences.getBoolean(LOCK_SCREEN, false);
+    }
+
+    public String getUserName() {
+        return mPreferences.getString(USER_NAME, "User");
+    }
+
+    public void setUserName(String name) {
+        mPreferences.edit().putString(USER_NAME, name).apply();
+    }
+
+    public boolean getFullScreenMode() {
+        return mPreferences.getBoolean(TOGGLE_FULL_SCREEN, false);
+    }
+
+    public void setFullScreenMode(int newValue) {
+        mPreferences.edit().putInt(TOGGLE_FULL_SCREEN, newValue).apply();
+    }
+
+    public void saveProfileImage(String profileImagePath) {
+        mPreferences.edit().putString(PROFILE_IMAGE_PATH, profileImagePath).apply();
+    }
+
+    public String getProfileImage() {
+        return mPreferences.getString(PROFILE_IMAGE_PATH, "");
+    }
+
+    public String getBannerImage() {
+        return mPreferences.getString(BANNER_IMAGE_PATH, "");
+    }
+
+    public void setBannerImagePath(String bannerImagePath) {
+        mPreferences.edit().putString(BANNER_IMAGE_PATH, bannerImagePath)
+                .apply();
+    }
+
+    public String getAlbumDetailSongSortOrder() {
+        return mPreferences
+                .getString(ALBUM_DETAIL_SONG_SORT_ORDER, AlbumSongSortOrder.SONG_LIST);
+    }
+
+    public void setAlbumDetailSongSortOrder(String sortOrder) {
+        Editor edit = this.mPreferences.edit();
+        edit.putString(ALBUM_DETAIL_SONG_SORT_ORDER, sortOrder);
+        edit.apply();
+    }
+
+    public String getArtistDetailSongSortOrder() {
+        return mPreferences
+                .getString(ARTIST_DETAIL_SONG_SORT_ORDER, SortOrder.ArtistSongSortOrder.SONG_A_Z);
+    }
+
+    public void setArtistDetailSongSortOrder(String sortOrder) {
+        Editor edit = this.mPreferences.edit();
+        edit.putString(ARTIST_DETAIL_SONG_SORT_ORDER, sortOrder);
+        edit.apply();
+    }
+
+    public boolean getVolumeToggle() {
+        return mPreferences.getBoolean(TOGGLE_VOLUME, false);
+    }
+
+    public int getLyricsOptions() {
+        return mPreferences.getInt(LYRICS_OPTIONS, 1);
+    }
+
+    public void setLyricsOptions(int i) {
+        mPreferences.edit().putInt(LYRICS_OPTIONS, i).apply();
+    }
+
+    public boolean getHeadsetPlugged() {
+        return mPreferences.getBoolean(TOGGLE_HEADSET, false);
+    }
+
+    public boolean isDominantColor() {
+        return mPreferences.getBoolean(DOMINANT_COLOR, false);
+    }
+
+    public boolean isGenreShown() {
+        return mPreferences.getBoolean(TOGGLE_GENRE, false);
+    }
+
+    public String getSelectedEqualizer() {
+        return mPreferences.getString(CHOOSE_EQUALIZER, "system");
+    }
+
+    public boolean isShuffleModeOn() {
+        return mPreferences.getBoolean(TOGGLE_SHUFFLE, false);
+    }
+
+    public void resetCarouselEffect() {
+        mPreferences.edit().putBoolean(CAROUSEL_EFFECT, false).apply();
+    }
+
+    public void resetCircularAlbumArt() {
+        mPreferences.edit().putBoolean(CIRCULAR_ALBUM_ART, false).apply();
+    }
+
+    public String getAlbumDetailsStyle() {
+        return mPreferences.getString(ALBUM_DETAIL_STYLE, "0");
+    }
+
+    public int getAlbumDetailsStyle(Context context) {
+        int pos = Integer.parseInt(Objects.requireNonNull(mPreferences.getString(ALBUM_DETAIL_STYLE, "0")));
+        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.pref_album_details_style_layout);
+        int layoutRes = typedArray.getResourceId(pos, -1);
+        typedArray.recycle();
+        if (layoutRes == -1) {
+            return R.layout.activity_album;
+        }
+        return layoutRes;
+    }
+
+    public void setArtistGridStyle(int viewAs) {
+        mPreferences.edit().putInt(ARTIST_GRID_STYLE, viewAs).apply();
+    }
+
+    public boolean toggleSeparateLine() {
+        return mPreferences.getBoolean(TOGGLE_SEPARATE_LINE, false);
+    }
+
+    public int getSongGridStyle() {
+        return mPreferences.getInt(SONG_GRID_STYLE, R.layout.item_list);
+    }
+
+    public void setSongGridStyle(int viewAs) {
+        mPreferences.edit().putInt(SONG_GRID_STYLE, viewAs).apply();
+    }
+
+    public boolean enableAnimations() {
+        return mPreferences.getBoolean(TOGGLE_ANIMATIONS, false);
+    }
+
+    public boolean pauseOnZeroVolume() {
+        return mPreferences.getBoolean(PAUSE_ON_ZERO_VOLUME, false);
+    }
+
+    public ViewPager.PageTransformer getAlbumCoverTransform() {
+        int style = Integer.parseInt(Objects.requireNonNull(mPreferences.getString(ALBUM_COVER_TRANSFORM, "0")));
+        switch (style) {
+            default:
+            case 0:
+                return new NormalPageTransformer();
+            case 1:
+                return new CascadingPageTransformer();
+            case 2:
+                return new DepthTransformation();
+            case 3:
+                return new HorizontalFlipTransformation();
+            case 4:
+                return new VerticalFlipTransformation();
+            case 5:
+                return new HingeTransformation();
+            case 6:
+                return new VerticalStackTransformer();
+        }
+    }
+
+    @LabelVisibilityMode
+    public int getTabTitleMode() {
+        int mode = Integer.parseInt(mPreferences.getString(TAB_TEXT_MODE, "1"));
+        switch (mode) {
+            default:
+            case 1:
+                return LabelVisibilityMode.LABEL_VISIBILITY_LABELED;
+            case 0:
+                return LabelVisibilityMode.LABEL_VISIBILITY_AUTO;
+            case 2:
+                return LabelVisibilityMode.LABEL_VISIBILITY_SELECTED;
+            case 3:
+                return LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED;
+        }
+    }
+
+    public boolean tabTitles() {
+        return getTabTitleMode() != LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED;
+    }
+
+    @LayoutRes
+    public int getHomeGridStyle(@NonNull Context context) {
+        int pos = Integer.parseInt(mPreferences.getString(HOME_ARTIST_GRID_STYLE, "0"));
+        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.pref_home_grid_style_layout);
+        int layoutRes = typedArray.getResourceId(pos, -1);
+        typedArray.recycle();
+        if (layoutRes == -1) {
+            return R.layout.item_artist;
+        }
+        return layoutRes;
+    }
+
+    @LayoutRes
+    public int getArtistGridStyle(Context context) {
+        int pos = Integer.parseInt(Objects.requireNonNull(mPreferences.getString(ARTIST_GRID_STYLE, "0")));
+        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.pref_grid_style_layout);
+        int layoutRes = typedArray.getResourceId(pos, -1);
+        typedArray.recycle();
+        if (layoutRes == -1) {
+            return R.layout.item_card;
+        }
+        return layoutRes;
+    }
+
+    @LayoutRes
+    public int getAlbumGridStyle(Context context) {
+        int pos = Integer.parseInt(mPreferences.getString(ALBUM_GRID_STYLE, "0"));
+        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.pref_grid_style_layout);
+        int layoutRes = typedArray.getResourceId(pos, -1);
+        typedArray.recycle();
+        if (layoutRes == -1) {
+            return R.layout.item_card;
+        }
+        return layoutRes;
+    }
+
+    public boolean isClickOrSave() {
+        return mPreferences.getBoolean(NOW_PLAYING_SCREEN, false);
+    }
+
+    @NonNull
+    public List<CategoryInfo> getLibraryCategoryInfos() {
+        String data = mPreferences.getString(LIBRARY_CATEGORIES, null);
+        if (data != null) {
+            Gson gson = new Gson();
+            Type collectionType = new TypeToken<List<CategoryInfo>>() {
+            }.getType();
+
+            try {
+                return gson.fromJson(data, collectionType);
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return getDefaultLibraryCategoryInfos();
+    }
+
+    public void setLibraryCategoryInfos(List<CategoryInfo> categories) {
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<List<CategoryInfo>>() {
+        }.getType();
+
+        final SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(LIBRARY_CATEGORIES, gson.toJson(categories, collectionType));
+        editor.apply();
+    }
+
+    @NonNull
+    public List<CategoryInfo> getDefaultLibraryCategoryInfos() {
+        List<CategoryInfo> defaultCategoryInfos = new ArrayList<>(7);
+        defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.HOME, true));
+        defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.SONGS, true));
+        defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.ALBUMS, true));
+        defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.ARTISTS, true));
+        defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.PLAYLISTS, true));
+        defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.GENRES, false));
+        defaultCategoryInfos.add(new CategoryInfo(CategoryInfo.Category.QUEUE, false));
+        return defaultCategoryInfos;
+    }
+
+    public final String getSAFSDCardUri() {
+        return mPreferences.getString(SAF_SDCARD_URI, "");
+    }
+
+    public final void setSAFSDCardUri(Uri uri) {
+        mPreferences.edit().putString(SAF_SDCARD_URI, uri.toString()).apply();
+    }
+}
