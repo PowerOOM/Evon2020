@@ -16,4 +16,33 @@ public class RippleUtils {
             android.R.attr.state_pressed,
     };
     private static final int[] HOVERED_FOCUSED_STATE_SET = {
-            android.R.attr.state_hovered, android.
+            android.R.attr.state_hovered, android.R.attr.state_focused,
+    };
+    private static final int[] FOCUSED_STATE_SET = {
+            android.R.attr.state_focused,
+    };
+    private static final int[] HOVERED_STATE_SET = {
+            android.R.attr.state_hovered,
+    };
+
+    private static final int[] SELECTED_PRESSED_STATE_SET = {
+            android.R.attr.state_selected, android.R.attr.state_pressed,
+    };
+    private static final int[] SELECTED_HOVERED_FOCUSED_STATE_SET = {
+            android.R.attr.state_selected, android.R.attr.state_hovered, android.R.attr.state_focused,
+    };
+    private static final int[] SELECTED_FOCUSED_STATE_SET = {
+            android.R.attr.state_selected, android.R.attr.state_focused,
+    };
+    private static final int[] SELECTED_HOVERED_STATE_SET = {
+            android.R.attr.state_selected, android.R.attr.state_hovered,
+    };
+    private static final int[] SELECTED_STATE_SET = {
+            android.R.attr.state_selected,
+    };
+
+    private static final int[] ENABLED_PRESSED_STATE_SET = {
+            android.R.attr.state_enabled, android.R.attr.state_pressed
+    };
+
+    public static ColorStateList convertToRippleDrawableColor(@Nullable ColorStateList rippleColor
