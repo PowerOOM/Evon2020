@@ -45,4 +45,36 @@ public class RippleUtils {
             android.R.attr.state_enabled, android.R.attr.state_pressed
     };
 
-    public static ColorStateList convertToRippleDrawableColor(@Nullable ColorStateList rippleColor
+    public static ColorStateList convertToRippleDrawableColor(@Nullable ColorStateList rippleColor) {
+        if (USE_FRAMEWORK_RIPPLE) {
+            int size = 2;
+
+            final int[][] states = new int[size][];
+            final int[] colors = new int[size];
+            int i = 0;
+
+            // Ideally we would define a different composite color for each state, but that causes the
+            // ripple animation to abort prematurely.
+            // So we only allow two base states: selected, and non-selected. For each base state, we only
+            // base the ripple composite on its pressed state.
+
+            // Selected base state.
+            states[i] = SELECTED_STATE_SET;
+            colors[i] = getColorForState(rippleColor, SELECTED_PRESSED_STATE_SET);
+            i++;
+
+            // Non-selected base state.
+            states[i] = StateSet.NOTHING;
+            colors[i] = getColorForState(rippleColor, PRESSED_STATE_SET);
+            i++;
+
+            return new ColorStateList(states, colors);
+        } else {
+            int size = 10;
+
+            final int[][] states = new int[size][];
+            final int[] colors = new int[size];
+            int i = 0;
+
+            states[i] = SELECTED_PRESSED_STATE_SET;
+            colors[i] = getColorForState(
