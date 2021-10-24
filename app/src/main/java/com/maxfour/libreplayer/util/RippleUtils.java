@@ -77,4 +77,40 @@ public class RippleUtils {
             int i = 0;
 
             states[i] = SELECTED_PRESSED_STATE_SET;
-            colors[i] = getColorForState(
+            colors[i] = getColorForState(rippleColor, SELECTED_PRESSED_STATE_SET);
+            i++;
+
+            states[i] = SELECTED_HOVERED_FOCUSED_STATE_SET;
+            colors[i] = getColorForState(rippleColor, SELECTED_HOVERED_FOCUSED_STATE_SET);
+            i++;
+
+            states[i] = SELECTED_FOCUSED_STATE_SET;
+            colors[i] = getColorForState(rippleColor, SELECTED_FOCUSED_STATE_SET);
+            i++;
+
+            states[i] = SELECTED_HOVERED_STATE_SET;
+            colors[i] = getColorForState(rippleColor, SELECTED_HOVERED_STATE_SET);
+            i++;
+
+            // Checked state.
+            states[i] = SELECTED_STATE_SET;
+            colors[i] = Color.TRANSPARENT;
+            i++;
+
+            states[i] = PRESSED_STATE_SET;
+            colors[i] = getColorForState(rippleColor, PRESSED_STATE_SET);
+            i++;
+
+            states[i] = HOVERED_FOCUSED_STATE_SET;
+            colors[i] = getColorForState(rippleColor, HOVERED_FOCUSED_STATE_SET);
+            i++;
+
+            states[i] = FOCUSED_STATE_SET;
+            colors[i] = getColorForState(rippleColor, FOCUSED_STATE_SET);
+            i++;
+
+            states[i] = HOVERED_STATE_SET;
+            colors[i] = getColorForState(rippleColor, HOVERED_STATE_SET);
+            i++;
+
+            // Defau
