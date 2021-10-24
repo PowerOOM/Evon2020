@@ -113,4 +113,34 @@ public class RippleUtils {
             colors[i] = getColorForState(rippleColor, HOVERED_STATE_SET);
             i++;
 
-            // Defau
+            // Default state.
+            states[i] = StateSet.NOTHING;
+            colors[i] = Color.TRANSPARENT;
+            i++;
+
+            return new ColorStateList(states, colors);
+        }
+    }
+
+    @ColorInt
+    private static int getColorForState(@Nullable ColorStateList rippleColor, int[] state) {
+        int color;
+        if (rippleColor != null) {
+            color = rippleColor.getColorForState(state, rippleColor.getDefaultColor());
+        } else {
+            color = Color.TRANSPARENT;
+        }
+        return USE_FRAMEWORK_RIPPLE ? doubleAlpha(color) : color;
+    }
+
+    /**
+     * On API 21+, the framework composites a ripple color onto the display at about 50% opacity.
+     * Since we are providing precise ripple colors, cancel that out by doubling the opacity here.
+     */
+    @ColorInt
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private static int doubleAlpha(@ColorInt int color) {
+        int alpha = Math.min(2 * Color.alpha(color), 255);
+        return ColorUtils.setAlphaComponent(color, alpha);
+    }
+}
