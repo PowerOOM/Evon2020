@@ -43,4 +43,42 @@ public class SAFUtil {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !file.canWrite();
     }
 
-    public static boolean isSAFRequire
+    public static boolean isSAFRequired(String path) {
+        return isSAFRequired(new File(path));
+    }
+
+    public static boolean isSAFRequired(AudioFile audio) {
+        return isSAFRequired(audio.getFile());
+    }
+
+    public static boolean isSAFRequired(Song song) {
+        return isSAFRequired(song.getData());
+    }
+
+    public static boolean isSAFRequired(List<String> paths) {
+        for (String path : paths) {
+            if (isSAFRequired(path)) return true;
+        }
+        return false;
+    }
+
+    public static boolean isSAFRequiredForSongs(List<Song> songs) {
+        for (Song song : songs) {
+            if (isSAFRequired(song)) return true;
+        }
+        return false;
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static void openFilePicker(Activity activity) {
+        Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("audio/*");
+        i.putExtra("android.content.extra.SHOW_ADVANCED", true);
+        activity.startActivityForResult(i, SAFUtil.REQUEST_SAF_PICK_FILE);
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static void openFilePicker(Fragment fragment) {
+        Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        i.addCateg
