@@ -105,4 +105,32 @@ public class SAFUtil {
     public static void saveTreeUri(Context context, Intent data) {
         Uri uri = data.getData();
         context.getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        PreferenceUtil.getInstanc
+        PreferenceUtil.getInstance(context).setSAFSDCardUri(uri);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static boolean isTreeUriSaved(Context context) {
+        return !TextUtils.isEmpty(PreferenceUtil.getInstance(context).getSAFSDCardUri());
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static boolean isSDCardAccessGranted(Context context) {
+        if (!isTreeUriSaved(context)) return false;
+
+        String sdcardUri = PreferenceUtil.getInstance(context).getSAFSDCardUri();
+
+        List<UriPermission> perms = context.getContentResolver().getPersistedUriPermissions();
+        for (UriPermission perm : perms) {
+            if (perm.getUri().toString().equals(sdcardUri) && perm.isWritePermission()) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * https://github.com/vanilla-music/vanilla-music-tag-editor/commit/e00e87fef289f463b6682674aa54be834179ccf0#diff-d436417358d5dfbb06846746d43c47a5R359
+     * Finds needed file through Document API for SAF. It's not optimized yet - you can still gain wrong URI on
+     * files such as "/a/b/c.mp3" and "/b/a/c.mp3", but I consider it complete enough to be usable.
+     *
+     * @param dir      - document file representing current dir of search
+     * @param segments - path segm
