@@ -207,4 +207,34 @@ public class SAFUtil {
             audio.setFile(temp);
             writeFile(audio);
 
-            ParcelFileDescriptor pfd = context.getConte
+            ParcelFileDescriptor pfd = context.getContentResolver().openFileDescriptor(uri, "rw");
+            if (pfd == null) {
+                Log.e(TAG, "writeSAF: SAF provided incorrect URI: " + uri);
+                return;
+            }
+
+            // now read persisted data and write it to real FD provided by SAF
+            FileInputStream fis = new FileInputStream(temp);
+            byte[] audioContent = FileUtil.readBytes(fis);
+            FileOutputStream fos = new FileOutputStream(pfd.getFileDescriptor());
+            fos.write(audioContent);
+            fos.close();
+
+            temp.delete();
+        } catch (final Exception e) {
+            Log.e(TAG, "writeSAF: Failed to write to file descriptor provided by SAF", e);
+
+            toast(context, String.format(context.getString(R.string.saf_write_failed), e.getLocalizedMessage()));
+        }
+    }
+
+    public static void delete(Context context, String path, Uri safUri) {
+        if (isSAFRequired(path)) {
+            deleteSAF(context, path, safUri);
+        } else {
+            try {
+                deleteFile(path);
+            } catch (NullPointerException e) {
+                Log.e("MusicUtils", "Failed to find file " + path);
+            } catch (Exception e) {
+             
