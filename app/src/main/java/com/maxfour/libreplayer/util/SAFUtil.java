@@ -133,4 +133,45 @@ public class SAFUtil {
      * files such as "/a/b/c.mp3" and "/b/a/c.mp3", but I consider it complete enough to be usable.
      *
      * @param dir      - document file representing current dir of search
-     * @param segments - path segm
+     * @param segments - path segments that are left to find
+     * @return URI for found file. Null if nothing found.
+     */
+    @Nullable
+    public static Uri findDocument(DocumentFile dir, List<String> segments) {
+        for (DocumentFile file : dir.listFiles()) {
+            int index = segments.indexOf(file.getName());
+            if (index == -1) {
+                continue;
+            }
+
+            if (file.isDirectory()) {
+                segments.remove(file.getName());
+                return findDocument(file, segments);
+            }
+
+            if (file.isFile() && index == segments.size() - 1) {
+                // got to the last part
+                return file.getUri();
+            }
+        }
+
+        return null;
+    }
+
+    public static void write(Context context, AudioFile audio, Uri safUri) {
+        if (isSAFRequired(audio)) {
+            writeSAF(context, audio, safUri);
+        } else {
+            try {
+                writeFile(audio);
+            } catch (CannotWriteException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void writeFile(AudioFile audio) throws CannotWriteException {
+        audio.commit();
+    }
+
+    public static void writeSAF(Context
