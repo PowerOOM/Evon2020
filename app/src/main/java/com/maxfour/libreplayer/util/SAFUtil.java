@@ -174,4 +174,37 @@ public class SAFUtil {
         audio.commit();
     }
 
-    public static void writeSAF(Context
+    public static void writeSAF(Context context, AudioFile audio, Uri safUri) {
+        Uri uri = null;
+
+        if (context == null) {
+            Log.e(TAG, "writeSAF: context == null");
+            return;
+        }
+
+        if (isTreeUriSaved(context)) {
+            List<String> pathSegments = new ArrayList<>(Arrays.asList(audio.getFile().getAbsolutePath().split("/")));
+            Uri sdcard = Uri.parse(PreferenceUtil.getInstance(context).getSAFSDCardUri());
+            uri = findDocument(DocumentFile.fromTreeUri(context, sdcard), pathSegments);
+        }
+
+        if (uri == null) {
+            uri = safUri;
+        }
+
+        if (uri == null) {
+            Log.e(TAG, "writeSAF: Can't get SAF URI");
+            toast(context, context.getString(R.string.saf_error_uri));
+            return;
+        }
+
+        try {
+            // copy file to app folder to use jaudiotagger
+            final File original = audio.getFile();
+            File temp = File.createTempFile("tmp-media", '.' + Utils.getExtension(original));
+            Utils.copy(original, temp);
+            temp.deleteOnExit();
+            audio.setFile(temp);
+            writeFile(audio);
+
+            ParcelFileDescriptor pfd = context.getConte
