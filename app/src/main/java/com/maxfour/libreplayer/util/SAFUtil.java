@@ -274,4 +274,16 @@ public class SAFUtil {
         try {
             DocumentsContract.deleteDocument(context.getContentResolver(), uri);
         } catch (final Exception e) {
-            Log.e(TAG, "deleteSAF: Failed to delete a file descriptor provid
+            Log.e(TAG, "deleteSAF: Failed to delete a file descriptor provided by SAF", e);
+
+            toast(context, String.format(context.getString(R.string.saf_delete_failed), e.getLocalizedMessage()));
+        }
+    }
+
+    private static void toast(final Context context, final String message) {
+        if (context instanceof Activity) {
+            ((Activity) context).runOnUiThread(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show());
+        }
+    }
+
+}
