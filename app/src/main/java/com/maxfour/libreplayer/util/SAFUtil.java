@@ -237,4 +237,41 @@ public class SAFUtil {
             } catch (NullPointerException e) {
                 Log.e("MusicUtils", "Failed to find file " + path);
             } catch (Exception e) {
-             
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void deleteFile(String path) {
+        new File(path).delete();
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static void deleteSAF(Context context, String path, Uri safUri) {
+        Uri uri = null;
+
+        if (context == null) {
+            Log.e(TAG, "deleteSAF: context == null");
+            return;
+        }
+
+        if (isTreeUriSaved(context)) {
+            List<String> pathSegments = new ArrayList<>(Arrays.asList(path.split("/")));
+            Uri sdcard = Uri.parse(PreferenceUtil.getInstance(context).getSAFSDCardUri());
+            uri = findDocument(DocumentFile.fromTreeUri(context, sdcard), pathSegments);
+        }
+
+        if (uri == null) {
+            uri = safUri;
+        }
+
+        if (uri == null) {
+            Log.e(TAG, "deleteSAF: Can't get SAF URI");
+            toast(context, context.getString(R.string.saf_error_uri));
+            return;
+        }
+
+        try {
+            DocumentsContract.deleteDocument(context.getContentResolver(), uri);
+        } catch (final Exception e) {
+            Log.e(TAG, "deleteSAF: Failed to delete a file descriptor provid
