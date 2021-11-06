@@ -22,4 +22,36 @@ public class SwipeAndDragHelper extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        contra
+        contract.onViewMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        return true;
+    }
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+    }
+
+    @Override
+    public boolean isLongPressDragEnabled() {
+        return false;
+    }
+
+    @Override
+    public void onChildDraw(Canvas c,
+                            RecyclerView recyclerView,
+                            RecyclerView.ViewHolder viewHolder,
+                            float dX,
+                            float dY,
+                            int actionState,
+                            boolean isCurrentlyActive) {
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+            float alpha = 1 - (Math.abs(dX) / recyclerView.getWidth());
+            viewHolder.itemView.setAlpha(alpha);
+        }
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+    }
+
+    public interface ActionCompletionContract {
+        void onViewMoved(int oldPosition, int newPosition);
+    }
+
+}
