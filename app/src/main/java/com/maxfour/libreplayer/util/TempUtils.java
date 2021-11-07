@@ -52,4 +52,14 @@ public class TempUtils {
 
     // take BPM as a string
     public static int getTempoFromBPM(String bpm) {
-        // cast to an i
+        // cast to an int from string
+        try {
+            // convert the string to an int
+            return getTempoFromBPM(Integer.parseInt(bpm.trim()));
+        } catch (NumberFormatException nfe) {
+
+            //
+            return TEMPO_UNKNOWN;
+        }
+    }
+}
