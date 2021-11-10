@@ -355,3 +355,61 @@ public class BreadCrumbLayout extends HorizontalScrollView implements View.OnCli
             int index = (Integer) v.getTag();
             mCallback.onCrumbSelection(mCrumbs.get(index), index);
         }
+    }
+
+    public static class SavedStateWrapper implements Parcelable {
+
+        public final int mActive;
+        public final List<Crumb> mCrumbs;
+        public final int mVisibility;
+
+        public SavedStateWrapper(BreadCrumbLayout view) {
+            mActive = view.mActive;
+            mCrumbs = view.mCrumbs;
+            mVisibility = view.getVisibility();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.mActive);
+            dest.writeTypedList(mCrumbs);
+            dest.writeInt(this.mVisibility);
+        }
+
+        protected SavedStateWrapper(Parcel in) {
+            this.mActive = in.readInt();
+            this.mCrumbs = in.createTypedArrayList(Crumb.CREATOR);
+            this.mVisibility = in.readInt();
+        }
+
+        public static final Creator<SavedStateWrapper> CREATOR = new Creator<SavedStateWrapper>() {
+            public SavedStateWrapper createFromParcel(Parcel source) {
+                return new SavedStateWrapper(source);
+            }
+
+            public SavedStateWrapper[] newArray(int size) {
+                return new SavedStateWrapper[size];
+            }
+        };
+    }
+
+    public SavedStateWrapper getStateWrapper() {
+        return new SavedStateWrapper(this);
+    }
+
+    public void restoreFromStateWrapper(SavedStateWrapper mSavedState) {
+        if (mSavedState != null) {
+            mActive = mSavedState.mActive;
+            for (Crumb c : mSavedState.mCrumbs) {
+                addCrumb(c, false);
+            }
+            requestLayout();
+            setVisibility(mSavedState.mVisibility);
+        }
+    }
+}
