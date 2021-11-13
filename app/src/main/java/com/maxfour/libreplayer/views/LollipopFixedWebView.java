@@ -16,4 +16,20 @@ public class LollipopFixedWebView extends WebView {
         super(getFixedContext(context), attrs);
     }
 
-    public Lollipop
+    public LollipopFixedWebView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(getFixedContext(context), attrs, defStyleAttr);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public LollipopFixedWebView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(getFixedContext(context), attrs, defStyleAttr, defStyleRes);
+    }
+
+    public LollipopFixedWebView(Context context, AttributeSet attrs, int defStyleAttr, boolean privateBrowsing) {
+        super(getFixedContext(context), attrs, defStyleAttr, privateBrowsing);
+    }
+
+    public static Context getFixedContext(Context context) {
+        return context.createConfigurationContext(new Configuration());
+    }
+}
