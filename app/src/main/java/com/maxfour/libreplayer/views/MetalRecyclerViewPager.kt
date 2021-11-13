@@ -73,4 +73,15 @@ class MetalRecyclerViewPager : RecyclerView {
                 holder.rootLayout.setPadding(0, 0, 0, 0);
             } else if (position == itemCount - 1) {
                 //currentItemWidth += itemMargin;
-              
+                holder.rootLayout.setPadding(0, 0, 0, 0);
+            }
+
+            val height = holder.rootLayout.layoutParams.height
+            holder.rootLayout.layoutParams = ViewGroup.LayoutParams(currentItemWidth, height)
+        }
+    }
+
+    abstract class MetalViewHolder(itemView: View) : MediaEntryViewHolder(itemView) {
+        var rootLayout: ViewGroup = itemView.findViewById(R.id.root_layout)
+    }
+}
