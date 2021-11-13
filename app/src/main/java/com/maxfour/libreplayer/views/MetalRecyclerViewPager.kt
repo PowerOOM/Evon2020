@@ -42,4 +42,35 @@ class MetalRecyclerViewPager : RecyclerView {
         if (adapter is MetalAdapter) {
             adapter.setItemMargin(itemMargin)
             adapter.updateDisplayMetrics()
-      
+        } else {
+            throw IllegalArgumentException("Only MetalAdapter is allowed here")
+        }
+        super.setAdapter(adapter)
+    }
+
+    abstract class MetalAdapter<VH : MetalViewHolder>(@NonNull val displayMetrics: DisplayMetrics) : RecyclerView.Adapter<VH>() {
+        private var itemMargin: Int = 0
+        private var itemWidth: Int = 0
+
+        fun setItemMargin(itemMargin: Int) {
+            this.itemMargin = itemMargin
+        }
+
+        fun updateDisplayMetrics() {
+            itemWidth = if (PlayerUtil.isTablet()) {
+                displayMetrics.widthPixels / 2 - itemMargin * 3
+            } else if (PlayerUtil.isLandscape()) {
+                ((displayMetrics.widthPixels / 2.5f) - itemMargin).toInt()
+            } else {
+                displayMetrics.widthPixels - itemMargin
+            }
+        }
+
+        override fun onBindViewHolder(holder: VH, position: Int) {
+            val currentItemWidth = itemWidth
+            if (position == 0) {
+                //currentItemWidth += itemMargin;
+                holder.rootLayout.setPadding(0, 0, 0, 0);
+            } else if (position == itemCount - 1) {
+                //currentItemWidth += itemMargin;
+              
