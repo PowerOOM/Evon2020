@@ -27,4 +27,22 @@ public class NetworkImageView extends CircularImageView {
         init(context, attrs);
     }
 
-    publ
+    public void setImageUrl(@NonNull String imageUrl) {
+        setImageUrl(getContext(), imageUrl);
+    }
+
+    public void setImageUrl(@NonNull Context context, @NonNull String imageUrl) {
+        Glide.with(context)
+                .load(imageUrl)
+                .error(R.drawable.ic_account_white_24dp)
+                .placeholder(R.drawable.ic_account_white_24dp)
+                .into(this);
+    }
+
+    private void init(Context context, AttributeSet attributeSet) {
+        TypedArray attributes = context.obtainStyledAttributes(attributeSet, R.styleable.NetworkImageView, 0, 0);
+        String url = attributes.getString(R.styleable.NetworkImageView_url_link);
+        setImageUrl(context, url);
+        attributes.recycle();
+    }
+}
