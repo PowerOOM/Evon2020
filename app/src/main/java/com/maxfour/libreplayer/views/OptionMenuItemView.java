@@ -49,4 +49,24 @@ public class OptionMenuItemView extends FrameLayout {
 
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.OptionMenuItemView, 0, 0);
 
-        String titl
+        String title = attributes.getString(R.styleable.OptionMenuItemView_optionTitle);
+        textView.setText(title);
+
+        Drawable icon = attributes.getDrawable(R.styleable.OptionMenuItemView_optionIcon);
+        iconImageView.setImageDrawable(icon);
+
+        attributes.recycle();
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        super.setSelected(selected);
+        if (selected) {
+            int accentColor = ThemeStore.Companion.accentColor(getContext());
+            int colorWithAlpha = ColorUtil.INSTANCE.adjustAlpha(accentColor, 0.22f);
+            textView.setTextColor(accentColor);
+            iconImageView.setImageTintList(ColorStateList.valueOf(accentColor));
+            setBackgroundTintList(ColorStateList.valueOf(colorWithAlpha));
+        }
+    }
+}
