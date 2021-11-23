@@ -15,4 +15,23 @@ public class StatusBarMarginFrameLayout extends FrameLayout {
         super(context);
     }
 
-    public StatusBar
+    public StatusBarMarginFrameLayout(@NonNull Context context, @NonNull AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public StatusBarMarginFrameLayout(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
+
+    @NonNull
+    @Override
+    public WindowInsets onApplyWindowInsets(@NonNull WindowInsets insets) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            MarginLayoutParams lp = (MarginLayoutParams) getLayoutParams();
+            lp.topMargin = insets.getSystemWindowInsetTop();
+            lp.bottomMargin = insets.getSystemWindowInsetBottom();
+            setLayoutParams(lp);
+        }
+        return super.onApplyWindowInsets(insets);
+    }
+}
