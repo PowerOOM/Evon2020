@@ -19,4 +19,29 @@ public class AudioVolumeContentObserver extends ContentObserver {
                                @NonNull OnAudioVolumeChangedListener listener) {
 
         super(handler);
-        mAudioManager =
+        mAudioManager = audioManager;
+        mAudioStreamType = audioStreamType;
+        mListener = listener;
+        mLastVolume = audioManager.getStreamVolume(mAudioStreamType);
+    }
+
+    /**
+     * Depending on the handler this method may be executed on the UI thread
+     */
+    @Override
+    public void onChange(boolean selfChange, Uri uri) {
+        if (mAudioManager != null && mListener != null) {
+            int maxVolume = mAudioManager.getStreamMaxVolume(mAudioStreamType);
+            int currentVolume = mAudioManager.getStreamVolume(mAudioStreamType);
+            if (currentVolume != mLastVolume) {
+                mLastVolume = currentVolume;
+                mListener.onAudioVolumeChanged(currentVolume, maxVolume);
+            }
+        }
+    }
+
+    @Override
+    public boolean deliverSelfNotifications() {
+        return super.deliverSelfNotifications();
+    }
+}
