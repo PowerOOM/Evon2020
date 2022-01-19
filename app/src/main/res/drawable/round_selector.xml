@@ -2,4 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" android:exitFadeDuration="@android:integer/config_shortAnimTime">
 
     <item android:drawable="@drawable/round_selected" android:state_pressed="true" />
-    <item android:drawable="@android:color/transpa
+    <item android:drawable="@android:color/transparent" />
+
+</selector>
