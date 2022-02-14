@@ -114,4 +114,24 @@
                     android:singleLine="true"
                     android:textAppearance="@style/TextViewSubtitle2"
                     android:textColor="?android:attr/textColorSecondary"
-                    app:layout_constrainedWidth=
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/artistImage"
+                    app:layout_constraintTop_toBottomOf="@id/albumTitle"
+                    tools:ignore="MissingPrefix"
+                    tools:text="@tools:sample/lorem/random" />
+
+
+                <include
+                    layout="@layout/activity_album_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/albumText" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
