@@ -9,4 +9,33 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/toolbar_margin_horizontal"
+            android:layout_marginTop="@dimen/toolbar_margin_vertical"
+            android:layout_marginEnd="@dimen/toolbar_margin_horizontal"
+            android:layout_marginBottom="@dimen/toolbar_margin_vertical"
+            app:cardBackgroundColor="?colorSurface"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/back"
+             
