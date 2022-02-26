@@ -117,3 +117,5 @@
         android:layout_margin="16dp"
         android:text="@string/keyboard"
         android:textAppearance="@style/TextViewHeadline6"
+        app:icon="@drawable/ic_keyboard_white_24dp" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
