@@ -27,4 +27,27 @@
         <com.maxfour.libreplayer.views.ListItemView
             android:id="@+id/appGithub"
             android:layout_width="0dp"
-            android:layout_height="wrap_con
+            android:layout_height="wrap_content"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sb2"
+            app:listItemIcon="@drawable/ic_github_circle_white_24dp"
+            app:listItemSummary="@string/git_hub_summary"
+            app:listItemTitle="@string/git_hub" />
+
+        <com.maxfour.libreplayer.views.ListItemView
+            android:id="@+id/appShare"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appGithub"
+            app:listItemIcon="@drawable/ic_share_white_24dp"
+            app:listItemTitle="@string/action_share" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
