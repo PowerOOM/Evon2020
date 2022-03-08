@@ -15,4 +15,13 @@
         app:cardCornerRadius="8dp"
         app:cardUseCompatPadding="true">
 
-        <androidx.appcompat.widget.AppCompatI
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/player_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription,UnusedAttribute"
+            tools:srcCompat="@tools:sample/backgrounds/scenic[3]" />
+
+    </com.google.android.material.card.MaterialCardView>
+</com.maxfour.libreplayer.views.WidthFitSquareLayout>
