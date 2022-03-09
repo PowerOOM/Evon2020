@@ -1,20 +1,23 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <com.maxfour.libreplayer.views.WidthFitSquareLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp">
+        android:layout_height="match_parent"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/player_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription,UnusedAttribute"
-            tools:srcCompat="@tools:sample/backgrounds/scenic[6]" />
-    </com.maxfour.libreplayer.views.WidthFitSquareLayout>
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+    </com.google.android.material.card.MaterialCardView>
 </FrameLayout>
