@@ -60,4 +60,31 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                andro
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1">
+
+                <fragment
+                    android:id="@+id/playerAlbumCoverFragment"
+                    android:name="com.maxfour.libreplayer.fragments.player.PlayerAlbumCoverFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:layout="@layout/fragment_album_card_cover" />
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+            <fragment
+                android:id="@+id/playbackControlsFragment"
+                android:name="com.maxfour.libreplayer.fragments.player.cardblur.CardBlurPlaybackControlsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_card_blur_player_playback_controls" />
+        </FrameLayout>
+    </FrameLayout>
+
+</FrameLayout>
