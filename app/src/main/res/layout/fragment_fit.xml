@@ -12,4 +12,35 @@
         android:layout_height="match_parent"
         android:background="?attr/colorSurface" />
 
-    <includ
+    <include layout="@layout/shadow_statusbar_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <include layout="@layout/status_bar" />
+
+            <fragment
+                android:id="@+id/playerAlbumCoverFragment"
+                android:name="com.maxfour.libreplayer.fragments.player.PlayerAlbumCoverFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_album_full_cover" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+
+            <fragment
+                android:id="@+id/playbackControlsFragment"
+                android:name="com.maxfour.libreplayer.fragments.player.fit.FitPlaybackControlsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="
