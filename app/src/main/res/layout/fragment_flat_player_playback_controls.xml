@@ -89,4 +89,33 @@
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@+id/playerMediaControllerContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/md_red_500"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:fontFeatureSettings="smcp"
+            android:freezesText="true"
+            android:gravity="center"
+            android:letterSpacing="0.2"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:padding="4dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            tools:text="@tools:sample/lorem/random" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/playerMediaControllerContainer"
