@@ -29,4 +29,35 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="12sp"
             tools:ignore="RtlHardcoded,RtlSymmetry"
-            tools:text="@tools:sample/date/hhmm
+            tools:text="@tools:sample/date/hhmm" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/songTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical|right|end"
+            android:paddingRight="8dp"
+            android:singleLine="true"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="12sp"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            tools:text="@tools:sample/date/hhmm" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/progressSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/songTotalTime"
+            android:layout_toRightOf="@id/songCurrentProgress"
+            android:splitTrack="false"
+            android:thumb="@drawable/switch_square"
+            tools:ignore="RtlHardcoded,UnusedAttribute"
+            tools:progress="20" />
+    </RelativeLayout>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text"
+        android:layo
