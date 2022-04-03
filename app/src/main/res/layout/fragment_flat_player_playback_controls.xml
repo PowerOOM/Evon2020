@@ -60,4 +60,33 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text"
-        android:layo
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/md_red_500"
+        android:ellipsize="end"
+        android:fontFeatureSettings="smcp"
+        android:letterSpacing="0.1"
+        android:maxLines="1"
+        android:padding="4dp"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextViewBody2"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@+id/titleContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressContainer"
+        tools:text="@tools:sample/lorem/random" />
+
+    <LinearLayout
+        android:id="@+id/titleContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@+id/playerMediaControllerContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=
