@@ -11,4 +11,26 @@
 
     <com.maxfour.libreplayer.views.OptionMenuItemView
         android:id="@+id/actionLibrary"
-        android:lay
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        app:optionIcon="@drawable/ic_library_music_white_24dp"
+        app:optionTitle="@string/library" />
+
+    <com.maxfour.libreplayer.views.OptionMenuItemView
+        android:id="@+id/actionFolders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        app:optionIcon="@drawable/ic_folder_white_24dp"
+        app:optionTitle="@string/folders" />
+
+    <com.maxfour.libreplayer.views.OptionMenuItemView
+        android:id="@+id/actionSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        app:optionIcon="@drawable/ic_settings_white_24dp"
+        app:optionTitle="@string/action_settings" />
+
+</LinearLayout>
