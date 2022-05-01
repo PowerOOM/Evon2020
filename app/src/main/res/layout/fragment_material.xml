@@ -20,4 +20,32 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/status_bar" />
+        </FrameLayout>
+
+        <com.maxfour.libreplayer.views.WidthFitSquareLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <fragment
+                android:id="@+id/playerAlbumCoverFragment"
+                android:name="com.maxfour.libreplayer.fragments.player.PlayerAlbumCoverFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_album_cover" />
+        </com.maxfour.libreplayer.views.WidthFitSquareLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <fragment
+                android:id="@+id/playbackControlsFragment"
+                android:name="com.maxfour.libreplayer.fragments.player.material.MaterialControlsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_material_playback_controls
