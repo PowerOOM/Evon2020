@@ -56,4 +56,33 @@
             android:progressDrawable="@drawable/color_progress_seek"
             android:splitTrack="false"
             tools:ignore="RtlHardcoded,UnusedAttribute"
-            tools:progress="
+            tools:progress="20" />
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/playPauseButton"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_centerVertical="true"
+        android:background="?attr/roundSelector"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toStartOf="@+id/nextButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/previousButton"
+        app:layout_constraintTop_toBottomOf="@+id/progressContainer"
+        app:srcCompat="@drawable/ic_pause_white_24dp"
+        tools:tint="@color/md_black_1000" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/previousButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="?attr/roundSelector"
+        android:padding="16dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/volumeFragmentContainer"
+        app:layout_constraintEnd_toStartOf="@+id/playPauseButton"
+        app:layout_constraintHorizontal_bias="0.5"
+      
