@@ -34,4 +34,6 @@
                 android:padding="8dp"
                 android:textAppearance="@style/TextViewNormal"
                 tools:text="@string/home" />
-    
+        </FrameLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
