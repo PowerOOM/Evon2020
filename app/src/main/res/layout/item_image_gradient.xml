@@ -42,4 +42,20 @@
                 android:background="@drawable/shadow_up_home" />
                 
         </LinearLayout>
-    </com.maxfour.libreplayer.views.WidthFitSquare
+    </com.maxfour.libreplayer.views.WidthFitSquareLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:gravity="center"
+        android:maxLines="2"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
+        android:textAppearance="@style/TextViewSubtitle1"
+        android:textColor="@color/md_white_1000"
+        tools:text="@string/bug_report_summary" />
+
+</com.google.android.material.card.MaterialCardView>
