@@ -37,4 +37,35 @@
                 android:id="@+id/imageContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-   
+                android:layout_weight="0">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/imageText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:gravity="center"
+                android:maxLines="1"
+                android:minWidth="36dp"
+                android:minHeight="40dp"
+                android:textAppearance="@style/TextViewSubtitle1"
+                android:visibility="gone"
+                tools:text="1"
+                tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/title_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxL
