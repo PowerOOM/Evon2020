@@ -80,3 +80,54 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:lines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="0dp"
+            android:singleLine="true"
+            android:textAppearance="@style/Theme.Player.Notification.Title"
+            tools:text="@tools:sample/lorem/random" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp">
+
+            <ImageButton
+                android:id="@+id/action_prev"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/notification_selector"
+                android:scaleType="centerInside"
+                tools:src="@drawable/ic_skip_previous_round_white_32dp"
+                tools:tint="?colorOnPrimary" />
+
+            <ImageButton
+                android:id="@+id/action_play_pause"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/notification_selector"
+                android:scaleType="centerInside"
+                tools:src="@drawable/ic_pause_white_48dp"
+                tools:tint="?colorOnPrimary" />
+
+            <ImageButton
+                android:id="@+id/action_next"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/notification_selector"
+                android:scaleType="centerInside"
+                tools:src="@drawable/ic_skip_next_round_white_32dp"
+                tools:tint="?colorOnPrimary" />
+
+            <ImageButton
+                android:id="@+id/action_quit"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/notification_selector"
+                android:scaleType="centerInside"
+                tools:src="@drawable/ic_close_white_24dp"
+                tools:tint="?colorOnPrimary" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
