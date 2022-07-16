@@ -68,4 +68,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:maxL
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextViewSubtitle1"
+                    android:textSize="16sp"
+                    tools:text="Song name" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+
+
+                    android:maxLines="1"
+                    tools:text="Song details" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/menu"
+                style="@style/OverFlowButton"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0"
+                app:tint="?attr/colorControlNormal" />
+
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>
