@@ -25,4 +25,35 @@
             android:id="@+id/playSongs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            androi
+            android:layout_gravity="bottom|end"
+            android:layout_margin="12dp"
+            android:background="@drawable/color_circle_gradient"
+            android:backgroundTint="@color/eighty_percent_black_overlay"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_play_arrow_white_32dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        tools:ignore="MissingPrefix"
+        tools:text="My top songs" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:textAppearance="@style/TextViewSubtitle1"
+        android:textStyle="bold"
+        tools:ignore="MissingPrefix"
