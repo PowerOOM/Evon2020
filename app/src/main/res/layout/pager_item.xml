@@ -57,3 +57,6 @@
         android:textAppearance="@style/TextViewSubtitle1"
         android:textStyle="bold"
         tools:ignore="MissingPrefix"
+        tools:text="My top songs" />
+
+</LinearLayout>
