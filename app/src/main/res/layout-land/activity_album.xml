@@ -68,4 +68,32 @@
             android:fillViewport="true"
             android:overScrollMode="never">
 
-            <Line
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.maxfour.libreplayer.views.CircularImageView
+                        android:id="@+id/artistImage"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="0"
+                        app:civ_border="false"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+       
