@@ -116,4 +116,16 @@
                             android:textAppearance="@style/TextViewSubtitle2"
                             android:textColor="?android:attr/textColorSecondary"
                             tools:ignore="MissingPrefix"
-        
+                            tools:text="Album details name" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <include layout="@layout/activity_album_content" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</LinearLayout>
+
