@@ -49,4 +49,32 @@
         <Space
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-    
+            android:layout_weight="1" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <fragment
+                    android:id="@+id/playbackControlsFragment"
+                    android:name="com.maxfour.libreplayer.fragments.player.card.CardPlaybackControlsFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout="@layout/fragment_card_player_playback_controls" />
+            </FrameLayout>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <include layout="@layout/shadow_statusbar_toolbar" />
+</FrameLayout>
