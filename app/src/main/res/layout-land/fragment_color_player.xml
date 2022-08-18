@@ -37,4 +37,34 @@
                 android:layout_height="match_parent">
 
                 <com.google.android.material.card.MaterialCardView
-                    
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="12dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="8dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/playerImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:srcCompat="@tools:sample/backgrounds/scenic[10]" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </com.maxfour.libreplayer.views.HeightFitSquareLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <fragment
+                        android:id=
