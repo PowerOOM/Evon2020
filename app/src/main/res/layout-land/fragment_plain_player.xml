@@ -68,4 +68,29 @@
                         android:focusableInTouchMode="true"
                         android:freezesText="true"
                         android:marqueeRepeatLimit="marquee_forever"
-    
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textAppearance="@style/TextViewHeadline6"
+                        android:textStyle="bold"
+                        tools:ignore="MissingPrefix"
+                        tools:text="Title" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingTop="8dp"
+                        tools:text="Text" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <fragment
+                        android:id="@+id/playbackControlsFragment"
+                        android:name="com.maxfour.libreplayer.fragments.player.plain.PlainPlaybackControlsFragment"
+                        android:layout_width="match_parent
