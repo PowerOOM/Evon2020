@@ -53,4 +53,27 @@
             </com.maxfour.libreplayer.views.HeightFitSquareLayout>
 
 
-            <Line
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="8dp">
+
+                <fragment
+                    android:id="@+id/playbackControlsFragment"
+                    android:name="com.maxfour.libreplayer.fragments.player.simple.SimplePlaybackControlsFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    tools:layout="@layout/fragment_simple_controls_fragment" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0">
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/playerToolbar"
+                        style="@style/Toolbar"
+                        android:navigationIcon="@drawable/ic_keyboard_arrow_down_black_24dp"
+                        app:navigationIcon="@drawable/ic_keyboard_arrow_down_bla
