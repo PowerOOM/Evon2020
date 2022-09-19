@@ -76,4 +76,10 @@
                         android:id="@+id/playerToolbar"
                         style="@style/Toolbar"
                         android:navigationIcon="@drawable/ic_keyboard_arrow_down_black_24dp"
-                        app:navigationIcon="@drawable/ic_keyboard_arrow_down_bla
+                        app:navigationIcon="@drawable/ic_keyboard_arrow_down_black_24dp" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>
