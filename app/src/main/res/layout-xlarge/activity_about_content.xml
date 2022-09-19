@@ -4,4 +4,31 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:padding="8dp"
-  grid:alig
+  grid:alignmentMode="alignBounds">
+
+  <LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="4dp"
+    android:orientation="vertical"
+    grid:layout_column="0"
+    grid:layout_columnWeight="1"
+    grid:layout_row="0">
+
+    <include layout="@layout/card_player_info"/>
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:orientation="vertical"
+    grid:layout_column="1"
+    grid:layout_columnWeight="1"
+    grid:layout_row="0">
+
+    <include layout="@layout/card_version" />
+
+  </LinearLayout>
+</androidx.gridlayout.widget.GridLayout>
