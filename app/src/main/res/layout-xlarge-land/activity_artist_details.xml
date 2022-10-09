@@ -111,3 +111,6 @@
                 <include layout="@layout/activity_artist_content" />
 
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
