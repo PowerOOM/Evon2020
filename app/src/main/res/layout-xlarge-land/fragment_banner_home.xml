@@ -56,4 +56,26 @@
 
 
                 <LinearLayout
-                    and
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_collapseMode="pin"
+                    app:layout_scrollFlags="scroll|enterAlways">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <include layout="@layout/status_bar" />
+                    </FrameLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/toolbarContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/toolbar_margin_horizontal"
+                        android:layout_marginTop="@dimen/toolbar_margin_vertical"
+                        android:layout_marginEnd="@dimen/toolbar_margin_horizontal"
+                        android:layout_marginBottom="@dimen/toolbar_margin_vertical"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRa
