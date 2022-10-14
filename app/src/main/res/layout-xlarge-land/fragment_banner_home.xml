@@ -78,4 +78,25 @@
                         android:layout_marginEnd="@dimen/toolbar_margin_horizontal"
                         android:layout_marginBottom="@dimen/toolbar_margin_vertical"
                         app:cardBackgroundColor="@android:color/transparent"
-                        app:cardCornerRa
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="6dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_collapseMode="pin"
+                        app:layout_scrollFlags="scroll|enterAlways">
+
+                        <com.google.android.material.appbar.MaterialToolbar
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/toolbar_height"
+                            android:background="?colorSurface"
+                            app:contentInsetStart="0dp"
+                            app:contentInsetStartWithNavigation="0dp"
+                            app:popupTheme="?toolbarPopupTheme"
+                            app:title="@string/search_hint"
+                            app:titleMarginStart="0dp"
+                            app:titleTextAppearance="@style/ToolbarTextAppearanceSearch"
+                            tools:ignore="UnusedAttribute" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLay
