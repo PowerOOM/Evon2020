@@ -99,4 +99,25 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLay
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:behavior_overlapTop="52dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/toolbar_margin_horizontal"
+                android:layout_marginEnd="@dimen/toolbar_margin_horizontal"
+                app:cardBackgroundColor="?colorPrimary"
+                app:cardElevation="8dp"
+                app:shapeAppearanceOverlay="@style/TopCornerCardView">
+
+                <include layout="@layout/home_content" />
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
