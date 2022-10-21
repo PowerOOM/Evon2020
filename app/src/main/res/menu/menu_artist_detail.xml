@@ -24,4 +24,6 @@
     <item
         android:id="@+id/action_reset_artist_image"
         android:title="@string/reset_artist_image"
-        app:showAsAction="n
+        app:showAsAction="never" />
+
+</menu>
