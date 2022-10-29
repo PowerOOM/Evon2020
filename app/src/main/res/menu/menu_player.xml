@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_toggle_favorite"
+        android:icon="@drawable/ic_favorite_border_white_24dp"
+        android:orderInCategory="1"
+        android:title="@string/favorites"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/now_playing"
+        android:icon="@drawable/ic_playlist_play_white_24dp"
+        android:orderInCategory="2"
+        android:title="@string/now_playing_queue"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_go_to_album
