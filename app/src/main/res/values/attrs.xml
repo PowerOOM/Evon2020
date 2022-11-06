@@ -5,4 +5,16 @@
     <attr name="rectSelector" format="reference" />
     <attr name="defaultFooterColor" format="color" />
     <attr name="toolbarPopupTheme" format="reference" />
-    <
+    <attr name="iconColor" format="color" />
+    <attr name="lineHeightHint" format="dimension" />
+
+    <declare-styleable name="NetworkImageView">
+        <attr name="url_link" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="OptionMenuItemView">
+        <attr name="optionTitle" format="reference" />
+        <attr name="optionIcon" format="reference" />
+    </declare-styleable>
+
+</resources>
