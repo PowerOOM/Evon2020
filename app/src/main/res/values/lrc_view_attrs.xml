@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LrcView">
+        <attr name="lrcTextSize" format="dimension" />
+        <attr name="lrcLineSpaceSize" format="dimension" />
+        <attr name="lrcNormalTextColor" format="reference|color" />
+        <attr name="lrcCurrentTextColor" format="reference|color" />
+        <attr name="lrcTouchDelay" format="integer" />
+        <attr name="noLrcTextSize" format="dimension" />
+        <attr name="noLrcTextColor" format="reference|color" />
+        <attr name="indicatorLineHeight" format="dimensio
