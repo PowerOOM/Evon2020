@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="about_settings_summary">Source code, share &amp; version</string>
+    <string name="accent_color">Accent color</string>
+    <string name="accent_color_desc">The theme accent color, defaults to green</string>
+    <string name="action_about">About</string>
+    <string name="action_add_to_favo
