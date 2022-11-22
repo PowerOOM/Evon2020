@@ -251,4 +251,15 @@
     <string name="pref_summary_colored_app">The background and control button colors change according to the album art from the now playing screen</string>
     <string name="pref_summary_colored_app_shortcuts">Colors the app shortcuts in the accent color. Every time you change the color please toggle this to take effect</string>
     <string name="pref_summary_colored_notification">Colors the notification in the album cover\u2019s vibrant color</string>
-    <string name="pref_summary_desaturated_color">As per Material Design guide lines in da
+    <string name="pref_summary_desaturated_color">As per Material Design guide lines in dark mode colors should be desaturated</string>
+    <string name="pref_summary_dominant_color">Most dominant color will be picked from the album or artist cover</string>
+    <string name="pref_summary_extra_controls">Add extra controls for mini player</string>
+    <string name="pref_summary_gapless_playback">Can cause playback issues on some devices</string>
+    <string name="pref_summary_home_banner">Toggle home banner style</string>
+    <string name="pref_summary_ignore_media_store_artwork">Can increase the album cover quality, but causes slower image loading times. Only enable this if you have problems with low resolution artworks</string>
+    <string name="pref_summary_library_categories">Configure visibility and order of library categories</string>
+    <string name="pref_summary_lock_screen">Use Music\'s custom lockscreen controls</string>
+    <string name="pref_summary_toggle_full_screen">Immersive mode</string>
+    <string name="pref_summary_toggle_headset">Start playing immediately after headphones are connected</string>
+    <string name="pref_summary_toggle_shuffle">Shuffle mode will turn off when playing a new list of songs</string>
+    <string name="pref_summary_toggle_volume">If enough space is available, 
