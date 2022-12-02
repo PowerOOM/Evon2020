@@ -278,4 +278,22 @@
     <string name="pref_title_colored_notification">Colored notification</string>
     <string name="pref_title_desaturated_color">Desaturated color</string>
     <string name="pref_title_extra_controls">Extra controls</string>
-    <string name="pref_title_gapless_playback">Gapless playb
+    <string name="pref_title_gapless_playback">Gapless playback</string>
+    <string name="pref_title_general_theme">App theme</string>
+    <string name="pref_title_home_artist_grid_style">Home artist grid</string>
+    <string name="pref_title_home_banner">Home banner</string>
+    <string name="pref_title_ignore_media_store_artwork">Ignore media store covers</string>
+    <string name="pref_title_last_added_interval">Last added playlist interval</string>
+    <string name="pref_title_lock_screen">Fullscreen controls</string>
+    <string name="pref_title_now_playing_screen_appearance">Now playing theme</string>
+    <string name="pref_title_tab_text_mode">Tab titles mode</string>
+    <string name="pref_title_toggle_carousel_effect">Carousel effect</string>
+    <string name="pref_title_toggle_dominant_color">Dominant color</string>
+    <string name="pref_title_toggle_full_screen">Fullscreen app</string>
+    <string name="pref_title_toggle_toggle_headset">Auto-play</string>
+    <string name="pref_title_toggle_toggle_shuffle">Shuffle mode</string>
+    <string name="pref_title_toggle_volume">Volume controls</string>
+    <string name="profile">Profile</string>
+    <string name="queue">Queue</string>
+    <string name="recent_albums">Recent albums</string>
+    <str
