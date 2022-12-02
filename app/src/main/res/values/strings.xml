@@ -296,4 +296,22 @@
     <string name="profile">Profile</string>
     <string name="queue">Queue</string>
     <string name="recent_albums">Recent albums</string>
-    <str
+    <string name="recent_artists">Recent artists</string>
+    <string name="remove_action">Remove</string>
+    <string name="remove_banner_photo">Remove banner photo</string>
+    <string name="remove_cover">Remove cover</string>
+    <string name="remove_from_blacklist">Remove from blacklist</string>
+    <string name="remove_profile_photo">Remove profile photo</string>
+    <string name="remove_song_from_playlist_title">Remove song from playlist</string>
+    <string name="remove_song_x_from_playlist"><![CDATA[Remove the song <b>%1$s</b> from the playlist?]]></string>
+    <string name="remove_songs_from_playlist_title">Remove songs from playlist</string>
+    <plurals name="remove_x_songs_from_playlist">
+        <item quantity="other"><![CDATA[Remove <b><xliff:g id="count">%1$d</xliff:g></b> songs from the playlist?]]></item>
+    </plurals>
+    <string name="rename_playlist_title">Rename playlist</string>
+    <string name="reset_action">Reset</string>
+    <string name="reset_artist_image">Reset artist image</string>
+    <string name="saf_delete_failed">File delete failed: %s</string>
+    <string name="saf_error_uri">Can\'t get SAF URI</string>
+    <string name="saf_guide_slide1_description">Open navigation drawer</string>
+    <string name="saf_guide_slide1_des
