@@ -331,4 +331,27 @@
     <string name="search_hint">Search your library…</string>
     <string name="select_all">Select all</string>
     <string name="select_banner_photo">Select banner photo</string>
-    <string
+    <string name="selected">Selected</string>
+    <string name="set_artist_image">Set artist image</string>
+    <string name="set_photo">Set a profile photo</string>
+    <string name="share_app">Share app</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="simple">Simple</string>
+    <string name="sleep_timer_canceled">Sleep timer canceled</string>
+    <plurals name="sleep_timer_set">
+        <item quantity="one">Sleep timer set for <xliff:g id="count">%1$d</xliff:g> minute from now</item>
+        <item quantity="other">Sleep timer set for <xliff:g id="count">%1$d</xliff:g> minutes from now</item>
+    </plurals>
+    <string name="song">Song</string>
+    <string name="song_duration">Song duration</string>
+    <string name="song_hint">"Song (2 for song 2 or 3004 for CD3 song 4)"</string>
+    <string name="song_list">Song number</string>
+    <string name="songs">Songs</string>
+    <plurals name="songs_x">
+        <item quantity="other">songs</item>
+    </plurals>
+    <string name="sort_order">Sort order</string>
+    <string name="sort_order_a_z">Ascending</string>
+    <string name="sort_order_album">Album</string>
+    <string name="sort_order_artist">Artist</string>
+    <st
