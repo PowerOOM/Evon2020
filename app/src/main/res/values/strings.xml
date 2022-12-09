@@ -354,4 +354,25 @@
     <string name="sort_order_a_z">Ascending</string>
     <string name="sort_order_album">Album</string>
     <string name="sort_order_artist">Artist</string>
-    <st
+    <string name="sort_order_composer">Composer</string>
+    <string name="sort_order_date">Date</string>
+    <string name="sort_order_year">Year</string>
+    <string name="sort_order_z_a">Descending</string>
+    <string name="source_code">Source code</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="speech_prompt">Search your library</string>
+    <string name="stack">Stack</string>
+    <string name="start_play_music">Start playing music</string>
+    <string name="swipe_to_unlock">Swipe to unlock</string>
+    <string name="synced_lyrics">Synced lyrics</string>
+    <string name="the_audio_file">The audio file</string>
+    <string name="this_month">This month</string>
+    <string name="this_week">This week</string>
+    <string name="this_year">This year</string>
+    <string name="tiny">Tiny</string>
+    <string name="today">Today</string>
+    <string name="top_albums">Top albums</string>
+    <string name="top_artists">Top artists</string>
+    <string name="unlabeled">Unlabeled</string>
+    <string name="unplayable_file">Couldn\u2019t play this song</string>
+    <string name="up_next
