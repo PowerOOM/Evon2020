@@ -375,4 +375,17 @@
     <string name="top_artists">Top artists</string>
     <string name="unlabeled">Unlabeled</string>
     <string name="unplayable_file">Couldn\u2019t play this song</string>
-    <string name="up_next
+    <string name="up_next">Up next</string>
+    <string name="update_image">Update image</string>
+    <string name="updating">Updating…</string>
+    <string name="version">Version</string>
+    <string name="vertical_flip">Vertical flip</string>
+    <string name="web_search">Web search</string>
+    <string name="welcome">Welcome,</string>
+    <string name="what_do_you_want_to_share">What do you want to share?</string>
+    <string name="window">Window</string>
+    <string name="x_has_been_set_as_ringtone">Set %1$s as your ringtone</string>
+    <string name="x_selected">%1$d selected</string>
+    <string name="year">Year</string>
+    <string name="you_have_to_select_at_least_one_category">You have to select at least one category</string>
+</resources>
