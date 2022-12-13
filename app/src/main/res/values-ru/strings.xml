@@ -8,4 +8,24 @@
     <string name="action_add_to_playing_queue">Добавить в очередь воспроизведения</string>
     <string name="action_add_to_playlist">Добавить в плейлист</string>
     <string name="action_clear_playing_queue">Очистить очередь воспроизведения</string>
-    <string name
+    <string name="action_clear_playlist">Очистить плейлист</string>
+    <string name="action_cycle_repeat">Режим цикличного повтора</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_delete_from_device">Удалить с устройства</string>
+    <string name="action_details">Свойства</string>
+    <string name="action_go_to_album">Перейти к альбому</string>
+    <string name="action_go_to_artist">Перейти к исполнителю</string>
+    <string name="action_go_to_genre">Перейти к жанру</string>
+    <string name="action_go_to_start_directory">Перейти в начальную папку</string>
+    <string name="action_grant">Разрешить</string>
+    <string name="action_grid_size">Размер сетки</string>
+    <string name="action_grid_size_land">Размер сетки (альбомная)</string>
+    <string name="action_new_playlist">Создать плейлист</string>
+    <string name="action_next">Далее</string>
+    <string name="action_play">Воспроизвести</string>
+    <string name="action_play_all">Воспроизвести все</string>
+    <string name="action_play_next">Воспроизвести далее</string>
+    <string name="action_play_pause">Воспроизведение/Пауза</string>
+    <string name="action_previous">Предыдуший</string>
+    <string name="action_remove_from_favorites">Удалить из избранного</string>
+    <string nam
