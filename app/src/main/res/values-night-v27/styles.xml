@@ -1,6 +1,6 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.Player.Base.Adaptive" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="md_font_title">@font/circular</item>
         <item name="md_font_body">@font/circular</item>
@@ -18,8 +18,8 @@
         <item name="roundSelector">@drawable/round_selector</item>
         <item name="rectSelector">@drawable/rect_selector</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionButton.Overflow</item>
+        <item name="android:windowLightNavigationBar">false</item>
         <!--Manual setting colors-->
-        <item name="colorPrimary">@color/darkColorPrimary</item>
         <item name="colorSurface">@color/darkColorSurface</item>
     </style>
 </resources>
