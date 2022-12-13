@@ -28,4 +28,22 @@
     <string name="action_play_pause">Воспроизведение/Пауза</string>
     <string name="action_previous">Предыдуший</string>
     <string name="action_remove_from_favorites">Удалить из избранного</string>
-    <string nam
+    <string name="action_remove_from_playing_queue">Удалить из очереди воспроизведения</string>
+    <string name="action_remove_from_playlist">Удалить из плейлиста</string>
+    <string name="action_rename">Переименовать</string>
+    <string name="action_save_playing_queue">Сохранить очередь воспроизведения</string>
+    <string name="action_scan">Сканировать</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_set">Запустить</string>
+    <string name="action_set_as_ringtone">Установить как рингтон</string>
+    <string name="action_set_as_start_directory">Установить как начальную папку</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_shuffle_all">Перемешать всё</string>
+    <string name="action_shuffle_playlist">Перемешать плейлист</string>
+    <string name="action_sleep_timer">Таймер сна</string>
+    <string name="action_sort_order">Порядок сортировки</string>
+    <string name="action_tag_editor">Редактор тегов</string>
+    <string name="action_toggle_favorite">Переключить избранные</string>
+    <string name="action_toggle_shuffle">Переключить режим перемешивания</string>
+    <str
