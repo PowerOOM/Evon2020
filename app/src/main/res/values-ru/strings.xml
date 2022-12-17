@@ -46,4 +46,24 @@
     <string name="action_tag_editor">Редактор тегов</string>
     <string name="action_toggle_favorite">Переключить избранные</string>
     <string name="action_toggle_shuffle">Переключить режим перемешивания</string>
-    <str
+    <string name="adaptive">Адаптивная</string>
+    <string name="add_action">Добавить</string>
+    <string name="add_lyrics">Добавить текст песни</string>
+    <string name="add_playlist_title">Добавить в плейлист</string>
+    <string name="add_time_framed_lryics">Добавить текст песни</string>
+    <string name="added_title_to_playing_queue">1 песня добавлена в очередь воспроизведения</string>
+    <plurals name="added_x_titles_to_playing_queue" tools:ignore="MissingQuantity">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> песня добавлена в очередь воспроизведения</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> песни добавлено в очередь воспроизведения</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> песен добавлено в очередь воспроизведения</item>
+    </plurals>
+    <string name="album">Альбом</string>
+    <string name="album_artist">Исполнитель альбома</string>
+    <string name="albums">Альбомы</string>
+    <plurals name="albums_x">
+        <item quantity="one" tools:ignore="ImpliedQuantity">альбом</item>
+        <item quantity="few">альбома</item>
+        <item quantity="many">альбомов</item>
+    </plurals>
+    <string name="always">Всегда</string>
+    <string name="app_share">Эй, попробуй э
