@@ -86,4 +86,23 @@
     <string name="black_theme_name">Полностью чёрная</string>
     <string name="blacklist">Чёрный список</string>
     <string name="blur">Размытая</string>
-  
+    <string name="blur_card">Карточка с размытием</string>
+    <string name="cancel_current_timer">Отмена</string>
+    <string name="card">Карточка</string>
+    <string name="card_circular_style">Круглая</string>
+    <string name="card_color_style">Цветная карточка</string>
+    <string name="card_style">Карточка</string>
+    <string name="cascading">Каскадная</string>
+    <string name="circular">Круглая</string>
+    <string name="clear_action">Очистить</string>
+    <string name="clear_blacklist">Очистить чёрный список</string>
+    <string name="clear_playing_queue">Очистить очередь</string>
+    <string name="clear_playlist_title">Очистить плейлист</string>
+    <string name="clear_playlist_x"><![CDATA[Очистить плейлист <b>%1$s</b>? Эта операция необратима!]]></string>
+    <string name="close_notification">Закрыть</string>
+    <string name="color">Цветовая</string>
+    <string name="colors">Цвета</string>
+    <string name="composer">Композитор</string>
+    <string name="could_not_create_playlist">Не удалось создать плейлист</string>
+    <string name="could_not_download_album_cover">Не удалось скачать подходящую обложку альбома</string>
+    <string name="could_not_sc
