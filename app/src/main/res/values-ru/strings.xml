@@ -66,4 +66,24 @@
         <item quantity="many">альбомов</item>
     </plurals>
     <string name="always">Всегда</string>
-    <string name="app_share">Эй, попробуй э
+    <string name="app_share">Эй, попробуй этот крутой музыкальный плеер на: https://github.com/MaxFour/Music-Player-2/releases</string>
+    <string name="app_name">Музыка</string>
+    <string name="app_shortcut_shuffle_all_short">Перемешать</string>
+    <string name="app_shortcut_top_songs_short">Топ прослушиваемых песен</string>
+    <string name="app_widget_big_name">Музыка - Крупный</string>
+    <string name="app_widget_card_name">Музыка - Карточка</string>
+    <string name="app_widget_classic_name">Музыка - Классический</string>
+    <string name="app_widget_small_name">Музыка - Маленький</string>
+    <string name="app_widget_text_name">Музыка - Текст</string>
+    <string name="apply">Применить</string>
+    <string name="artist">Исполнитель</string>
+    <string name="artists">Исполнители</string>
+    <string name="audio_focus_denied">Аудио фокус отключен</string>
+    <string name="audio_settings_summary">Настроить опции звука и эквалайзера</string>
+    <string name="auto">Авто</string>
+    <string name="bio">Биография</string>
+    <string name="biography">Биография</string>
+    <string name="black_theme_name">Полностью чёрная</string>
+    <string name="blacklist">Чёрный список</string>
+    <string name="blur">Размытая</string>
+  
