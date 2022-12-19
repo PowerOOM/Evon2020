@@ -123,4 +123,23 @@
     </plurals>
     <plurals name="delete_x_songs">
         <item quantity="one"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g></b> песню?]]></item>
-        <item quantity="few"><![CDATA[Удалить <b><xliff:g i
+        <item quantity="few"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g></b> песни?]]></item>
+        <item quantity="many"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g></b> песен?]]></item>
+    </plurals>
+    <plurals name="deleted_x_songs">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> песня удалена</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> песни удалены</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> песен удалены</item>
+    </plurals>
+    <string name="deleting_songs">Удаление песен</string>
+    <string name="depth">Эффект глубины</string>
+    <string name="dialog_message_set_ringtone">Разрешить приложению \"Музыка\" изменять настройки аудио</string>
+    <string name="dialog_title_set_ringtone">Установка рингтона</string>
+    <string name="do_you_want_to_clear_the_blacklist">Хотите очистить чёрный список?</string>
+    <string name="do_you_want_to_remove_from_the_blacklist"><![CDATA[Хотите удалить <b>%1$s</b> из чёрного списка?]]></string>
+    <string name="edit">Редактировать</string>
+    <string name="empty">Пусто</string>
+    <string name="equalizer">Эквалайзер</string>
+    <string name="favorites">Избранное</string>
+    <string name="finish_last_song">Закончить последнюю песню</string>
+    <string name
