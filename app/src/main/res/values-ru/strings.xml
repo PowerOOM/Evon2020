@@ -142,4 +142,26 @@
     <string name="equalizer">Эквалайзер</string>
     <string name="favorites">Избранное</string>
     <string name="finish_last_song">Закончить последнюю песню</string>
-    <string name
+    <string name="fit">Замостить</string>
+    <string name="flat">Плоская</string>
+    <string name="folders">Папки</string>
+    <string name="follow_system">Системные настройки</string>
+    <string name="for_you">Для Вас</string>
+    <string name="full">Полная</string>
+    <string name="full_card">Полная карточка</string>
+    <string name="general_settings_summary">Изменить тему и цвета приложения</string>
+    <string name="general_settings_title">Оформление</string>
+    <string name="genre">Жанр</string>
+    <string name="genres">Жанры</string>
+    <string name="git_hub_summary">Ветка на GitHub</string>
+    <string name="grid_style_label"><![CDATA[Сетка и стиль]]></string>
+    <string name="hinge">Эффект петли</string>
+    <string name="history">История</string>
+    <string name="home">Главная</string>
+    <string name="horizontal_flip">Горизонтальная</string>
+    <string name="image">Изображение</string>
+    <string name="image_gradient">Градиентное изображение</string>
+    <string name="image_settings_summary">Изменить настройки загрузки изображения исполнителя</string>
+    <plurals name="inserted_x_songs_into_playlist_x">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> песня добавлена в плейлист \"%2$s\"</item>
+        <item quantity="few"><xliff:g i
