@@ -164,4 +164,25 @@
     <string name="image_settings_summary">Изменить настройки загрузки изображения исполнителя</string>
     <plurals name="inserted_x_songs_into_playlist_x">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> песня добавлена в плейлист \"%2$s\"</item>
-        <item quantity="few"><xliff:g i
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> песни добавлены в плейлист \"%2$s\"</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> песен добавлено в плейлист \"%2$s\"</item>
+    </plurals>
+    <string name="keyboard">Клавиатура</string>
+    <string name="label_bit_rate">Битрейт</string>
+    <string name="label_file_format">Формат</string>
+    <string name="label_file_name">Имя файла</string>
+    <string name="label_file_path">Расположение файла</string>
+    <string name="label_file_size">Размер</string>
+    <string name="label_more_from">Больше от %s</string>
+    <string name="label_sampling_rate">Частота дискретизации</string>
+    <string name="label_song_length">Длительность</string>
+    <string name="labeled">Показать загаловки</string>
+    <string name="last_added">Последние добавленные</string>
+    <string name="last_song">Предыдущая песня</string>
+    <string name="library">Библиотека</string>
+    <string name="library_categories">Категории библиотеки</string>
+    <string name="light_theme_name">Светлая</string>
+    <string name="listing_files">Список файлов</string>
+    <string name="lyrics">Тексты песен</string>
+    <string name="material">Material</string>
+    <string name="md_error_label">
