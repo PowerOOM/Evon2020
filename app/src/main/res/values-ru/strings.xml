@@ -222,4 +222,20 @@
     <string name="paste_lyrics_here">Вставьте текст песни сюда</string>
     <string name="peak">Всплывающая</string>
     <string name="permission_external_storage_denied">Разрешение для доступа к внешнему хранилищу отсутствует</string>
-    <string name="permissions_denied">Разрешения 
+    <string name="permissions_denied">Разрешения отсутствуют</string>
+    <string name="personalize">Персонализация</string>
+    <string name="personalize_settings_summary">Настроить главный экран и интерфейс</string>
+    <string name="pick_from_local_storage">Выбрать из хранилища</string>
+    <string name="plain">Гладкая</string>
+    <string name="playing_notification_description">Уведомление о воспроизведении содержит действия для воспроизведения/паузы и т.д.</string>
+    <string name="playing_notification_name">Уведомление о воспроизведении</string>
+    <string name="playlist_is_empty">Плейлист пуст</string>
+    <string name="playlist_name_empty">Название плейлиста</string>
+    <string name="playlists">Плейлисты</string>
+    <string name="pref_blur_amount_summary">Сила размытия в применённых темах с размытием; чем ниже, тем быстрее</string>
+    <string name="pref_blur_amount_title">Сила размытия</string>
+    <string name="pref_dialog_corner_summary">Настройка углов диалоговых окон</string>
+    <string name="pref_dialog_corner_title">Угол диалогов</string>
+    <string name="pref_filter_song_summary">Сортировка песен по длительности</string>
+    <string name="pref_filter_song_title">Фильтровать песни по длительности</string>
+    <string
