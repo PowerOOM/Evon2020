@@ -262,4 +262,13 @@
     <string name="pref_summary_colored_app_shortcuts">Окрашивать ярлыки в цвет акцента. Каждый раз, когда вы меняете цвет, переключайте эту опцию, чтобы изменение вступило в силу</string>
     <string name="pref_summary_colored_notification">Окрашивать панель навигации в основной цвет</string>
     <string name="pref_summary_desaturated_color">Согласно руководству по Material Design в тёмном режиме цвета должны быть ненасыщенными</string>
-    <string name="pref_summary_do
+    <string name="pref_summary_dominant_color">Наиболее преобладающий цвет будет выбран из обложки альбома или исполнителя</string>
+    <string name="pref_summary_extra_controls">Добавить дополнительные элементы управления для мини-плеера</string>
+    <string name="pref_summary_gapless_playback">Может вызвать проблемы с воспроизведением на некоторых устройствах</string>
+    <string name="pref_summary_home_banner">Переключить стиль главного баннера</string>
+    <string name="pref_summary_ignore_media_store_artwork">Может повысить качество обложки альбома, но приведёт к более медленной загрузке изображения. Включите только в том случае, если у вас есть проблемы с низким разрешением обложек</string>
+    <string name="pref_summary_library_categories">Настроить видимость и порядок категорий библиотеки</string>
+    <string name="pref_summary_lock_screen">Использовать экран блокировки приложения \"Музыка\"</string>
+    <string name="pref_summary_toggle_full_screen">Переключить приложение во весь экран</string>
+    <string name="pref_summary_toggle_headset">Начать воспроизведение музыки сразу после подключения наушников</string>
+    <string name="pref_summary_toggle_shuffle">Режим перемешивания выключится при воспроизведении нового списка песен</s
