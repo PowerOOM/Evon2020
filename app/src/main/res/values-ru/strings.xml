@@ -238,4 +238,19 @@
     <string name="pref_dialog_corner_title">Угол диалогов</string>
     <string name="pref_filter_song_summary">Сортировка песен по длительности</string>
     <string name="pref_filter_song_title">Фильтровать песни по длительности</string>
-    <string
+    <string name="pref_header_advanced">Расширенные</string>
+    <string name="pref_header_album">Стиль альбома</string>
+    <string name="pref_header_audio">Аудио</string>
+    <string name="pref_header_blacklist">Чёрный список</string>
+    <string name="pref_header_controls">Управления</string>
+    <string name="pref_header_general">Тема</string>
+    <string name="pref_header_images">Изображения</string>
+    <string name="pref_header_library">Библиотека</string>
+    <string name="pref_header_lockscreen">Экран блокировки</string>
+    <string name="pref_header_playlists">Плейлисты</string>
+    <string name="pref_keep_pause_on_zero_volume_summary">Пауза при уменьшении громкости до нуля и воспроизведение после увеличения громкости. Также работает вне приложения</string>
+    <string name="pref_keep_pause_on_zero_volume_title">Пауза при нулевой громкости</string>
+    <string name="pref_keep_screen_on_summary">Имейте в виду, что включение этой функции может повлиять на заряд батареи</string>
+    <string name="pref_keep_screen_on_title">Оставить экран включенным</string>
+    <string name="pref_summary_album_art_on_lockscreen">Использовать обложку альбома текущей песни в качестве обоев на экране блокировки.</string>
+    <string name="pref_summary_audio_ducking">Снизит
