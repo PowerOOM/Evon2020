@@ -300,4 +300,21 @@
     <string name="pref_title_toggle_carousel_effect">Эффект карусели</string>
     <string name="pref_title_toggle_dominant_color">Преобладающий цвет</string>
     <string name="pref_title_toggle_full_screen">Полноэкранный режим</string>
-    <string name="pref_title_toggle_toggle_headset">Автовоспроизведен
+    <string name="pref_title_toggle_toggle_headset">Автовоспроизведение</string>
+    <string name="pref_title_toggle_toggle_shuffle">Режим перемешивания</string>
+    <string name="pref_title_toggle_volume">Управление громкостью</string>
+    <string name="profile">Профиль</string>
+    <string name="queue">Очередь</string>
+    <string name="recent_albums">Недавние альбомы</string>
+    <string name="recent_artists">Недавние исполнители</string>
+    <string name="remove_action">Удалить</string>
+    <string name="remove_banner_photo">Удалить фото баннера</string>
+    <string name="remove_cover">Удалить обложку</string>
+    <string name="remove_from_blacklist">Удалить из чёрного списка</string>
+    <string name="remove_profile_photo">Удалить фото профиля</string>
+    <string name="remove_song_from_playlist_title">Удалить песню из плейлиста</string>
+    <string name="remove_song_x_from_playlist"><![CDATA[Удалить песню <b>%1$s</b> из плейлиста?]]></string>
+    <string name="remove_songs_from_playlist_title">Удалить песни из плейлиста</string>
+    <plurals name="remove_x_songs_from_playlist">
+        <item quantity="one"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g></b> песню из плейлиста?]]></item>
+        <item quantity="few"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g>
