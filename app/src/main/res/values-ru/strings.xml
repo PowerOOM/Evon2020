@@ -317,4 +317,20 @@
     <string name="remove_songs_from_playlist_title">Удалить песни из плейлиста</string>
     <plurals name="remove_x_songs_from_playlist">
         <item quantity="one"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g></b> песню из плейлиста?]]></item>
-        <item quantity="few"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g>
+        <item quantity="few"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g></b> песни из плейлиста?]]></item>
+        <item quantity="many"><![CDATA[Удалить <b><xliff:g id="count">%1$d</xliff:g></b> песен из плейлиста?]]></item>
+    </plurals>
+    <string name="rename_playlist_title">Переименовать плейлист</string>
+    <string name="reset_action">Сбросить</string>
+    <string name="reset_artist_image">Сбросить изображение исполнителя</string>
+    <string name="saf_delete_failed">Ошибка удаления файла:</string>
+    <string name="saf_error_uri">Не удалось получить SAF URI</string>
+    <string name="saf_guide_slide1_description">Открыть панель навигации</string>
+    <string name="saf_guide_slide1_description_before_o">Включить \'Показать SD-карту\' в переполненном меню</string>
+    <string name="saf_guide_slide1_title">%s требует доступ к SD-карте</string>
+    <string name="saf_guide_slide2_description">Вы должны выбрать корень папки SD-карты</string>
+    <string name="saf_guide_slide2_title">Выберите Вашу SD-карты в панели навигации</string>
+    <string name="saf_guide_slide3_description">Не открывать подпапки</string>
+    <string name="saf_guide_slide3_title">Нажмите кнопку \'Выбрать\' внизу экарна</string>
+    <string name="saf_write_failed">Ошибка записи файла: %s</string>
+    <string name="save">Со
