@@ -333,4 +333,23 @@
     <string name="saf_guide_slide3_description">Не открывать подпапки</string>
     <string name="saf_guide_slide3_title">Нажмите кнопку \'Выбрать\' внизу экарна</string>
     <string name="saf_write_failed">Ошибка записи файла: %s</string>
-    <string name="save">Со
+    <string name="save">Сохранить</string>
+    <string name="save_playlist_title">Сохранить как файл</string>
+    <string name="save_playlists_title">Сохранить как файлы</string>
+    <string name="saved_playlist_to">Плейлист сохранён в %s</string>
+    <string name="saving_changes">Сохранение изменений</string>
+    <string name="scan_media">Сканировать медиа-файлы</string>
+    <string name="scanned_files">Просканировано %1$d из %2$d файлов</string>
+    <string name="search_hint">Поиск в Вашей библиотеке…</string>
+    <string name="select_all">Выбрать все</string>
+    <string name="select_banner_photo">Выбрать фото баннера</string>
+    <string name="selected">При выборе</string>
+    <string name="set_artist_image">Установить изображение исполнителя</string>
+    <string name="set_photo">Выбрать фото профиля</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="shuffle">Перемешать</string>
+    <string name="simple">Простая</string>
+    <string name="sleep_timer_canceled">Таймер сна отключён</string>
+    <plurals name="sleep_timer_set">
+        <item quantity="one">Таймер сна установлен на <xliff:g id="count">%1$d</xliff:g> минуту с текущего момента</item>
+        <item quantity="few">Таймер сна установлен на <xliff:g id="count">%1$d</xliff:g> минуты с текущего мо
