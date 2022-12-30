@@ -352,4 +352,27 @@
     <string name="sleep_timer_canceled">Таймер сна отключён</string>
     <plurals name="sleep_timer_set">
         <item quantity="one">Таймер сна установлен на <xliff:g id="count">%1$d</xliff:g> минуту с текущего момента</item>
-        <item quantity="few">Таймер сна установлен на <xliff:g id="count">%1$d</xliff:g> минуты с текущего мо
+        <item quantity="few">Таймер сна установлен на <xliff:g id="count">%1$d</xliff:g> минуты с текущего момента</item>
+        <item quantity="many">Таймер сна установлен на <xliff:g id="count">%1$d</xliff:g> минут с текущего момента</item>
+    </plurals>
+    <string name="song">Песня</string>
+    <string name="song_duration">Длительность песни</string>
+    <string name="song_hint">Песня (2 для песни 2 или 3004 для CD3 песни 4)</string>
+    <string name="song_list">Номер песни</string>
+    <string name="songs">Песни</string>
+    <plurals name="songs_x">
+        <item quantity="one" tools:ignore="ImpliedQuantity">песня</item>
+        <item quantity="few">песни</item>
+        <item quantity="many">песен</item>
+    </plurals>
+    <string name="sort_order">Порядок сортировки</string>
+    <string name="sort_order_a_z">А-Я (A-Z)</string>
+    <string name="sort_order_album">Альбом</string>
+    <string name="sort_order_artist">Исполнитель</string>
+    <string name="sort_order_composer">Композитор</string>
+    <string name="sort_order_date">Дата</string>
+    <string name="sort_order_year">Год</string>
+    <string name="sort_order_z_a">Я-А (Z-A)</string>
+    <string name="source_code">Исходный код</string>
+    <string name="speech_not_supported">Извините! Ваше устройство не поддерживает ввод с помощью речи</string>
+    <string name="speech_prompt">Поиск в Вашей библиоте
