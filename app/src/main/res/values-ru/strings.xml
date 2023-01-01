@@ -375,4 +375,26 @@
     <string name="sort_order_z_a">Я-А (Z-A)</string>
     <string name="source_code">Исходный код</string>
     <string name="speech_not_supported">Извините! Ваше устройство не поддерживает ввод с помощью речи</string>
-    <string name="speech_prompt">Поиск в Вашей библиоте
+    <string name="speech_prompt">Поиск в Вашей библиотеке</string>
+    <string name="stack">Наложение</string>
+    <string name="start_play_music">Начните воспроизводить музыку</string>
+    <string name="swipe_to_unlock">Проведите, чтобы разблокировать</string>
+    <string name="synced_lyrics">Синхронизируемый текст песни</string>
+    <string name="the_audio_file">Аудиофайл</string>
+    <string name="this_month">Этот месяц</string>
+    <string name="this_week">Это неделя</string>
+    <string name="this_year">Этот год</string>
+    <string name="tiny">Крошечная</string>
+    <string name="today">Сегодня</string>
+    <string name="top_albums">Топ альбомов</string>
+    <string name="top_artists">Топ исполнителей</string>
+    <string name="unlabeled">Без загаловков</string>
+    <string name="unplayable_file">Не удалось воспроизвести эту песню</string>
+    <string name="up_next">Очередь</string>
+    <string name="update_image">Обновить изображение</string>
+    <string name="updating">Обновление…</string>
+    <string name="version">Версия</string>
+    <string name="vertical_flip">Вертикальная</string>
+    <string name="web_search">Поиск в интернете</string>
+    <string name="welcome">Добро пожаловать,</string>
+    <stri
