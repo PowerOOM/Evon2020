@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="Theme.Player" parent="Theme.Player.Base">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:textViewStyle">@style/TextViewStyleIm</item>
+    </style>
+
+    <style name="Theme.Player.Light" parent="Theme.Player.Base.Light">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:textViewStyle">@style/TextViewStyleIm</item>
+    </style>
+
+    <style name="Theme.Player.Black" parent="Theme.Player.Base.Black">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSharedElementsUseOver
