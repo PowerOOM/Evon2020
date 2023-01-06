@@ -14,4 +14,22 @@
 
     <style name="Theme.Player.Black" parent="Theme.Player.Base.Black">
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowSharedElementsUseOver
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:textViewStyle">@style/TextViewStyleIm</item>
+    </style>
+
+    <style name="Theme.Player.FollowSystem" parent="Theme.Player.Base.Adaptive">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:textViewStyle">@style/TextViewStyleIm</item>
+    </style>
+
+    <style name="Theme.Player.Notification" parent="@android:style/TextAppearance.Material.Notification" />
+
+    <style name="Theme.Player.Notification.Title" parent="@android:style/TextAppearance.Material.Notification.Title" />
+
+    <style name="MusicProgressSlider" parent="MusicProgressSliderParent">
+        <item name="android:padding">0dp</item>
+    </style>
+
+</resources>
