@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Player.Base.Adaptive" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="md_font_title">@font/circular</item>
+        <item name="md_font_body">@font/circular</item>
+        <item name="md_font_button">@font/circular</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:fontFamily">@font/circular</item>
+        <item name="toolbarPopupTheme">@style/
