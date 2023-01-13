@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.maxfour.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="@string/pref_header_general">
+
+        <com.maxfour.libreplayer.preferences.MaterialListPreference
+            android:defaultValue="light"
+            android:entries="@array/pref_general_theme_list_titles"
+            android:entryValues="@array/pref_general_theme_list_values"
+            android:key="general_theme"
+            android:layout="@layout/list_item_view"
+            android:title="@string/pref_title_general_theme"
+            app:icon="@drawable/ic_color_lens_white_24dp" />
+
+        <com.maxfour.appthemehelper.common.prefs.supportv7.ATESwitchPreference
+            android:key="black_theme"
+            android:layout="@layout/list_item_view_switch_no_title"
+        
