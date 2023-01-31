@@ -2,4 +2,28 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.maxfour.appthemehelper.common.prefs.supportv7.ATEPreferenceCategory
-   
+        android:layout="@layout/preference_category_title"
+        app:title="@string/grid_style_label">
+        <com.maxfour.libreplayer.preferences.MaterialListPreference
+            android:defaultValue="0"
+            android:entries="@array/pref_grid_style_list_titles"
+            android:entryValues="@array/pref_grid_style_list_values"
+            android:key="album_grid_style"
+            android:layout="@layout/list_item_view"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_album_grid_style"
+            app:icon="@drawable/ic_album_white_24dp" />
+
+        <com.maxfour.libreplayer.preferences.MaterialListPreference
+            android:defaultValue="0"
+            android:entries="@array/pref_grid_style_list_titles"
+            android:entryValues="@array/pref_grid_style_list_values"
+            android:key="artist_grid_style"
+            android:layout="@layout/list_item_view"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/pref_title_artist_grid_style"
+            app:icon="@drawable/ic_artist_white_24dp" />
+
+        <com.maxfour.lib
