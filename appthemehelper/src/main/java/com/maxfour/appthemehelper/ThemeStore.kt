@@ -74,4 +74,38 @@ private constructor(private val mContext: Context) : ThemeStorePrefKeys, ThemeSt
     }
 
     override fun statusBarColorAttr(@AttrRes colorAttr: Int): ThemeStore {
-        return statusBarColor
+        return statusBarColor(ATHUtil.resolveColor(mContext, colorAttr))
+    }
+
+    override fun navigationBarColor(@ColorInt color: Int): ThemeStore {
+        mEditor.putInt(ThemeStorePrefKeys.KEY_NAVIGATION_BAR_COLOR, color)
+        return this
+    }
+
+    // Commit method
+
+    override fun navigationBarColorRes(@ColorRes colorRes: Int): ThemeStore {
+        return navigationBarColor(ContextCompat.getColor(mContext, colorRes))
+    }
+
+    // Static getters
+
+    override fun navigationBarColorAttr(@AttrRes colorAttr: Int): ThemeStore {
+        return navigationBarColor(ATHUtil.resolveColor(mContext, colorAttr))
+    }
+
+    override fun textColorPrimary(@ColorInt color: Int): ThemeStore {
+        mEditor.putInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_PRIMARY, color)
+        return this
+    }
+
+    override fun textColorPrimaryRes(@ColorRes colorRes: Int): ThemeStore {
+        return textColorPrimary(ContextCompat.getColor(mContext, colorRes))
+    }
+
+    override fun textColorPrimaryAttr(@AttrRes colorAttr: Int): ThemeStore {
+        return textColorPrimary(ATHUtil.resolveColor(mContext, colorAttr))
+    }
+
+    override fun textColorPrimaryInverse(@ColorInt color: Int): ThemeStore {
+        mEditor.putInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_PRIMARY_INVERSE, color)
