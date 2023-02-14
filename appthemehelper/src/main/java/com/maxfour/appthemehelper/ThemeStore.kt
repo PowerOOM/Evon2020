@@ -39,4 +39,39 @@ private constructor(private val mContext: Context) : ThemeStorePrefKeys, ThemeSt
     }
 
     override fun primaryColorDark(@ColorInt color: Int): ThemeStore {
-        mEditor.putInt(ThemeStorePrefKeys.KEY_PRIMARY_COLOR_DA
+        mEditor.putInt(ThemeStorePrefKeys.KEY_PRIMARY_COLOR_DARK, color)
+        return this
+    }
+
+    override fun primaryColorDarkRes(@ColorRes colorRes: Int): ThemeStore {
+        return primaryColorDark(ContextCompat.getColor(mContext, colorRes))
+    }
+
+    override fun primaryColorDarkAttr(@AttrRes colorAttr: Int): ThemeStore {
+        return primaryColorDark(ATHUtil.resolveColor(mContext, colorAttr))
+    }
+
+    override fun accentColor(@ColorInt color: Int): ThemeStore {
+        mEditor.putInt(ThemeStorePrefKeys.KEY_ACCENT_COLOR, color)
+        return this
+    }
+
+    override fun accentColorRes(@ColorRes colorRes: Int): ThemeStore {
+        return accentColor(ContextCompat.getColor(mContext, colorRes))
+    }
+
+    override fun accentColorAttr(@AttrRes colorAttr: Int): ThemeStore {
+        return accentColor(ATHUtil.resolveColor(mContext, colorAttr))
+    }
+
+    override fun statusBarColor(@ColorInt color: Int): ThemeStore {
+        mEditor.putInt(ThemeStorePrefKeys.KEY_STATUS_BAR_COLOR, color)
+        return this
+    }
+
+    override fun statusBarColorRes(@ColorRes colorRes: Int): ThemeStore {
+        return statusBarColor(ContextCompat.getColor(mContext, colorRes))
+    }
+
+    override fun statusBarColorAttr(@AttrRes colorAttr: Int): ThemeStore {
+        return statusBarColor
