@@ -109,3 +109,34 @@ private constructor(private val mContext: Context) : ThemeStorePrefKeys, ThemeSt
 
     override fun textColorPrimaryInverse(@ColorInt color: Int): ThemeStore {
         mEditor.putInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_PRIMARY_INVERSE, color)
+        return this
+    }
+
+    override fun textColorPrimaryInverseRes(@ColorRes colorRes: Int): ThemeStore {
+        return textColorPrimaryInverse(ContextCompat.getColor(mContext, colorRes))
+    }
+
+    override fun textColorPrimaryInverseAttr(@AttrRes colorAttr: Int): ThemeStore {
+        return textColorPrimaryInverse(ATHUtil.resolveColor(mContext, colorAttr))
+    }
+
+    override fun textColorSecondary(@ColorInt color: Int): ThemeStore {
+        mEditor.putInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_SECONDARY, color)
+        return this
+    }
+
+    override fun textColorSecondaryRes(@ColorRes colorRes: Int): ThemeStore {
+        return textColorSecondary(ContextCompat.getColor(mContext, colorRes))
+    }
+
+    override fun textColorSecondaryAttr(@AttrRes colorAttr: Int): ThemeStore {
+        return textColorSecondary(ATHUtil.resolveColor(mContext, colorAttr))
+    }
+
+    override fun textColorSecondaryInverse(@ColorInt color: Int): ThemeStore {
+        mEditor.putInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_SECONDARY_INVERSE, color)
+        return this
+    }
+
+    override fun textColorSecondaryInverseRes(@ColorRes colorRes: Int): ThemeStore {
+        return textColorSeconda
