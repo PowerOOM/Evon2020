@@ -139,4 +139,40 @@ private constructor(private val mContext: Context) : ThemeStorePrefKeys, ThemeSt
     }
 
     override fun textColorSecondaryInverseRes(@ColorRes colorRes: Int): ThemeStore {
-        return textColorSeconda
+        return textColorSecondaryInverse(ContextCompat.getColor(mContext, colorRes))
+    }
+
+    override fun textColorSecondaryInverseAttr(@AttrRes colorAttr: Int): ThemeStore {
+        return textColorSecondaryInverse(ATHUtil.resolveColor(mContext, colorAttr))
+    }
+
+    override fun coloredStatusBar(colored: Boolean): ThemeStore {
+        mEditor.putBoolean(ThemeStorePrefKeys.KEY_APPLY_PRIMARYDARK_STATUSBAR, colored)
+        return this
+    }
+
+    override fun coloredNavigationBar(applyToNavBar: Boolean): ThemeStore {
+        mEditor.putBoolean(ThemeStorePrefKeys.KEY_APPLY_PRIMARY_NAVBAR, applyToNavBar)
+        return this
+    }
+
+    override fun autoGeneratePrimaryDark(autoGenerate: Boolean): ThemeStore {
+        mEditor.putBoolean(ThemeStorePrefKeys.KEY_AUTO_GENERATE_PRIMARYDARK, autoGenerate)
+        return this
+    }
+
+    override fun commit() {
+        mEditor.putLong(ThemeStorePrefKeys.VALUES_CHANGED, System.currentTimeMillis())
+                .putBoolean(ThemeStorePrefKeys.IS_CONFIGURED_KEY, true)
+                .commit()
+    }
+
+    companion object {
+
+        fun editTheme(context: Context): ThemeStore {
+            return ThemeStore(context)
+        }
+
+        @CheckResult
+        fun prefs(context: Context): SharedPreferences {
+            return context.getSharedPreferences(The
