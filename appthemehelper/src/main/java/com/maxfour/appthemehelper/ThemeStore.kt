@@ -175,4 +175,34 @@ private constructor(private val mContext: Context) : ThemeStorePrefKeys, ThemeSt
 
         @CheckResult
         fun prefs(context: Context): SharedPreferences {
-            return context.getSharedPreferences(The
+            return context.getSharedPreferences(ThemeStorePrefKeys.CONFIG_PREFS_KEY_DEFAULT, Context.MODE_PRIVATE)
+        }
+
+        fun markChanged(context: Context) {
+            ThemeStore(context).commit()
+        }
+
+        @CheckResult
+        @StyleRes
+        fun activityTheme(context: Context): Int {
+            return prefs(context).getInt(ThemeStorePrefKeys.KEY_ACTIVITY_THEME, 0)
+        }
+
+        @CheckResult
+        @ColorInt
+        fun primaryColor(context: Context): Int {
+            return prefs(context).getInt(ThemeStorePrefKeys.KEY_PRIMARY_COLOR, ATHUtil.resolveColor(context, R.attr.colorPrimary, Color.parseColor("#455A64")))
+        }
+
+        @CheckResult
+        @ColorInt
+        fun primaryColorDark(context: Context): Int {
+            return prefs(context).getInt(ThemeStorePrefKeys.KEY_PRIMARY_COLOR_DARK, ATHUtil.resolveColor(context, R.attr.colorPrimaryDark, Color.parseColor("#37474F")))
+        }
+
+        @CheckResult
+        @ColorInt
+        fun accentColor(context: Context): Int {
+            val desaturatedColor = prefs(context).getBoolean("desaturated_color", false)
+            val color = prefs(context).getInt(ThemeStorePrefKeys.KEY_ACCENT_COLOR, ATHUtil.resolveColor(context, R.attr.colorAccent, Color.parseColor("#263238")))
+            retur
