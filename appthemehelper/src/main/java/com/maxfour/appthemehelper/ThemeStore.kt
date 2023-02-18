@@ -205,4 +205,32 @@ private constructor(private val mContext: Context) : ThemeStorePrefKeys, ThemeSt
         fun accentColor(context: Context): Int {
             val desaturatedColor = prefs(context).getBoolean("desaturated_color", false)
             val color = prefs(context).getInt(ThemeStorePrefKeys.KEY_ACCENT_COLOR, ATHUtil.resolveColor(context, R.attr.colorAccent, Color.parseColor("#263238")))
-            retur
+            return if (ATHUtil.isWindowBackgroundDark(context) && desaturatedColor) ColorUtil.desaturateColor(color, 0.4f) else color
+        }
+
+        @CheckResult
+        @ColorInt
+        fun statusBarColor(context: Context): Int {
+            return if (!coloredStatusBar(context)) {
+                Color.BLACK
+            } else prefs(context).getInt(ThemeStorePrefKeys.KEY_STATUS_BAR_COLOR, primaryColorDark(context))
+        }
+
+        @CheckResult
+        @ColorInt
+        fun navigationBarColor(context: Context): Int {
+            return if (!coloredNavigationBar(context)) {
+                Color.BLACK
+            } else prefs(context).getInt(ThemeStorePrefKeys.KEY_NAVIGATION_BAR_COLOR, primaryColor(context))
+        }
+
+        @CheckResult
+        @ColorInt
+        fun textColorPrimary(context: Context): Int {
+            return prefs(context).getInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_PRIMARY, ATHUtil.resolveColor(context, android.R.attr.textColorPrimary))
+        }
+
+        @CheckResult
+        @ColorInt
+        fun textColorPrimaryInverse(context: Context): Int {
+            return prefs(context).getInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_PRIMARY_INVERSE, ATHUtil.resolveColor(context, android.R.attr.te
