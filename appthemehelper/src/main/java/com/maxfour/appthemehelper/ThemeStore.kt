@@ -233,4 +233,35 @@ private constructor(private val mContext: Context) : ThemeStorePrefKeys, ThemeSt
         @CheckResult
         @ColorInt
         fun textColorPrimaryInverse(context: Context): Int {
-            return prefs(context).getInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_PRIMARY_INVERSE, ATHUtil.resolveColor(context, android.R.attr.te
+            return prefs(context).getInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_PRIMARY_INVERSE, ATHUtil.resolveColor(context, android.R.attr.textColorPrimaryInverse))
+        }
+
+        @CheckResult
+        @ColorInt
+        fun textColorSecondary(context: Context): Int {
+            return prefs(context).getInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_SECONDARY, ATHUtil.resolveColor(context, android.R.attr.textColorSecondary))
+        }
+
+        @CheckResult
+        @ColorInt
+        fun textColorSecondaryInverse(context: Context): Int {
+            return prefs(context).getInt(ThemeStorePrefKeys.KEY_TEXT_COLOR_SECONDARY_INVERSE, ATHUtil.resolveColor(context, android.R.attr.textColorSecondaryInverse))
+        }
+
+        @CheckResult
+        fun coloredStatusBar(context: Context): Boolean {
+            return prefs(context).getBoolean(ThemeStorePrefKeys.KEY_APPLY_PRIMARYDARK_STATUSBAR, true)
+        }
+
+        @CheckResult
+        fun coloredNavigationBar(context: Context): Boolean {
+            return prefs(context).getBoolean(ThemeStorePrefKeys.KEY_APPLY_PRIMARY_NAVBAR, false)
+        }
+
+        @CheckResult
+        fun autoGeneratePrimaryDark(context: Context): Boolean {
+            return prefs(context).getBoolean(ThemeStorePrefKeys.KEY_AUTO_GENERATE_PRIMARYDARK, true)
+        }
+
+        @CheckResult
+        f
