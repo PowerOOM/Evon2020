@@ -264,4 +264,19 @@ private constructor(private val mContext: Context) : ThemeStorePrefKeys, ThemeSt
         }
 
         @CheckResult
-        f
+        fun isConfigured(context: Context): Boolean {
+            return prefs(context).getBoolean(ThemeStorePrefKeys.IS_CONFIGURED_KEY, false)
+        }
+
+        @SuppressLint("CommitPrefEdits")
+        fun isConfigured(context: Context, @IntRange(from = 0, to = Integer.MAX_VALUE.toLong()) version: Int): Boolean {
+            val prefs = prefs(context)
+            val lastVersion = prefs.getInt(ThemeStorePrefKeys.IS_CONFIGURED_VERSION_KEY, -1)
+            if (version > lastVersion) {
+                prefs.edit().putInt(ThemeStorePrefKeys.IS_CONFIGURED_VERSION_KEY, version).commit()
+                return false
+            }
+            return true
+        }
+    }
+}
