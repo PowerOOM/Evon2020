@@ -61,4 +61,31 @@ internal interface ThemeStoreInterface {
 
     fun textColorPrimaryInverse(@ColorInt color: Int): ThemeStore
 
-    fun textColorPrimaryInv
+    fun textColorPrimaryInverseRes(@ColorRes colorRes: Int): ThemeStore
+
+    fun textColorPrimaryInverseAttr(@AttrRes colorAttr: Int): ThemeStore
+
+    // Secondary text color
+
+    fun textColorSecondary(@ColorInt color: Int): ThemeStore
+
+    fun textColorSecondaryRes(@ColorRes colorRes: Int): ThemeStore
+
+    fun textColorSecondaryAttr(@AttrRes colorAttr: Int): ThemeStore
+
+    fun textColorSecondaryInverse(@ColorInt color: Int): ThemeStore
+
+    fun textColorSecondaryInverseRes(@ColorRes colorRes: Int): ThemeStore
+
+    fun textColorSecondaryInverseAttr(@AttrRes colorAttr: Int): ThemeStore
+
+    // Toggle configurations
+
+    fun coloredStatusBar(colored: Boolean): ThemeStore
+
+    fun coloredNavigationBar(applyToNavBar: Boolean): ThemeStore
+
+    // Commit/apply
+
+    fun commit()
+}
