@@ -37,4 +37,11 @@ public class ATHToolbarActivity extends ATHActivity {
 
     @Override
     public void setSupportActionBar(@Nullable Toolbar toolbar) {
-        this.
+        this.toolbar = toolbar;
+        super.setSupportActionBar(toolbar);
+    }
+
+    protected Toolbar getATHToolbar() {
+        return toolbar;
+    }
+}
