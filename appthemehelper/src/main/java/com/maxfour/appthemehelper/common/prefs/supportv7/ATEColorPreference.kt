@@ -1,31 +1,37 @@
-package com.maxfour.appthemehelper.common.prefs
+
+package com.maxfour.appthemehelper.common.prefs.supportv7
 
 import android.content.Context
-import android.preference.Preference
+import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.View
+import androidx.preference.Preference
+import androidx.preference.PreferenceViewHolder
 import com.maxfour.appthemehelper.R
+import com.maxfour.appthemehelper.ThemeStore
+import com.maxfour.appthemehelper.common.prefs.BorderCircleView
 
 class ATEColorPreference @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0,
-        defStyleRes: Int = 0
-) : Preference(context, attrs, defStyleAttr, defStyleRes) {
+        defStyleAttr: Int = 0
+) : Preference(context, attrs, defStyleAttr) {
 
     private var mView: View? = null
     private var color: Int = 0
     private var border: Int = 0
 
     init {
-        layoutResource = R.layout.ate_preference_custom
+        layoutResource = R.layout.ate_preference_custom_support
         widgetLayoutResource = R.layout.ate_preference_color
         isPersistent = false
+
+        icon?.setColorFilter(ThemeStore.textColorSecondary(context), PorterDuff.Mode.SRC_IN)
     }
 
-    override fun onBindView(view: View) {
-        super.onBindView(view)
-        mView = view
+    override fun onBindViewHolder(holder: PreferenceViewHolder) {
+        super.onBindViewHolder(holder)
+        mView = holder.itemView
         invalidateColor()
     }
 
