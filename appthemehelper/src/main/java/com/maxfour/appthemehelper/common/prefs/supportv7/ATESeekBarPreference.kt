@@ -22,3 +22,18 @@ class ATESeekBarPreference : SeekBarPreference {
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         init()
     }
+
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
+        init()
+    }
+
+    private fun init() {
+        icon?.setColorFilter(ThemeStore.textColorSecondary(context), PorterDuff.Mode.SRC_IN)
+    }
+
+    override fun onBindViewHolder(view: PreferenceViewHolder) {
+        super.onBindViewHolder(view)
+        val seekBar = view.findViewById(R.id.seekbar) as SeekBar
+        TintHelper.setTintAuto(seekBar, ThemeStore.accentColor(context), false)
+    }
+}
