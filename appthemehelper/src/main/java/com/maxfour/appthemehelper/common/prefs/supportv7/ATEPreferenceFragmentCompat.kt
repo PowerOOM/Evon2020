@@ -28,3 +28,16 @@ abstract class ATEPreferenceFragmentCompat : PreferenceFragmentCompat() {
                 return
             }
         }
+
+        super.onDisplayPreferenceDialog(preference)
+    }
+
+    open fun onCreatePreferenceDialog(preference: Preference): DialogFragment? {
+        if (preference is ATEListPreference) {
+            return ATEListPreferenceDialogFragmentCompat.newInstance(preference.getKey())
+        } else if (preference is ATEDialogPreference) {
+            return ATEPreferenceDialogFragment.newInstance(preference.getKey())
+        }
+        return null
+    }
+}
