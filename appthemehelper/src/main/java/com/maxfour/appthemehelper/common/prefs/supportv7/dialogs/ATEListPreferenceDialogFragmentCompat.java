@@ -50,4 +50,18 @@ public class ATEListPreferenceDialogFragmentCompat extends ATEPreferenceDialogFr
         final ListPreference preference = getListPreference();
         if (positiveResult && mClickedDialogEntryIndex >= 0 &&
                 preference.getEntryValues() != null) {
-            String value = preference.getEntr
+            String value = preference.getEntryValues()[mClickedDialogEntryIndex].toString();
+            if (preference.callChangeListener(value)) {
+                preference.setValue(value);
+            }
+        }
+    }
+
+   /* @Override
+    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+        mClickedDialogEntryIndex = which;
+        onClick(dialog, DialogAction.POSITIVE);
+        dismiss();
+        return true;
+    }*/
+}
