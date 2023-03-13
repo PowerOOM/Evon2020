@@ -20,4 +20,34 @@ public class ATEListPreferenceDialogFragmentCompat extends ATEPreferenceDialogFr
         return fragment;
     }
 
-   
+    private ATEListPreference getListPreference() {
+        return (ATEListPreference) getPreference();
+    }
+
+    @Override
+    protected void onPrepareDialogBuilder(@NonNull MaterialAlertDialogBuilder builder) {
+        super.onPrepareDialogBuilder(builder);
+
+        final ListPreference preference = getListPreference();
+
+        if (preference.getEntries() == null || preference.getEntryValues() == null) {
+            throw new IllegalStateException(
+                    "ListPreference requires an entries array and an entryValues array.");
+        }
+
+        mClickedDialogEntryIndex = preference.findIndexOfValue(preference.getValue());
+        builder.setSingleChoiceItems(preference.getEntries(), mClickedDialogEntryIndex, (dialogInterface, i) -> {
+            mClickedDialogEntryIndex = i;
+        });
+
+        builder.setPositiveButton("Ok", null);
+        builder.setNegativeButton("", null);
+        builder.setNeutralButton("", null);
+    }
+
+    @Override
+    public void onDialogClosed(boolean positiveResult) {
+        final ListPreference preference = getListPreference();
+        if (positiveResult && mClickedDialogEntryIndex >= 0 &&
+                preference.getEntryValues() != null) {
+            String value = preference.getEntr
