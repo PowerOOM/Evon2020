@@ -51,4 +51,13 @@ object MaterialUtil {
         val temp = button as AppCompatButton
         val context = temp.context
         val colorState = ColorStateList.valueOf(color)
-        val textColor = ColorStateList.valueOf(Mater
+        val textColor = ColorStateList.valueOf(MaterialValueHelper.getPrimaryTextColor(context, ColorUtil.isColorLight(color)))
+
+        if (background) {
+            temp.backgroundTintList = colorState
+            temp.setTextColor(textColor)
+        } else {
+            temp.setTextColor(colorState)
+        }
+    }
+}
