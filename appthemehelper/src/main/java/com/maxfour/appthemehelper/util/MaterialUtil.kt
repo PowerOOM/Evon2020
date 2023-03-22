@@ -17,4 +17,38 @@ object MaterialUtil {
         button.isAllCaps = false
         val context = button.context
         val colorState = ColorStateList.valueOf(color)
-        val textColor = ColorStateList.valueOf(MaterialValueHelper.getPrimaryTextColor(context, ColorUt
+        val textColor = ColorStateList.valueOf(MaterialValueHelper.getPrimaryTextColor(context, ColorUtil.isColorLight(color)))
+
+
+        if (background) {
+            button.backgroundTintList = colorState
+            button.setTextColor(textColor)
+            button.iconTint = textColor
+        } else {
+            button.setTextColor(colorState)
+            button.iconTint = colorState
+        }
+
+    }
+
+    fun setTint(textInputLayout: TextInputLayout, background: Boolean = true) {
+        val context = textInputLayout.context
+        val accentColor = ThemeStore.accentColor(context)
+        val colorState = ColorStateList.valueOf(accentColor)
+
+        if (background) {
+            textInputLayout.backgroundTintList = colorState
+            textInputLayout.defaultHintTextColor = colorState
+        } else {
+            textInputLayout.boxStrokeColor = accentColor
+            textInputLayout.defaultHintTextColor = colorState
+            textInputLayout.isHintAnimationEnabled = true
+        }
+
+    }
+
+    fun setTint(button: DialogActionButton, color: Int = ThemeStore.accentColor(button.context), background: Boolean = true) {
+        val temp = button as AppCompatButton
+        val context = temp.context
+        val colorState = ColorStateList.valueOf(color)
+        val textColor = ColorStateList.valueOf(Mater
