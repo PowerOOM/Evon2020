@@ -29,4 +29,10 @@ object NavigationViewUtil {
         bottomNavigationView.itemIconTintList = iconSl
     }
 
-    fun setItemText
+    fun setItemTextColors(bottomNavigationView: BottomNavigationView, @ColorInt normalColor: Int, @ColorInt selectedColor: Int) {
+        val textSl = ColorStateList(
+                arrayOf(intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)),
+                intArrayOf(normalColor, selectedColor))
+        bottomNavigationView.itemTextColor = textSl
+    }
+}
