@@ -41,4 +41,30 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:ellipsize="marquee"
-            android:fadin
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            tools:text="Title" />
+
+        <com.maxfour.appthemehelper.common.views.ATESecondaryTextView
+            android:id="@android:id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/title"
+            android:layout_alignStart="@android:id/title"
+            android:layout_alignLeft="@android:id/title"
+            android:layout_marginTop="2dp"
+            android:maxLines="4"
+            tools:text="I have one solution for you.you can change font size for specific preference by managing layout file." />
+
+    </RelativeLayout>
+
+    <!-- Preference should place its actual preference widget here. -->
+    <LinearLayout
+        android:id="@android:id/widget_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="vertical" />
+
+</LinearLayout><!-- From: file:/home/jitpack/build/commons/src/main/res/layout/md_preference_custom.xml -->
